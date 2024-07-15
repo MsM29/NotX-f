@@ -1,5 +1,5 @@
 import ReactDOMClient from "react-dom/client";
-const formLog = ReactDOMClient.createRoot(document.querySelector("form")!);
+const formLog = ReactDOMClient.createRoot(document.querySelector("#forForm")!);
 import Login from "./Login.tsx";
 import Registration from "./Registration.tsx";
 const log = document.querySelector("#log");

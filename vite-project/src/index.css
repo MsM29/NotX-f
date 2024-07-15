@@ -14,7 +14,7 @@ body > div {
   flex-direction: column;
 }
 
-div > div {
+div > div:first-child {
   display: flex;
   flex-direction: row;
   height: 40px;
@@ -63,7 +63,7 @@ form > input {
   font-size: medium;
 }
 
-form {
+#forForm, form {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
