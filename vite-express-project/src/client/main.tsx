@@ -1,9 +1,10 @@
 import ReactDOMClient from "react-dom/client";
 const formLog = ReactDOMClient.createRoot(document.querySelector("#forForm")!);
-import Login from "./Login.tsx";
-import Registration from "./Registration.tsx";
+import Login from "./Login";
+import Registration from "./Registration";
 const log = document.querySelector("#log");
 const reg = document.querySelector("#reg");
+import './index.css';
 
 formLog.render(<Login />);
 

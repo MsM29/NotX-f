@@ -1,6 +1,4 @@
 function Registration() {
-  
-
   return (
     <form method="post" action="/registration">
       <input type="text" placeholder="Имя пользователя" required />
