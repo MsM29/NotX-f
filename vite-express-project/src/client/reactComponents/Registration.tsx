@@ -20,11 +20,12 @@ function Registration() {
         });
 
         if (!response.ok) {
-          throw new Error("Ошибка регистрации");
+          let commits = await response.json();
+          throw new Error(commits.message);
         }
-        console.log("Регистрация прошла успешно");
+        alert("Регистрация прошла успешно!");
       } catch (error) {
-        console.error("Ошибка регистрации:", error);
+        alert(error)
       }
     } else {
       alert("Введенные пароли отличаются");

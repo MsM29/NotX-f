@@ -15,13 +15,13 @@ function Login() {
         },
         body: data,
       });
-
+      console.log(response.status)
       if (!response.ok) {
-        throw new Error("Ошибка входа");
-      }
-      window.location.reload()
+        let commits = await response.json();
+        throw new Error(commits.message);
+      } else window.location.reload();
     } catch (error) {
-      console.error("Ошибка входа:", error);
+      alert(error);
     }
   };
 
