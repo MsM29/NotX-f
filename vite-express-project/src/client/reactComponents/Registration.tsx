@@ -52,6 +52,7 @@ function Registration() {
         placeholder="Пароль"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        autoComplete="on"
         required
       />
       <input
@@ -59,6 +60,7 @@ function Registration() {
         placeholder="Повторите пароль"
         value={repassword}
         onChange={(e) => setRepassword(e.target.value)}
+        autoComplete="on"
         required
       />
       <button type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</button>

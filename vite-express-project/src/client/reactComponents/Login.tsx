@@ -19,7 +19,7 @@ function Login() {
       if (!response.ok) {
         throw new Error("Ошибка входа");
       }
-      window.location.pathname = "/home";
+      window.location.reload()
     } catch (error) {
       console.error("Ошибка входа:", error);
     }
@@ -39,6 +39,7 @@ function Login() {
         placeholder="Пароль"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        autoComplete="on"
         required
       />
       <button type="submit">ВОЙТИ</button>
