@@ -19,7 +19,7 @@ function Login() {
       if (!response.ok) {
         throw new Error("Ошибка входа");
       }
-      console.log("Вход в систему прошел успешно");
+      window.location.pathname = "/home";
     } catch (error) {
       console.error("Ошибка входа:", error);
     }
