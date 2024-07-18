@@ -23,7 +23,7 @@ function LogAndReg() {
   };
 
   return (
-    <>
+    <div id="container">
       <div>
         <h3
           id="log"
@@ -41,7 +41,7 @@ function LogAndReg() {
         </h3>
       </div>
       <div id="forForm"></div>
-    </>
+    </div>
   );
 }
 
