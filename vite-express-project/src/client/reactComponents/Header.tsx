@@ -13,6 +13,15 @@ function Header() {
     }
   }
 
+  function logout() {
+    fetch("/logout").then((res) => {
+      if (res.status === 200) {
+        window.location.reload();
+      }
+      else alert("Ошибка при выходе!")
+    });
+  }
+
   return (
     <>
       <img
@@ -23,7 +32,7 @@ function Header() {
         alt="Toggle Sidebar"
       />
       <img id="logo" src="/images/NotX_logo.png" alt="Logo" />
-      <button>Выйти</button>
+      <button onClick={logout}>Выйти</button>
     </>
   );
 }
