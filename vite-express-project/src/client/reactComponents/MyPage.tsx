@@ -1,12 +1,29 @@
-import "../styles/myPage.css"
+import "../styles/myPage.css";
 
-function MyPage() {
+interface UserData {
+  name: string;
+  login: string;
+  bio: string;
+  photoProfile: string;
+  wallpaper: string;
+}
+
+function MyPage({ userData }: { userData: UserData }) {
   return (
     <>
       <nav id="sidebar">
         <ul>
           <li>
             <a href="">Мой профиль</a>
+          </li>
+          <li>
+            <a href="">Подписки</a>
+          </li>
+          <li>
+            <a href="">Подписчики</a>
+          </li>
+          <li>
+            <a href="">Поиск</a>
           </li>
           <li>
             <a href="">Лента</a>
@@ -21,27 +38,21 @@ function MyPage() {
       </nav>
       <div id="profile">
         <div id="profileInfo">
-          <div id="wallpaperProfile">
+          <div id="wallpaperProfile" style={{backgroundImage: `url("../../../images/${userData.photoProfile}")`}}>
             <img
               id="photoProfile"
-              src="/images/photo_2024-02-28_03-15-31.jpg"
+              src={`../../../images/${userData.photoProfile}`}
             ></img>
             <button id="editProfile">Редактировать</button>
           </div>
           <h1 id="nameProfile" className="profileText">
-            nameProfile
+            {userData.name}
           </h1>
           <h2 id="loginProfile" className="profileText">
-            @loginProfile
+           @{userData.login}
           </h2>
           <p id="bioProfile" className="profileText">
-            loginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfileloginProfile
-          </p>
-          <p id="followingProfile" className="profileText">
-            0 Following
-          </p>
-          <p id="followersProfile" className="profileText">
-            0 Followers
+            {userData.bio}
           </p>
         </div>
         <div id="creatingPost">
