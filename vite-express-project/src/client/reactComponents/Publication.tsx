@@ -47,7 +47,9 @@ function Publication({
           divMedia.render(
             <video
               src={`../../../mediaPublication/${pubData[0].media_name}`}
+              controls
               autoPlay
+              muted
             ></video>
           );
         }
