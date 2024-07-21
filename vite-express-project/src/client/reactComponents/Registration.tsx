@@ -33,7 +33,7 @@ function Registration() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="formLogAndReg">
       <input
         type="text"
         placeholder="Имя пользователя"

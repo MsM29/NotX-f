@@ -26,7 +26,7 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="formLogAndReg">
       <input
         type="email"
         placeholder="E-MAIL"

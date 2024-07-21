@@ -63,7 +63,7 @@ input {
 }
 
 #forForm,
-form {
+.formLogAndReg {
   display: flex;
   flex-direction: column;
   justify-content: space-around;

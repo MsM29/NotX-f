@@ -1,4 +1,11 @@
+import React, { useState, useEffect } from "react";
 import "../styles/myPage.css";
+import Publication from "./Publication";
+
+interface PubData {
+  date: string;
+  text: string;
+}
 
 interface UserData {
   name: string;
@@ -9,6 +16,39 @@ interface UserData {
 }
 
 function MyPage({ userData }: { userData: UserData }) {
+  const [text, setText] = useState("");
+  const [publication, setPublication] = useState<PubData[]>([]);
+
+  useEffect(() => {
+    fetch("/getPublication")
+      .then(async (res) => {
+        const pubData = await res.json();
+        setPublication(pubData);
+      })
+      .then(() => console.log(publication));
+  }, []);
+
+  function makePublication(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = JSON.stringify({ text });
+    console.log(data);
+    fetch("/makePublication", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((res) => {
+        if (res.status === 200) alert("Опубликовано!");
+        else alert("Ошибка публикации");
+      })
+      .catch((error) => {
+        console.error("Ошибка при отправке публикации:", error);
+        alert("Ошибка публикации");
+      });
+  }
+
   return (
     <>
       <nav id="sidebar">
@@ -38,7 +78,12 @@ function MyPage({ userData }: { userData: UserData }) {
       </nav>
       <div id="profile">
         <div id="profileInfo">
-          <div id="wallpaperProfile" style={{backgroundImage: `url("../../../images/${userData.photoProfile}")`}}>
+          <div
+            id="wallpaperProfile"
+            style={{
+              backgroundImage: `url("../../../images/${userData.photoProfile}")`,
+            }}
+          >
             <img
               id="photoProfile"
               src={`../../../images/${userData.photoProfile}`}
@@ -49,47 +94,33 @@ function MyPage({ userData }: { userData: UserData }) {
             {userData.name}
           </h1>
           <h2 id="loginProfile" className="profileText">
-           @{userData.login}
+            @{userData.login}
           </h2>
           <p id="bioProfile" className="profileText">
             {userData.bio}
           </p>
         </div>
-        <div id="creatingPost">
-          <textarea id="inputPost" placeholder="Что нового?" />
+        <form id="creatingPost" onSubmit={makePublication}>
+          <textarea
+            id="inputPost"
+            placeholder="Что нового?"
+            onChange={(event) => setText(event.target.value)}
+          />
           <div id="listPostButtons">
             <button className="postButtons">Прикрепить</button>
-            <button className="postButtons">Опубликовать</button>
+            <button className="postButtons" type="submit">
+              Опубликовать
+            </button>
           </div>
-        </div>
+        </form>
         <div id="myPageFeed">
-          <div className="post">
-            <img
-              className="postProfile"
-              src="/images/photo_2024-02-28_03-15-31.jpg"
-            ></img>
-            <div>
-              <div>
-                <p className="postProfile">nameProfile</p>
-                <p className="postProfile">@loginProfile</p>
-                <time className="postProfile" dateTime="2024-07-18">
-                  18 Июля
-                </time>
-              </div>
-              <p>Я тут что-то запостил</p>
-              <div className="media">
-                <img src="../../../images/NotX_logo.png"></img>
-                <img src="../../../images/photo_2023-12-07_16-15-10 (2).jpg"></img>
-                <img src="../../../images/photo_2024-02-28_03-15-31.jpg"></img>
-                <video src="../../../videos/IMG_2164.MP4"></video>
-              </div>
-              <div className="postButtons">
-                <button className="like">&#10084;</button>
-                <button className="comment">&#9993;</button>
-                <button className="delete">&#10006;</button>
-              </div>
-            </div>
-          </div>
+          {publication.map((element: PubData, index) => (
+            <Publication
+              key={index}
+              userData={userData}
+              publication={element}
+            />
+          ))}
         </div>
       </div>
     </>
