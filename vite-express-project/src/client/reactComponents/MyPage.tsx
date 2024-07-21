@@ -3,6 +3,7 @@ import "../styles/myPage.css";
 import Publication from "./Publication";
 
 interface PubData {
+  id_post: number;
   date: string;
   text: string;
 }
@@ -18,20 +19,19 @@ interface UserData {
 function MyPage({ userData }: { userData: UserData }) {
   const [text, setText] = useState("");
   const [publication, setPublication] = useState<PubData[]>([]);
+  const [file, setFile] = useState<File[]>([]);
 
   useEffect(() => {
-    fetch("/getPublication")
-      .then(async (res) => {
-        const pubData = await res.json();
-        setPublication(pubData);
-      })
-      .then(() => console.log(publication));
+    fetch("/getPublication").then(async (res) => {
+      const pubData = await res.json();
+      setPublication(pubData);
+    });
   }, []);
 
   function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    console.log(file);
     const data = JSON.stringify({ text });
-    console.log(data);
     fetch("/makePublication", {
       method: "POST",
       headers: {
@@ -39,9 +39,39 @@ function MyPage({ userData }: { userData: UserData }) {
       },
       body: data,
     })
-      .then((res) => {
-        if (res.status === 200) alert("Опубликовано!");
-        else alert("Ошибка публикации");
+      .then(async (res) => {
+        if (res.status === 200) {
+          const pubInsert = await res.json();
+          console.log(file);
+          let type;
+          if (file[0].type.split("/")[0] === "image") type = ".png";
+          else type = ".mp4";
+          if (file) {
+            const filename =
+              file[0].type.split("/")[0] +
+              "_" +
+              userData.name +
+              "_" +
+              pubInsert.insertId +
+              "_" +
+              Date.now() +
+              type;
+            let filedata = new FormData();
+            filedata.append("filedata", new Blob(file), filename);
+            console.log(filedata);
+            fetch("/addMedia", {
+              method: "POST",
+              headers: {
+                name: filename,
+                pub_id: pubInsert.insertId,
+              },
+              body: filedata,
+            }).then((res) => {
+              if (res.status === 200) alert("Опубликовано!");
+              else alert("Ошибка публикации");
+            });
+          } else alert("Опубликовано!");
+        } else alert("Ошибка публикации");
       })
       .catch((error) => {
         console.error("Ошибка при отправке публикации:", error);
@@ -107,16 +137,23 @@ function MyPage({ userData }: { userData: UserData }) {
             onChange={(event) => setText(event.target.value)}
           />
           <div id="listPostButtons">
-            <button className="postButtons">Прикрепить</button>
+            <input
+              type="file"
+              className="postButtons"
+              accept="video/*, image/*"
+              onChange={(event) =>
+                setFile(Array.from(event.target.files || []))
+              }
+            />
             <button className="postButtons" type="submit">
               Опубликовать
             </button>
           </div>
         </form>
         <div id="myPageFeed">
-          {publication.map((element: PubData, index) => (
+          {publication.map((element: PubData) => (
             <Publication
-              key={index}
+              key={element.id_post}
               userData={userData}
               publication={element}
             />

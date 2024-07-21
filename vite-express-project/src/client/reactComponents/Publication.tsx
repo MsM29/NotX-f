@@ -1,4 +1,8 @@
+import React, { useEffect } from "react";
+import ReactDOMClient from "react-dom/client";
+
 interface PubData {
+  id_post: number;
   date: string;
   text: string;
 }
@@ -18,8 +22,39 @@ function Publication({
   userData: UserData;
   publication: PubData;
 }) {
-  console.log(publication);
-  console.log(userData);
+  useEffect(() => {
+    const data = JSON.stringify({ id_post: publication.id_post });
+    fetch("/getMedia", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    }).then(async (res) => {
+      const pubData = await res.json();
+      if (pubData.length !== 0) {
+        console.log(pubData);
+        const divMedia = ReactDOMClient.createRoot(
+          document.querySelector(`#mediaPost${publication.id_post}`)!
+        );
+        if (pubData[0].format === "image") {
+          divMedia.render(
+            <img
+              src={`../../../mediaPublication/${pubData[0].media_name}`}
+            ></img>
+          );
+        } else if (pubData[0].format === "video") {
+          divMedia.render(
+            <video
+              src={`../../../mediaPublication/${pubData[0].media_name}`}
+              autoPlay
+            ></video>
+          );
+        }
+      }
+    });
+  }, []);
+
   return (
     <div className="post">
       <img
@@ -35,12 +70,7 @@ function Publication({
           </time>
         </div>
         <p>{publication.text}</p>
-        <div className="media">
-          <img src="../../../images/NotX_logo.png"></img>
-          <img src="../../../images/photo_2023-12-07_16-15-10 (2).jpg"></img>
-          <img src="../../../images/photo_2024-02-28_03-15-31.jpg"></img>
-          <video src="../../../videos/IMG_2164.MP4"></video>
-        </div>
+        <div className="media" id={`mediaPost${publication.id_post}`}></div>
         <div className="postButtons">
           <button className="like">&#10084;</button>
           <button className="comment">&#9993;</button>
