@@ -1,16 +1,18 @@
 import ReactDOMClient from "react-dom/client";
 import LogAndReg from "./reactComponents/LogAndReg";
-import MyPage from "./reactComponents/MyPage";
-import Header from "./reactComponents/Header";
+import App from "./reactComponents/App";
 const body = ReactDOMClient.createRoot(document.querySelector("div")!);
-const header = ReactDOMClient.createRoot(document.querySelector("header")!);
 import "./styles/index.css";
+import { BrowserRouter as Router} from "react-router-dom";
 
 fetch("/home").then(async (res) => {
   if (res.status === 200) {
     const userData = await res.json();
-    header.render(<Header />);
-    body.render(<MyPage userData={userData[0]}/>);
+    body.render(
+      <Router>
+        <App userData={userData[0]}/>
+      </Router>
+    );
   } else {
     body.render(<LogAndReg />);
   }

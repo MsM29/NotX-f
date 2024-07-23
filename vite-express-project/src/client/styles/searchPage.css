@@ -1,0 +1,29 @@
+#searchList img {
+  margin: 0;
+}
+
+#searchForm{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100px;
+}
+
+#searchList{
+  margin-top: 10px;
+}
+
+#searchList>div{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#searchList button{
+  height: 40px;
+  width: 25%;
+}

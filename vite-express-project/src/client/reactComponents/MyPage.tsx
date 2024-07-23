@@ -80,33 +80,8 @@ function MyPage({ userData }: { userData: UserData }) {
   }
 
   return (
-    <>
-      <nav id="sidebar">
-        <ul>
-          <li>
-            <a href="">Мой профиль</a>
-          </li>
-          <li>
-            <a href="">Подписки</a>
-          </li>
-          <li>
-            <a href="">Подписчики</a>
-          </li>
-          <li>
-            <a href="">Поиск</a>
-          </li>
-          <li>
-            <a href="">Лента</a>
-          </li>
-          <li>
-            <a href="">Понравилось</a>
-          </li>
-          <li>
-            <a href="">Комментарии</a>
-          </li>
-        </ul>
-      </nav>
-      <div id="profile">
+    <div>
+      <div className="container">
         <div id="profileInfo">
           <div
             id="wallpaperProfile"
@@ -160,7 +135,7 @@ function MyPage({ userData }: { userData: UserData }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

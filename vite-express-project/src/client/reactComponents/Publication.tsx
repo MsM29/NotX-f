@@ -33,7 +33,6 @@ function Publication({
     }).then(async (res) => {
       const pubData = await res.json();
       if (pubData.length !== 0) {
-        console.log(pubData);
         const divMedia = ReactDOMClient.createRoot(
           document.querySelector(`#mediaPost${publication.id_post}`)!
         );

@@ -16,8 +16,11 @@ header {
     width: 100px;
   }
   
-  #profile {
+  header+div{
     margin-top: 64px;
+  }
+
+  .container {
     width: 900px;
     border-left: solid rgb(182, 197, 205);
     border-right: solid rgb(182, 197, 205);
