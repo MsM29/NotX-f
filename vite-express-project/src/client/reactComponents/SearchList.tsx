@@ -1,9 +1,4 @@
-interface SearchData {
-  name: string;
-  login: string;
-  bio: string;
-  photoProfile: string;
-}
+import {SearchData} from "../functions/interfaces"
 
 function SearchList({ searchData }: { searchData: SearchData[] }) {
   return searchData.map((element, index) => {

@@ -1,28 +1,21 @@
 import React, { useState } from "react";
+import {postLogin} from "../functions/api"
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = JSON.stringify({ email, password });
-    try {
-      const response = await fetch("/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: data,
-      });
-      console.log(response.status)
-      if (!response.ok) {
-        let commits = await response.json();
-        throw new Error(commits.message);
-      } else window.location.reload();
-    } catch (error) {
-      alert(error);
-    }
+    const data = JSON.stringify(formData);
+    postLogin(data)
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -30,15 +23,17 @@ function Login() {
       <input
         type="email"
         placeholder="E-MAIL"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
         required
       />
       <input
         type="password"
         placeholder="Пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
         autoComplete="on"
         required
       />

@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ReactDOMClient from "react-dom/client";
+import React, { useState } from "react";
 import SearchList from "./SearchList";
 import "../styles/searchPage.css";
+import {searchUser} from "../functions/api"
 
 function Search() {
   const [searchText, setSearchText] = useState("");
-  let [searchList, setSearchList] = useState<ReactDOMClient.Root | null>(null);
+  const [searchData, setSearchData] = useState([]);
 
   function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    fetch(`/search?user=${searchText}`)
-      .then(async (res) => {
-        if (res.status === 200) {
-          const searchData = await res.json();
-          if (!searchList)
-            setSearchList(
-              ReactDOMClient.createRoot(document.querySelector("#searchList")!)
-            );
-          else searchList.render(<SearchList searchData={searchData} />);
-        } else {
-          alert("Ошибка при выполнении запроса!");
-        }
-      })
-      .catch((error) => {
-        console.error("Ошибка запроса:", error);
-        alert("Произошла ошибка при выполнении запроса.");
-      });
+    searchUser(searchText, setSearchData)
   }
 
   return (
@@ -39,7 +23,9 @@ function Search() {
         />
         <button type="submit">Поиск</button>
       </form>
-      <div id="searchList"></div>
+      <div id="searchList">
+        <SearchList searchData={searchData} />
+      </div>
     </div>
   );
 }

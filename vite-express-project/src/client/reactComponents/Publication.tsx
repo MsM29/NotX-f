@@ -1,19 +1,6 @@
 import React, { useEffect } from "react";
-import ReactDOMClient from "react-dom/client";
-
-interface PubData {
-  id_post: number;
-  date: string;
-  text: string;
-}
-
-interface UserData {
-  name: string;
-  login: string;
-  bio: string;
-  photoProfile: string;
-  wallpaper: string;
-}
+import {getMedia}from "../functions/api"
+import {PubData, UserData }from "../functions/interfaces"
 
 function Publication({
   userData,
@@ -24,36 +11,7 @@ function Publication({
 }) {
   useEffect(() => {
     const data = JSON.stringify({ id_post: publication.id_post });
-    fetch("/getMedia", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data,
-    }).then(async (res) => {
-      const pubData = await res.json();
-      if (pubData.length !== 0) {
-        const divMedia = ReactDOMClient.createRoot(
-          document.querySelector(`#mediaPost${publication.id_post}`)!
-        );
-        if (pubData[0].format === "image") {
-          divMedia.render(
-            <img
-              src={`../../../mediaPublication/${pubData[0].media_name}`}
-            ></img>
-          );
-        } else if (pubData[0].format === "video") {
-          divMedia.render(
-            <video
-              src={`../../../mediaPublication/${pubData[0].media_name}`}
-              controls
-              autoPlay
-              muted
-            ></video>
-          );
-        }
-      }
-    });
+    getMedia(data,publication)
   }, []);
 
   return (
