@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import {getMedia}from "../functions/api"
-import {PubData, UserData }from "../functions/interfaces"
+import { getMedia } from "../functions/api";
+import { PubData, UserData } from "../functions/interfaces";
 
 function Publication({
   userData,
@@ -11,7 +11,7 @@ function Publication({
 }) {
   useEffect(() => {
     const data = JSON.stringify({ id_post: publication.id_post });
-    getMedia(data,publication)
+    getMedia(data, publication);
   }, []);
 
   return (

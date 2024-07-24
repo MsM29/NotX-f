@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {postLogin} from "../functions/api"
+import { postLogin } from "../functions/api";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ function Login() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = JSON.stringify(formData);
-    postLogin(data)
+    postLogin(data);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

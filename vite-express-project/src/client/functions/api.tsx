@@ -1,10 +1,10 @@
-import { SetStateAction } from "react";
+import React, { SetStateAction } from "react";
 import { UserData, PubData } from "./interfaces";
 import ReactDOMClient from "react-dom/client";
 
 export function getHome(
   setAuth: { (value: SetStateAction<boolean>): void },
-  setUserData: { (value: SetStateAction<UserData[]>): void }
+  setUserData: { (value: SetStateAction<UserData[]>): void },
 ) {
   fetch("/home").then(async (res) => {
     if (res.status === 200) {
@@ -26,7 +26,7 @@ export async function postLogin(data: string) {
     body: data,
   }).then(async (res) => {
     if (res.status !== 200) {
-      let commits = await res.json();
+      const commits = await res.json();
       alert(commits.message);
     } else window.location.reload();
   });
@@ -52,7 +52,7 @@ export function getPublication(setPublication: {
 export function postPublication(
   data: string,
   file: File[],
-  context: { name: string }[]
+  context: { name: string }[],
 ) {
   fetch("/makePublication", {
     method: "POST",
@@ -77,7 +77,7 @@ export function postPublication(
             "_" +
             Date.now() +
             type;
-          let filedata = new FormData();
+          const filedata = new FormData();
           filedata.append("filedata", new Blob(file), filename);
           console.log(filedata);
           fetch("/addMedia", {
@@ -111,11 +111,13 @@ export function getMedia(data: string, publication: PubData) {
     const pubData = await res.json();
     if (pubData.length !== 0) {
       const divMedia = ReactDOMClient.createRoot(
-        document.querySelector(`#mediaPost${publication.id_post}`)!
+        document.querySelector(`#mediaPost${publication.id_post}`)!,
       );
       if (pubData[0].format === "image") {
         divMedia.render(
-          <img src={`../../../mediaPublication/${pubData[0].media_name}`}></img>
+          <img
+            src={`../../../mediaPublication/${pubData[0].media_name}`}
+          ></img>,
         );
       } else if (pubData[0].format === "video") {
         divMedia.render(
@@ -124,7 +126,7 @@ export function getMedia(data: string, publication: PubData) {
             controls
             autoPlay
             muted
-          ></video>
+          ></video>,
         );
       }
     }
@@ -140,7 +142,7 @@ export async function postRegistration(data: string) {
     body: data,
   }).then(async (res) => {
     if (res.status !== 200) {
-      let commits = await res.json();
+      const commits = await res.json();
       alert(commits.message);
     } else alert("Регистрация прошла успешно!");
   });
@@ -148,7 +150,7 @@ export async function postRegistration(data: string) {
 
 export function searchUser(
   searchText: string,
-  setSearchData: { (value: SetStateAction<never[]>): void }
+  setSearchData: { (value: SetStateAction<never[]>): void },
 ) {
   fetch(`/search?user=${searchText}`)
     .then(async (res) => {

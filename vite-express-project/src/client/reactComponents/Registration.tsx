@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {postRegistration}from"../functions/api"
+import { postRegistration } from "../functions/api";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ function Registration() {
     event.preventDefault();
     if (formData.password === formData.repassword) {
       const data = JSON.stringify(formData);
-      postRegistration(data)
+      postRegistration(data);
     } else {
       alert("Введенные пароли отличаются");
     }

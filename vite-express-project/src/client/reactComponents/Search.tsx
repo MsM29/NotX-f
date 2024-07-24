@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SearchList from "./SearchList";
 import "../styles/searchPage.css";
-import {searchUser} from "../functions/api"
+import { searchUser } from "../functions/api";
 
 function Search() {
   const [searchText, setSearchText] = useState("");
@@ -9,7 +9,7 @@ function Search() {
 
   function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    searchUser(searchText, setSearchData)
+    searchUser(searchText, setSearchData);
   }
 
   return (

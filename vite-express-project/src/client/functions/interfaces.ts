@@ -12,9 +12,9 @@ export interface PubData {
   text: string;
 }
 
-export interface MediaData{
+export interface MediaData {
   type: string;
-    media_name: string;
+  media_name: string;
 }
 
 export interface SearchData {
