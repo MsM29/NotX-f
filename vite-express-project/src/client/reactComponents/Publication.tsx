@@ -15,25 +15,34 @@ function Publication({
   }, []);
 
   return (
-    <div className="post">
+    <div className="flex flex-row p-2">
       <img
-        className="postProfile"
+        className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd]"
         src={`../../../images/${userData.photoProfile}`}
       ></img>
-      <div>
-        <div>
-          <p className="postProfile"> {userData.name}</p>
-          <p className="postProfile"> @{userData.login}</p>
-          <time className="postProfile" dateTime="">
-            {publication.date}
+      <div className="w-full ml-2">
+        <div className="flex flex-row ml-2">
+          <p> {userData.name}</p>
+          <p className="ml-2"> @{userData.login}</p>
+          <time className="ml-2" dateTime="">
+            {new Date(publication.date).toLocaleString("ru")}
           </time>
         </div>
-        <p>{publication.text}</p>
-        <div className="media" id={`mediaPost${publication.id_post}`}></div>
-        <div className="postButtons">
-          <button className="like">&#10084;</button>
-          <button className="comment">&#9993;</button>
-          <button className="delete">&#10006;</button>
+        <p className="m-2">{publication.text}</p>
+        <div
+          className="flex flex-row p-1 m-2"
+          id={`mediaPost${publication.id_post}`}
+        ></div>
+        <div className="flex m-2">
+          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8  bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
+            &#10084;
+          </button>
+          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
+            &#9993;
+          </button>
+          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
+            &#10006;
+          </button>
         </div>
       </div>
     </div>

@@ -115,13 +115,13 @@ export function getMedia(data: string, publication: PubData) {
       );
       if (pubData[0].format === "image") {
         divMedia.render(
-          <img
+          <img className="w-full object-cover rounded-xl"
             src={`../../../mediaPublication/${pubData[0].media_name}`}
           ></img>,
         );
       } else if (pubData[0].format === "video") {
         divMedia.render(
-          <video
+          <video className="w-full object-cover rounded-xl"
             src={`../../../mediaPublication/${pubData[0].media_name}`}
             controls
             autoPlay
