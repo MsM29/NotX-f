@@ -21,16 +21,16 @@ function MyPage() {
   }
 
   return (
-    <div className="mt-15 flex flex-col justify-center items-center border-x-4 border-[#b6c5cd]">
+    <div className="flex flex-col justify-center items-center border-x-4 border-[#b6c5cd]">
       <div
         id="profileInfo"
         className="flex flex-col w-full border-y-4 border-[#b6c5cd]"
       >
         <div
           id="wallpaperProfile"
-          className="w-full object-cover mb-28 h-80 mt-16 flex flex-row"
+          className="w-full object-cover mb-28 h-80 flex flex-row"
           style={{
-            backgroundImage: `url("../../../images/${context[0].photoProfile}")`,
+            backgroundImage: `url("../../../images/${context[0].wallpaper}")`,
           }}
         >
           <img
@@ -40,19 +40,19 @@ function MyPage() {
           ></img>
           <button
             id="editProfile"
-            className="w-32 h-min ml-[800px] mt-[390px] absolute bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center"
+            className="w-40 p-0 h-min ml-[500px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
             Редактировать
           </button>
         </div>
-        <h1 id="nameProfile" className="profileText pl-5 pr-5 mb-2">
+        <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
           {context[0].name}
         </h1>
-        <h2 id="loginProfile" className="pl-5 pr-5 mb-2">
+        <h2 id="loginProfile" className="text-2xl pl-5 pr-5 mb-2">
           @{context[0].login}
         </h2>
-        <p id="bioProfile" className="break-words pl-5 pr-5 mb-2">
-          {context[0].bio}
+        <p id="bioProfile" className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl">
+         {context[0].bio}
         </p>
       </div>
       <form
@@ -72,12 +72,12 @@ function MyPage() {
         >
           <input
             type="file"
-            className=" w-6/12 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center"
+            className=" w-6/12 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white"
             accept="video/*, image/*"
             onChange={(event) => setFile(Array.from(event.target.files || []))}
           />
           <button
-            className="w-6/12 h-16 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center"
+            className="w-6/12 h-[62.5px] bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white"
             type="submit"
           >
             Опубликовать

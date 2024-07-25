@@ -21,9 +21,9 @@ function Publication({
         src={`../../../images/${userData.photoProfile}`}
       ></img>
       <div className="w-full ml-2">
-        <div className="flex flex-row ml-2">
-          <p> {userData.name}</p>
-          <p className="ml-2"> @{userData.login}</p>
+        <div className="flex flex-row ml-2 h-max items-center">
+          <p className="text-2xl"> {userData.name}</p>
+          <p className="ml-2 text-1xl"> @{userData.login}</p>
           <time className="ml-2" dateTime="">
             {new Date(publication.date).toLocaleString("ru")}
           </time>

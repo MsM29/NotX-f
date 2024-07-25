@@ -4,17 +4,17 @@ import { SearchData } from "../functions/interfaces";
 function SearchList({ searchData }: { searchData: SearchData[] }) {
   return searchData.map((element, index) => {
     return (
-      <div key={index} className="flex flex-row mb-2 justify-around items-center w-full">
+      <div key={index} className="flex flex-row mb-2 p-3 justify-around items-center w-full">
         <img
           id="photoProfile"
           className="w-64 h-64 object-cover border-4 border-[#b6c5cd] rounded-full"
           src={`../../../images/${element.photoProfile}`}
         ></img>
-        <div className="w-4/12">
-          <h1 id="nameProfile" className="profileText">
+        <div className="w-4/12 p-3">
+          <h1 id="nameProfile" className="text-3xl">
             {element.name}
           </h1>
-          <h2 id="loginProfile" className="profileText">
+          <h2 id="loginProfile" className="text-2xl">
             @{element.login}
           </h2>
           <p id="bioProfile" className="profileText">

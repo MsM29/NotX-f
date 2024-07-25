@@ -13,10 +13,10 @@ function Search() {
 
   return (
     <>
-      <div className="mt-16 w-[900px] flex flex-col justify-center items-center border-x-4 border-[#b6c5cd]">
+      <div className="w-[900px] h-screen flex flex-col items-center border-x-4 border-[#b6c5cd]">
         <form
           id="searchForm"
-          className="mb-2 mt-2 flex flex-col justify-between w-full items-center"
+          className="mb-2 p-4 flex flex-col justify-between w-full items-center border-y-4 border-[#b6c5cd]"
           onSubmit={search}
         >
           <input
