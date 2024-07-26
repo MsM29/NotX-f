@@ -1,6 +1,5 @@
 import React, { SetStateAction } from "react";
 import { UserData, PubData } from "./interfaces";
-import ReactDOMClient from "react-dom/client";
 
 export function getHome(
   setAuth: { (value: SetStateAction<boolean>): void },
@@ -64,43 +63,50 @@ export function postPublication(
     .then(async (res) => {
       if (res.status === 200) {
         const pubInsert = await res.json();
-        let type;
-        if (file[0].type.split("/")[0] === "image") type = ".png";
-        else type = ".mp4";
-        if (file) {
-          const filename =
-            file[0].type.split("/")[0] +
-            "_" +
-            context[0].name +
-            "_" +
-            pubInsert.insertId +
-            "_" +
-            Date.now() +
-            type;
-          const filedata = new FormData();
-          filedata.append("filedata", new Blob(file), filename);
-          console.log(filedata);
-          fetch("/addMedia", {
-            method: "POST",
-            headers: {
-              name: filename,
-              pub_id: pubInsert.insertId,
-            },
-            body: filedata,
-          }).then((res) => {
-            if (res.status === 200) alert("Опубликовано!");
-            else alert("Ошибка публикации");
-          });
-        } else alert("Опубликовано!");
+        uploadMedia(file, context, pubInsert);
       } else alert("Ошибка публикации");
     })
     .catch((error) => {
-      console.error("Ошибка при отправке публикации:", error);
+      console.log(error);
       alert("Ошибка публикации");
     });
 }
 
-export function getMedia(data: string, publication: PubData) {
+function uploadMedia(
+  file: File[],
+  context: { name: string }[],
+  pubInsert: { insertId: string },
+) {
+  if (file[0]) {
+    let type;
+    if (file[0].type.split("/")[0] === "image") type = ".png";
+    else type = ".mp4";
+    const filename =
+      file[0].type.split("/")[0] +
+      "_" +
+      context[0].name +
+      "_" +
+      pubInsert.insertId +
+      "_" +
+      Date.now() +
+      type;
+    const filedata = new FormData();
+    filedata.append("filedata", new Blob(file), filename);
+    fetch("/addMedia", {
+      method: "POST",
+      headers: {
+        name: filename,
+        pub_id: pubInsert.insertId,
+      },
+      body: filedata,
+    }).then((res) => {
+      if (res.status === 200) alert("Опубликовано!");
+      else alert("Ошибка публикации");
+    });
+  } else alert("Опубликовано!");
+}
+
+export function getMedia(data: string, setMedia: { (value: React.SetStateAction<JSX.Element>): void}) {
   return fetch("/getMedia", {
     method: "POST",
     headers: {
@@ -110,25 +116,22 @@ export function getMedia(data: string, publication: PubData) {
   }).then(async (res) => {
     const pubData = await res.json();
     if (pubData.length !== 0) {
-      const divMedia = ReactDOMClient.createRoot(
-        document.querySelector(`#mediaPost${publication.id_post}`)!,
-      );
-      if (pubData[0].format === "image") {
-        divMedia.render(
-          <img className="w-full object-cover rounded-xl"
+      const mediaElement =
+        pubData[0].format === "image" ? (
+          <img
+            className="w-full object-cover rounded-xl"
             src={`../../../mediaPublication/${pubData[0].media_name}`}
-          ></img>,
-        );
-      } else if (pubData[0].format === "video") {
-        divMedia.render(
-          <video className="w-full object-cover rounded-xl"
+          ></img>
+        ) : (
+          <video
+            className="w-full object-cover rounded-xl"
             src={`../../../mediaPublication/${pubData[0].media_name}`}
             controls
             autoPlay
             muted
-          ></video>,
+          ></video>
         );
-      }
+        setMedia(mediaElement)
     }
   });
 }

@@ -5,8 +5,10 @@ const body = ReactDOMClient.createRoot(document.querySelector("div")!);
 import "./index.css";
 import { BrowserRouter as Router } from "react-router-dom";
 
-body.render(
-  <Router>
-    <App />
-  </Router>,
-);
+document.body.onload = async function () {
+  body.render(
+    <Router>
+      <App />
+    </Router>,
+  );
+};

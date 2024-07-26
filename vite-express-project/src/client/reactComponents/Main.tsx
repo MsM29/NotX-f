@@ -9,15 +9,17 @@ function Main() {
   function toggleSidebar() {
     setIsSidebarVisible(!isSidebarVisible);
   }
-  const rotate = "w-24 order-1 h-10 object-contain rotate-90";
-  const notRotate = "w-24 order-1 h-10 object-contain";
 
   return (
     <>
       <header className="justify-between w-full flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
         <img
           id="sidebarButton"
-          className={isSidebarVisible ? rotate : notRotate}
+          className={
+            isSidebarVisible
+              ? "w-24 order-1 h-10 object-contain rotate-90"
+              : "w-24 order-1 h-10 object-contain"
+          }
           src="/images/icons8-боковое-меню-48.png"
           onClick={toggleSidebar}
           alt="Toggle Sidebar"

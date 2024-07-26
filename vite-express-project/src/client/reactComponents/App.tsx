@@ -4,15 +4,7 @@ import Main from "./Main";
 import { getHome } from "../functions/api";
 import { UserData } from "../functions/interfaces";
 
-export const MyContext = createContext([
-  {
-    name: "",
-    login: "",
-    bio: "",
-    photoProfile: "",
-    wallpaper: "",
-  },
-]);
+export const MyContext = createContext<UserData[]>([]);
 
 function App() {
   const [auth, setAuth] = useState(false);

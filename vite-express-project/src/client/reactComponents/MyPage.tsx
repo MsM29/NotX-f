@@ -12,12 +12,13 @@ function MyPage() {
 
   useEffect(() => {
     getPublication(setPublication);
-  }, []);
+  }, [publication]);
 
   function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
     postPublication(data, file, context);
+    setText("")
   }
 
   return (
@@ -51,8 +52,11 @@ function MyPage() {
         <h2 id="loginProfile" className="text-2xl pl-5 pr-5 mb-2">
           @{context[0].login}
         </h2>
-        <p id="bioProfile" className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl">
-         {context[0].bio}
+        <p
+          id="bioProfile"
+          className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
+        >
+          {context[0].bio}
         </p>
       </div>
       <form
@@ -64,6 +68,7 @@ function MyPage() {
           id="inputPost"
           className="mt-2 h-24 w-11/12 p-1 mb-2 resize-none rounded-xl"
           placeholder="Что нового?"
+          value={text}
           onChange={(event) => setText(event.target.value)}
         />
         <div
@@ -84,7 +89,7 @@ function MyPage() {
           </button>
         </div>
       </form>
-      <div id="myPageFeed" className="break-words">
+      <div id="myPageFeed" className="max-w-7xl">
         {publication.map((element: PubData) => (
           <Publication
             key={element.id_post}

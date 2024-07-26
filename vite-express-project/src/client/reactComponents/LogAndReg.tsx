@@ -4,10 +4,6 @@ import Login from "./Login";
 
 function LogAndReg() {
   const [isLogin, setIsLogin] = useState(true);
-  const selected =
-    "text-center leading-10 text-gray-950 rounded-md w-48 border border-gray-950 px-4 py-2 bg-[#b6c5cd] text-white";
-  const notSelected =
-    "bg-blue-200 text-center leading-10 text-gray-950 rounded-md w-48 border border-gray-950 px-4 py-2 hover:bg-blue-100";
 
   return (
     <>
@@ -21,19 +17,27 @@ function LogAndReg() {
       </header>
       <div
         id="container"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         <div className="mb-2 flex justify-between w-full gap-4">
           <h3
             id="log"
-            className={isLogin ? selected : notSelected}
+            className={
+              isLogin
+                ? "text-center leading-10 rounded-md w-48 border border-gray-950 px-4 py-2 bg-[#b6c5cd] text-white"
+                : "bg-blue-200 text-center leading-10 text-gray-950 rounded-md w-48 border border-gray-950 px-4 py-2 hover:bg-blue-100"
+            }
             onClick={() => setIsLogin(true)}
           >
             ВХОД
           </h3>
           <h3
             id="reg"
-            className={isLogin ? notSelected : selected}
+            className={
+              isLogin
+                ? "bg-blue-200 text-center leading-10 text-gray-950 rounded-md w-48 border border-gray-950 px-4 py-2 hover:bg-blue-100"
+                : "text-center leading-10 rounded-md w-48 border border-gray-950 px-4 py-2 bg-[#b6c5cd] text-white"
+            }
             onClick={() => setIsLogin(false)}
           >
             РЕГИСТРАЦИЯ

@@ -4,7 +4,10 @@ import { SearchData } from "../functions/interfaces";
 function SearchList({ searchData }: { searchData: SearchData[] }) {
   return searchData.map((element, index) => {
     return (
-      <div key={index} className="flex flex-row mb-2 p-3 justify-around items-center w-full">
+      <div
+        key={index}
+        className="flex flex-row mb-2 p-3 justify-around items-center w-full"
+      >
         <img
           id="photoProfile"
           className="w-64 h-64 object-cover border-4 border-[#b6c5cd] rounded-full"
@@ -21,7 +24,9 @@ function SearchList({ searchData }: { searchData: SearchData[] }) {
             {element.bio}
           </p>
         </div>
-        <button className="h-min w-4/12 bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white ">Подписаться</button>
+        <button className="h-min w-4/12 bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white ">
+          Подписаться
+        </button>
       </div>
     );
   });
