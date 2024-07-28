@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMedia } from "../functions/api";
+import { getMedia, deleteP } from "../functions/api";
 import { PubData, UserData } from "../functions/interfaces";
 
 function Publication({
@@ -15,10 +15,15 @@ function Publication({
     async function mediaFunc() {
       const data = JSON.stringify({ id_post: publication.id_post });
       const res = await getMedia(data);
-      setMedia(res)
+      setMedia(res);
     }
-    mediaFunc()
+    mediaFunc();
   }, []);
+
+  async function deletePublication() {
+    const res = await deleteP(publication.id_post);
+    if (res.status !== 200) alert("Ошибка при удалении!");
+  }
 
   return (
     <div className="flex flex-row p-2">
@@ -48,7 +53,10 @@ function Publication({
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
             &#9993;
           </button>
-          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
+          <button
+            onClick={deletePublication}
+            className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+          >
             &#10006;
           </button>
         </div>

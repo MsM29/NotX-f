@@ -144,3 +144,8 @@ export async function searchUser(searchText: string) {
     alert("Ошибка при выполнении запроса!");
   }
 }
+
+export async function deleteP(id_post: number) {
+  const res = await fetch(`/delete?id_post=${id_post}`);
+  return res;
+}
