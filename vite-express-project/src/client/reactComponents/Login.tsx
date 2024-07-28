@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { postLogin } from "../functions/api";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = JSON.stringify(formData);
-    postLogin(data);
+    const res = await postLogin(data);
+    if (res.status === 200) {
+      navigate("/mypage");
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

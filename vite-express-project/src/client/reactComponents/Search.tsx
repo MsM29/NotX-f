@@ -5,10 +5,10 @@ import { searchUser } from "../functions/api";
 function Search() {
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
-
-  function search(event: React.FormEvent<HTMLFormElement>) {
+  async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    searchUser(searchText, setSearchData);
+    const res = await searchUser(searchText);
+    setSearchData(res)
   }
 
   return (

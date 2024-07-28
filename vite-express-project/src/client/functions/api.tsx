@@ -1,51 +1,35 @@
-import React, { SetStateAction } from "react";
-import { UserData, PubData } from "./interfaces";
+import React from "react";
 
-export function getHome(
-  setAuth: { (value: SetStateAction<boolean>): void },
-  setUserData: { (value: SetStateAction<UserData[]>): void },
-) {
-  fetch("/home").then(async (res) => {
-    if (res.status === 200) {
-      const resServer = await res.json();
-      setUserData(resServer);
-      setAuth(true);
-    } else {
-      setAuth(false);
-    }
-  });
+export async function getHome() {
+  const res = await fetch("/home");
+  if (res.status === 200) {
+    const resServer = await res.json();
+    return resServer;
+  }
 }
 
 export async function postLogin(data: string) {
-  await fetch("/login", {
+  const res = await fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: data,
-  }).then(async (res) => {
-    if (res.status !== 200) {
-      const commits = await res.json();
-      alert(commits.message);
-    } else window.location.reload();
   });
+  return res;
 }
 
-export function getLogout() {
-  fetch("/logout").then((res) => {
-    if (res.status === 200) {
-      window.location.reload();
-    } else alert("Ошибка при выходе!");
-  });
+export async function getLogout() {
+  const res = await fetch("/logout");
+  return res;
 }
 
-export function getPublication(setPublication: {
-  (value: SetStateAction<PubData[]>): void;
-}) {
-  fetch("/getPublication").then(async (res) => {
+export async function getPublication() {
+  const res = await fetch("/getPublication");
+  if (res.status === 200) {
     const pubData = await res.json();
-    setPublication(pubData);
-  });
+    return pubData;
+  }
 }
 
 export function postPublication(
@@ -106,34 +90,34 @@ function uploadMedia(
   } else alert("Опубликовано!");
 }
 
-export function getMedia(data: string, setMedia: { (value: React.SetStateAction<JSX.Element>): void}) {
-  return fetch("/getMedia", {
+export async function getMedia(data: string) {
+  const res = await fetch("/getMedia", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: data,
-  }).then(async (res) => {
-    const pubData = await res.json();
-    if (pubData.length !== 0) {
-      const mediaElement =
-        pubData[0].format === "image" ? (
-          <img
-            className="w-full object-cover rounded-xl"
-            src={`../../../mediaPublication/${pubData[0].media_name}`}
-          ></img>
-        ) : (
-          <video
-            className="w-full object-cover rounded-xl"
-            src={`../../../mediaPublication/${pubData[0].media_name}`}
-            controls
-            autoPlay
-            muted
-          ></video>
-        );
-        setMedia(mediaElement)
-    }
   });
+  const pubData = await res.json();
+  if (pubData.length !== 0) {
+    if (pubData[0].format === "image")
+      return (
+        <img
+          className="w-full object-cover rounded-xl"
+          src={`../../../mediaPublication/${pubData[0].media_name}`}
+        ></img>
+      );
+    else
+      return (
+        <video
+          className="w-full object-cover rounded-xl"
+          src={`../../../mediaPublication/${pubData[0].media_name}`}
+          controls
+          autoPlay
+          muted
+        ></video>
+      );
+  } else return <></>;
 }
 
 export async function postRegistration(data: string) {
@@ -151,21 +135,12 @@ export async function postRegistration(data: string) {
   });
 }
 
-export function searchUser(
-  searchText: string,
-  setSearchData: { (value: SetStateAction<never[]>): void },
-) {
-  fetch(`/search?user=${searchText}`)
-    .then(async (res) => {
-      if (res.status === 200) {
-        const resServer = await res.json();
-        setSearchData(resServer);
-      } else {
-        alert("Ошибка при выполнении запроса!");
-      }
-    })
-    .catch((error) => {
-      console.error("Ошибка запроса:", error);
-      alert("Произошла ошибка при выполнении запроса.");
-    });
+export async function searchUser(searchText: string) {
+  const res = await fetch(`/search?user=${searchText}`);
+  if (res.status === 200) {
+    const resServer = await res.json();
+    return resServer;
+  } else {
+    alert("Ошибка при выполнении запроса!");
+  }
 }

@@ -11,14 +11,18 @@ function MyPage() {
   const [file, setFile] = useState<File[]>([]);
 
   useEffect(() => {
-    getPublication(setPublication);
-  }, [publication]);
+    async function pubFunc() {
+      const res = await getPublication();
+      setPublication(res);
+    }
+    pubFunc();
+  }, [text]);
 
   function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
     postPublication(data, file, context);
-    setText("")
+    setText("");
   }
 
   return (
