@@ -5,6 +5,7 @@ import { UserData } from "../functions/interfaces";
 import { useNavigate, useLocation } from "react-router-dom";
 import Search from "./Search";
 import MyPage from "./MyPage";
+import EditMyPage from "./EditMyPage";
 
 export const MyContext = createContext<UserData[]>([]);
 
@@ -31,6 +32,7 @@ function App() {
       {location.pathname === "/mypage" && <MyPage />}
       {location.pathname === "/logandreg" && <LogAndReg />}
       {location.pathname === "/searching" && <Search />}
+      {location.pathname === "/mypage/edit" && <EditMyPage />}
     </MyContext.Provider>
   );
 }

@@ -9,7 +9,7 @@ import Main from "./reactComponents/Main";
 document.body.onload = async function () {
   body.render(
     <Router>
-      <Main/>
+      <Main />
       <App />
     </Router>,
   );

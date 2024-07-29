@@ -3,6 +3,7 @@ import Publication from "./Publication";
 import { MyContext } from "./App";
 import { getPublication, postPublication } from "../functions/api";
 import { PubData } from "../functions/interfaces";
+import { Link } from "react-router-dom";
 
 function MyPage() {
   const context = useContext(MyContext);
@@ -26,29 +27,29 @@ function MyPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center border-x-4 border-[#b6c5cd]">
+    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
       <div
         id="profileInfo"
         className="flex flex-col w-full border-y-4 border-[#b6c5cd]"
       >
         <div
           id="wallpaperProfile"
-          className="w-full object-cover mb-28 h-80 flex flex-row"
-          style={{
-            backgroundImage: `url("../../../images/${context[0].wallpaper}")`,
-          }}
+          className={`w-full object-cover mb-28 h-80 flex flex-row bg-[url("../../../mediaProfile/wallpaper/${context[0].login}.png")] bg-cover bg-no-repeat bg-center`}
         >
           <img
             id="photoProfile"
             className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full"
-            src={`../../../images/${context[0].photoProfile}`}
+            src={
+              `../../../mediaProfile/profilePhoto/${context[0].login}` + ".png"
+            }
           ></img>
-          <button
+          <Link
+            to="/mypage/edit"
             id="editProfile"
             className="w-40 p-0 h-min ml-[500px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
             Редактировать
-          </button>
+          </Link>
         </div>
         <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
           {context[0].name}

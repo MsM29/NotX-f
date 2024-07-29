@@ -29,7 +29,7 @@ function Publication({
     <div className="flex flex-row p-2">
       <img
         className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd]"
-        src={`../../../images/${userData.photoProfile}`}
+        src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
       ></img>
       <div className="w-full ml-2">
         <div className="flex flex-row ml-2 h-max items-center">

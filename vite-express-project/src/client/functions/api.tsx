@@ -1,4 +1,5 @@
 import React from "react";
+import { UserData } from "./interfaces";
 
 export async function getHome() {
   const res = await fetch("/home");
@@ -35,7 +36,7 @@ export async function getPublication() {
 export function postPublication(
   data: string,
   file: File[],
-  context: { name: string }[],
+  context: { login: string }[],
 ) {
   fetch("/makePublication", {
     method: "POST",
@@ -58,7 +59,7 @@ export function postPublication(
 
 function uploadMedia(
   file: File[],
-  context: { name: string }[],
+  context: { login: string }[],
   pubInsert: { insertId: string },
 ) {
   if (file[0]) {
@@ -68,7 +69,7 @@ function uploadMedia(
     const filename =
       file[0].type.split("/")[0] +
       "_" +
-      context[0].name +
+      context[0].login +
       "_" +
       pubInsert.insertId +
       "_" +
@@ -148,4 +149,71 @@ export async function searchUser(searchText: string) {
 export async function deleteP(id_post: number) {
   const res = await fetch(`/delete?id_post=${id_post}`);
   return res;
+}
+
+export async function postEditProfile(
+  formData: {
+    name: string;
+    bio: string;
+  },
+  photoProfile: File[],
+  wallpaper: File[],
+  context: UserData[],
+) {
+  const data = JSON.stringify(formData);
+  const res = await fetch("/editProfile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: data,
+  });
+  if (res.status === 200) {
+    if (photoProfile.length !== 0) editPhotoProfile(photoProfile, context);
+    if (wallpaper.length !== 0) editWallpaperProfile(wallpaper, context);
+  } else alert("Ошибка публикации");
+}
+
+async function editPhotoProfile(
+  photoProfile: File[],
+  context: { login: string }[],
+) {
+  try {
+    const filenameProfile = context[0].login + ".png";
+    const filedata = new FormData();
+    filedata.append("filedata", new Blob(photoProfile), filenameProfile);
+    const res = await fetch("/editPhotoProfile", {
+      method: "POST",
+      headers: {
+        name: filenameProfile,
+      },
+      body: filedata,
+    });
+    if (res.status === 200) alert("Опубликовано!");
+    else alert("Ошибка публикации");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function editWallpaperProfile(
+  wallpaper: File[],
+  context: { login: string }[],
+) {
+  try {
+    const filenameProfile = context[0].login + ".png";
+    const filedata = new FormData();
+    filedata.append("filedata", new Blob(wallpaper), filenameProfile);
+    const res = await fetch("/editWallpaperProfile", {
+      method: "POST",
+      headers: {
+        name: filenameProfile,
+      },
+      body: filedata,
+    });
+    if (res.status === 200) alert("Опубликовано!");
+    else alert("Ошибка публикации");
+  } catch (e) {
+    console.log(e);
+  }
 }

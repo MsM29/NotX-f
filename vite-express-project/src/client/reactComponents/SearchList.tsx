@@ -11,7 +11,7 @@ function SearchList({ searchData }: { searchData: SearchData[] }) {
         <img
           id="photoProfile"
           className="w-64 h-64 object-cover border-4 border-[#b6c5cd] rounded-full"
-          src={`../../../images/${element.photoProfile}`}
+          src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
         ></img>
         <div className="w-4/12 p-3">
           <h1 id="nameProfile" className="text-3xl">

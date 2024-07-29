@@ -8,12 +8,12 @@ function Search() {
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const res = await searchUser(searchText);
-    setSearchData(res)
+    setSearchData(res);
   }
 
   return (
     <>
-      <div className="w-[900px] h-screen flex flex-col items-center border-x-4 border-[#b6c5cd]">
+      <div className="w-[900px] h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
         <form
           id="searchForm"
           className="mb-2 p-4 flex flex-col justify-between w-full items-center border-y-4 border-[#b6c5cd]"
