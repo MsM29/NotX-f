@@ -140,6 +140,7 @@ export async function searchUser(searchText: string) {
   const res = await fetch(`/search?user=${searchText}`);
   if (res.status === 200) {
     const resServer = await res.json();
+    console.log(resServer)
     return resServer;
   } else {
     alert("Ошибка при выполнении запроса!");
@@ -215,5 +216,24 @@ async function editWallpaperProfile(
     else alert("Ошибка публикации");
   } catch (e) {
     console.log(e);
+  }
+}
+
+export async function userPage(login: unknown) {
+  const res = await fetch(`/users?user=${login}`);
+  if (res.status === 200) {
+    const resServer = await res.json();
+    console.log(resServer)
+    return resServer;
+  } else {
+    alert("Ошибка при выполнении запроса!");
+  }
+}
+
+export async function getUserPublication(login: string | null | undefined) {
+  const res = await fetch(`/getUserPublication?login=${login}`);
+  if (res.status === 200) {
+    const pubData = await res.json();
+    return pubData;
   }
 }

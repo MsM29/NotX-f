@@ -1,7 +1,8 @@
+import { UserData } from "../functions/interfaces";
+import { Link } from "react-router-dom";
 import React from "react";
-import { SearchData } from "../functions/interfaces";
 
-function SearchList({ searchData }: { searchData: SearchData[] }) {
+function SearchList({ searchData }: { searchData: UserData[] }) {
   return searchData.map((element, index) => {
     return (
       <div
@@ -14,9 +15,11 @@ function SearchList({ searchData }: { searchData: SearchData[] }) {
           src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
         ></img>
         <div className="w-4/12 p-3">
-          <h1 id="nameProfile" className="text-3xl">
-            {element.name}
-          </h1>
+          <Link to={`user?user=${element.login}`}>
+            <h1 id="nameProfile" className="text-3xl">
+              {element.name}
+            </h1>
+          </Link>
           <h2 id="loginProfile" className="text-2xl">
             @{element.login}
           </h2>

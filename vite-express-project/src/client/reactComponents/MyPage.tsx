@@ -34,7 +34,10 @@ function MyPage() {
       >
         <div
           id="wallpaperProfile"
-          className={`w-full object-cover mb-28 h-80 flex flex-row bg-[url("../../../mediaProfile/wallpaper/${context[0].login}.png")] bg-cover bg-no-repeat bg-center`}
+          className={`w-full object-cover mb-28 h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
+          style={{
+            backgroundImage: `url("../../../mediaProfile/wallpaper/${context[0].login}.png")`,
+          }}
         >
           <img
             id="photoProfile"
@@ -46,7 +49,7 @@ function MyPage() {
           <Link
             to="/mypage/edit"
             id="editProfile"
-            className="w-40 p-0 h-min ml-[500px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+            className="w-40 p-0 h-min ml-[400px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
             Редактировать
           </Link>

@@ -2,10 +2,11 @@ import React, { useState, useEffect, createContext } from "react";
 import LogAndReg from "./LogAndReg";
 import { getHome } from "../functions/api";
 import { UserData } from "../functions/interfaces";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import Search from "./Search";
 import MyPage from "./MyPage";
 import EditMyPage from "./EditMyPage";
+import User from "./User";
 
 export const MyContext = createContext<UserData[]>([]);
 
@@ -16,6 +17,7 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
+      console.log(location);
       const res = await getHome();
       if (res) {
         setUserData(res);
@@ -29,10 +31,18 @@ function App() {
 
   return (
     <MyContext.Provider value={userData}>
-      {location.pathname === "/mypage" && <MyPage />}
-      {location.pathname === "/logandreg" && <LogAndReg />}
-      {location.pathname === "/searching" && <Search />}
-      {location.pathname === "/mypage/edit" && <EditMyPage />}
+      <Routes>
+        <Route path="/mypage" element={<MyPage />}></Route>
+        <Route path="/searching" element={<Search />}></Route>
+        <Route path="/logandreg" element={<LogAndReg />}></Route>
+        <Route path="/mypage/edit" element={<EditMyPage />}></Route>
+        <Route
+          path="/searching/user"
+          element={
+            <User login={new URLSearchParams(location.search).get("user")} />
+          }
+        ></Route>
+      </Routes>
     </MyContext.Provider>
   );
 }
