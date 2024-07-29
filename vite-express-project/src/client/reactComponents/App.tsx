@@ -17,7 +17,6 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      console.log(location);
       const res = await getHome();
       if (res) {
         setUserData(res);
@@ -39,7 +38,7 @@ function App() {
         <Route
           path="/searching/user"
           element={
-            <User login={new URLSearchParams(location.search).get("user")} />
+            <User login={new URLSearchParams(location.search).get("user")!} />
           }
         ></Route>
       </Routes>

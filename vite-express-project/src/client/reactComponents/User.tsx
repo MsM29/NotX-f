@@ -1,14 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { userPage } from "../functions/api";
-import { getUserPublication } from "../functions/api";
+import {
+  userPage,
+  postSubscribe,
+  getUserPublication,
+  postUnsubscribe,
+  checkSubscription,
+} from "../functions/api";
 import { PubData } from "../functions/interfaces";
 import Publication from "./Publication";
 
-function User({ login }: { login: string | undefined | null }) {
+function User({ login }: { login: string }) {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
   const [publication, setPublication] = useState<PubData[]>([]);
+  const [isSubscribe, setIsSubscribe] = useState(false);
+  async function subscribe(login: string) {
+    const res = await postSubscribe(login);
+    if (res.status === 200) setIsSubscribe(true);
+  }
+
+  async function unsubscribe(login: string) {
+    const res = await postUnsubscribe(login);
+    if (res.status === 200) setIsSubscribe(false);
+  }
 
   useEffect(() => {
+    async function fetchSubscriptions() {
+      const res = await checkSubscription(login);
+      if (res.status === 200) setIsSubscribe(true);
+    }
+    fetchSubscriptions();
     async function user() {
       const res = await userPage(login);
       setUserData(res[0]);
@@ -41,9 +61,21 @@ function User({ login }: { login: string | undefined | null }) {
               `../../../mediaProfile/profilePhoto/${userData.login}` + ".png"
             }
           ></img>
-          <button className="w-40 p-0 h-min ml-[400px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
-            Подписаться
-          </button>
+          {isSubscribe ? (
+            <button
+              onClick={() => unsubscribe(login)}
+              className="w-40 p-0 h-min ml-[400px] mt-[390px]  leading-10  rounded-md border text-center border-gray-950 bg-gray-400 text-white hover:bg-blue-200 hover:text-gray-950 flex justify-center"
+            >
+              Отписаться
+            </button>
+          ) : (
+            <button
+              onClick={() => subscribe(login)}
+              className="w-40 p-0 h-min ml-[400px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+            >
+              Подписаться
+            </button>
+          )}
         </div>
         <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
           {userData.name}
