@@ -1,16 +1,16 @@
+import React from "react";
 import ReactDOMClient from "react-dom/client";
-import LogAndReg from "./reactComponents/LogAndReg";
-import MyPage from "./reactComponents/MyPage";
-import Header from "./reactComponents/Header"
+import App from "./reactComponents/App";
 const body = ReactDOMClient.createRoot(document.querySelector("div")!);
-const header = ReactDOMClient.createRoot(document.querySelector("header")!)
-import "./styles/index.css";
+import "./index.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import Main from "./reactComponents/Main";
 
-fetch("/home").then((res) => {
-  if (res.status === 200) {
-    header.render(<Header />)
-    body.render(<MyPage />);
-  } else {
-    body.render(<LogAndReg />);
-  }
-});
+document.body.onload = async function () {
+  body.render(
+    <Router>
+      <Main />
+      <App />
+    </Router>,
+  );
+};
