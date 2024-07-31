@@ -7,7 +7,8 @@ import Search from "./Search";
 import MyPage from "./MyPage";
 import EditMyPage from "./EditMyPage";
 import User from "./User";
-
+import Subscriptions from "./Subscriptions";
+import Subscribers from "./Subscribers";
 export const MyContext = createContext<UserData[]>([]);
 
 function App() {
@@ -36,7 +37,9 @@ function App() {
         <Route path="/searching" element={<Search />}></Route>
         <Route path="/logandreg" element={<LogAndReg />}></Route>
         <Route path="/mypage/edit" element={<EditMyPage />}></Route>
-        <Route path="/searching/user" element={<User login={user} />}></Route>
+        <Route path="/user" element={<User login={user} />}></Route>
+        <Route path="/subscriptions" element={<Subscriptions />}></Route>
+        <Route path="/subscribers" element={<Subscribers />}></Route>
       </Routes>
     </MyContext.Provider>
   );

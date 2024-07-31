@@ -231,3 +231,13 @@ export async function checkSubscription(login: string) {
   const res = await fetch(`/checkSubscription?login=${login}`);
   return res;
 }
+
+export async function getSubscriptions() {
+  const res = (await fetch(`/subscriptions`)).json();
+  return res;
+}
+
+export async function getSubscribers() {
+  const res = (await fetch(`/subscribers`)).json();
+  return res;
+}

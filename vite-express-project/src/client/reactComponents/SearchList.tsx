@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 
 function SearchList({ searchData }: { searchData: UserData[] }) {
   const [subscriptions, setSubscriptions] = useState<string[]>([]);
-
+  console.log(searchData)
   useEffect(() => {
     async function fetchSubscriptions() {
       const subscribedLogins = await Promise.all(
@@ -38,6 +38,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
   }
 
   return searchData.map((element, index) => {
+    console.log(element)
     const isSubscribed = subscriptions.includes(element.login);
 
     return (
@@ -51,7 +52,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
         ></img>
         <div className="w-4/12 p-3">
-          <Link to={`user?user=${element.login}`}>
+          <Link to={`/user?user=${element.login}`}>
             <h1 id="nameProfile" className="text-3xl">
               {element.name}
             </h1>
