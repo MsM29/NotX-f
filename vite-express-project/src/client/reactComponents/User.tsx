@@ -8,11 +8,15 @@ import {
 } from "../functions/api";
 import { PubData } from "../functions/interfaces";
 import UserPublication from "./UserPublication";
+import Pagination from "./Pagination";
 
 function User({ login }: { login: string }) {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
   const [publication, setPublication] = useState<PubData[]>([]);
   const [isSubscribe, setIsSubscribe] = useState(false);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+
   async function subscribe(login: string) {
     const res = await postSubscribe(login);
     if (res.status === 200) setIsSubscribe(true);
@@ -35,11 +39,19 @@ function User({ login }: { login: string }) {
     }
     async function pubFunc() {
       const res = await getUserPublication(login);
-      setPublication(res);
+      setPublication(res.rows);
+      setMaxPage(res.maxPage);
     }
     user();
     pubFunc();
   }, []);
+
+  async function editPage(value: number) {
+    const res = await getUserPublication(login, value);
+    setPage(value);
+    setPublication(res.rows);
+    setMaxPage(res.maxPage);
+  }
 
   return (
     <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
@@ -94,11 +106,11 @@ function User({ login }: { login: string }) {
         {publication.map((element: PubData) => (
           <UserPublication
             key={element.id_post}
-            userData={userData}
-            publication={element}
+            publication={Object.assign({}, userData, element)}
           />
         ))}
       </div>
+      <Pagination page={page} maxPage={maxPage} editPage={editPage} />
     </div>
   );
 }

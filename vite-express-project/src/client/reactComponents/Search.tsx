@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import SearchList from "./SearchList";
 import { searchUser } from "../functions/api";
+import Pagination from "./Pagination";
 
 function Search() {
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const res = await searchUser(searchText);
-    setSearchData(res);
+    setSearchData(res.rows);
+    setMaxPage(res.maxPage);
+  }
+
+  async function editPage(value: number) {
+    const res = await searchUser(searchText, value);
+    setPage(value);
+    setSearchData(res.rows);
+    setMaxPage(res.maxPage);
   }
 
   return (
@@ -36,6 +48,7 @@ function Search() {
         <div id="searchList" className="mt-2 w-full">
           <SearchList searchData={searchData} />
         </div>
+        <Pagination page={page} maxPage={maxPage} editPage={editPage} />
       </div>
     </>
   );

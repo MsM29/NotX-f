@@ -4,17 +4,21 @@ import { MyContext } from "./App";
 import { getPublication, postPublication } from "../functions/api";
 import { PubData } from "../functions/interfaces";
 import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
 function MyPage() {
   const context = useContext(MyContext);
   const [text, setText] = useState("");
   const [publication, setPublication] = useState<PubData[]>([]);
   const [file, setFile] = useState<File[]>([]);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     async function pubFunc() {
       const res = await getPublication();
-      setPublication(res);
+      setPublication(res.rows);
+      setMaxPage(res.maxPage);
     }
     pubFunc();
   }, [text]);
@@ -24,6 +28,13 @@ function MyPage() {
     const data = JSON.stringify({ text });
     postPublication(data, file, context);
     setText("");
+  }
+
+  async function editPage(value: number) {
+    const res = await getPublication(value);
+    setPage(value);
+    setPublication(res.rows);
+    setMaxPage(res.maxPage);
   }
 
   return (
@@ -106,6 +117,7 @@ function MyPage() {
           />
         ))}
       </div>
+      <Pagination page={page} maxPage={maxPage} editPage={editPage}/>
     </div>
   );
 }

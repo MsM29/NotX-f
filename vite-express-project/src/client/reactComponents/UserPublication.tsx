@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getMedia } from "../functions/api";
-import { PubData, UserData } from "../functions/interfaces";
+import { FeedData } from "../functions/interfaces";
 
 function UserPublication({
-  userData,
-  publication,
+  publication
 }: {
-  userData: UserData;
-  publication: PubData;
+  publication: FeedData;
 }) {
   const [media, setMedia] = useState(<></>);
   const date = new Date(publication.date).toLocaleString("ru");
-
   useEffect(() => {
     async function mediaFunc() {
       const data = JSON.stringify({ id_post: publication.id_post });
@@ -43,12 +40,12 @@ function UserPublication({
     <div className="flex flex-row p-2">
       <img
         className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd]"
-        src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
+        src={`../../../mediaProfile/profilePhoto/${publication.login}.png`}
       ></img>
       <div className="w-full ml-2">
         <div className="flex flex-row ml-2 h-max items-center">
-          <p className="text-2xl"> {userData.name}</p>
-          <p className="ml-2 text-1xl"> @{userData.login}</p>
+          <p className="text-2xl"> {publication.name}</p>
+          <p className="ml-2 text-1xl"> @{publication.login}</p>
           <time className="ml-2">{date}</time>
         </div>
         <p className="m-2">{publication.text}</p>

@@ -24,8 +24,8 @@ export async function getLogout() {
   return res;
 }
 
-export async function getPublication() {
-  const res = await fetch("/getPublication");
+export async function getPublication(page = 1) {
+  const res = await fetch(`/getPublication?page=${page - 1}`);
   if (res.status === 200) {
     const pubData = await res.json();
     return pubData;
@@ -117,8 +117,8 @@ export async function postRegistration(data: string) {
   });
 }
 
-export async function searchUser(searchText: string) {
-  const res = await fetch(`/search?user=${searchText}`);
+export async function searchUser(searchText: string, page = 1) {
+  const res = await fetch(`/search?user=${searchText}&page=${page - 1}`);
   if (res.status === 200) {
     const resServer = await res.json();
     return resServer;
@@ -209,11 +209,13 @@ export async function userPage(login: unknown) {
   }
 }
 
-export async function getUserPublication(login: string | null | undefined) {
-  const res = await fetch(`/getUserPublication?login=${login}`);
+export async function getUserPublication(login: string | null | undefined, page = 1) {
+  const res = await fetch(`/getUserPublication?login=${login}&page=${page - 1}`);
   if (res.status === 200) {
-    const pubData = await res.json();
-    return pubData;
+    const resServer = await res.json();
+    return resServer;
+  } else {
+    alert("Ошибка при выполнении запроса!");
   }
 }
 
@@ -232,17 +234,30 @@ export async function checkSubscription(login: string) {
   return res;
 }
 
-export async function getSubscriptions() {
-  const res = (await fetch(`/subscriptions`)).json();
+export async function getSubscriptions(page=1) {
+  const res = (await fetch(`/subscriptions?page=${page - 1}`));
+  if (res.status === 200) {
+    const data = await res.json();
+    return data;
+  }
   return res;
 }
 
-export async function getSubscribers() {
-  const res = (await fetch(`/subscribers`)).json();
+export async function getSubscribers(page=1) {
+  const res = (await fetch(`/subscribers?page=${page - 1}`))
+  if (res.status === 200) {
+    const data = await res.json();
+    return data;
+  }
   return res;
 }
 
-export async function getFeed() {
-  const res = (await fetch(`/feed`)).json();
+
+export async function getFeed(page = 1) {
+  const res = await fetch(`/feed?page=${page - 1}`);
+  if (res.status === 200) {
+    const pubData = await res.json();
+    return pubData;
+  }
   return res;
 }
