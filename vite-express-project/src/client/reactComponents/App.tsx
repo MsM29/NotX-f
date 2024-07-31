@@ -14,6 +14,7 @@ function App() {
   const [userData, setUserData] = useState<UserData[]>([]);
   const navigator = useNavigate();
   const location = useLocation();
+  const user = new URLSearchParams(location.search).get("user")!;
 
   useEffect(() => {
     async function fetchData() {
@@ -35,12 +36,7 @@ function App() {
         <Route path="/searching" element={<Search />}></Route>
         <Route path="/logandreg" element={<LogAndReg />}></Route>
         <Route path="/mypage/edit" element={<EditMyPage />}></Route>
-        <Route
-          path="/searching/user"
-          element={
-            <User login={new URLSearchParams(location.search).get("user")!} />
-          }
-        ></Route>
+        <Route path="/searching/user" element={<User login={user} />}></Route>
       </Routes>
     </MyContext.Provider>
   );

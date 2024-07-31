@@ -1,4 +1,3 @@
-import React from "react";
 import { UserData } from "./interfaces";
 
 export async function getHome() {
@@ -100,25 +99,7 @@ export async function getMedia(data: string) {
     body: data,
   });
   const pubData = await res.json();
-  if (pubData.length !== 0) {
-    if (pubData[0].format === "image")
-      return (
-        <img
-          className="w-full object-cover rounded-xl"
-          src={`../../../mediaPublication/${pubData[0].media_name}`}
-        ></img>
-      );
-    else
-      return (
-        <video
-          className="w-full object-cover rounded-xl"
-          src={`../../../mediaPublication/${pubData[0].media_name}`}
-          controls
-          autoPlay
-          muted
-        ></video>
-      );
-  } else return <></>;
+  return pubData;
 }
 
 export async function postRegistration(data: string) {

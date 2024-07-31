@@ -9,6 +9,12 @@ function Main() {
     setIsSidebarVisible(!isSidebarVisible);
   }
   const navigator = useNavigate();
+
+  async function logout() {
+    const res = await getLogout();
+    if (res.status === 200) navigator("/logandreg");
+  }
+
   return (
     <>
       <header className="justify-between w-full flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
@@ -27,10 +33,7 @@ function Main() {
         />
         <button
           className="order-3 w-24 mr-2 bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
-          onClick={async () => {
-            const res = await getLogout();
-            if (res.status === 200) navigator("/logandreg");
-          }}
+          onClick={logout}
         >
           Выйти
         </button>

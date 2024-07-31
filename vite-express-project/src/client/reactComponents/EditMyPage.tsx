@@ -18,6 +18,18 @@ function EditMyPage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleChangePhotoProfile = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setPhotoProfile(Array.from(event.target.files || []));
+  };
+
+  const handleChangeWallpaper = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setWallpaper(Array.from(event.target.files || []));
+  };
+
   const editProfile = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     postEditProfile(formData, photoProfile, wallpaper, context);
@@ -36,9 +48,7 @@ function EditMyPage() {
           name="wallpaper"
           className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950  hover:bg-gray-400 hover:text-white"
           accept="video/*, image/*"
-          onChange={(event) =>
-            setWallpaper(Array.from(event.target.files || []))
-          }
+          onChange={handleChangeWallpaper}
         />
       </p>
       <p className="text-2xl mt-3">
@@ -48,9 +58,7 @@ function EditMyPage() {
           name="photoProfile"
           className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 hover:bg-gray-400 hover:text-white"
           accept="video/*, image/*"
-          onChange={(event) =>
-            setPhotoProfile(Array.from(event.target.files || []))
-          }
+          onChange={handleChangePhotoProfile}
         />
       </p>
       <p className="text-2xl mt-3">

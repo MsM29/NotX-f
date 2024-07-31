@@ -10,12 +10,31 @@ function Publication({
   publication: PubData;
 }) {
   const [media, setMedia] = useState(<></>);
+  const date = new Date(publication.date).toLocaleString("ru");
 
   useEffect(() => {
     async function mediaFunc() {
       const data = JSON.stringify({ id_post: publication.id_post });
       const res = await getMedia(data);
-      setMedia(res);
+      if (res.length !== 0) {
+        if (res[0].format === "image")
+          setMedia(
+            <img
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${res[0].media_name}`}
+            ></img>,
+          );
+        else
+          setMedia(
+            <video
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${res[0].media_name}`}
+              controls
+              autoPlay
+              muted
+            ></video>,
+          );
+      }
     }
     mediaFunc();
   }, []);
@@ -35,9 +54,7 @@ function Publication({
         <div className="flex flex-row ml-2 h-max items-center">
           <p className="text-2xl"> {userData.name}</p>
           <p className="ml-2 text-1xl"> @{userData.login}</p>
-          <time className="ml-2" dateTime="">
-            {new Date(publication.date).toLocaleString("ru")}
-          </time>
+          <time className="ml-2">{date}</time>
         </div>
         <p className="m-2">{publication.text}</p>
         <div

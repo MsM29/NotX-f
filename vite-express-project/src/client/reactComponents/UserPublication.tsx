@@ -10,6 +10,7 @@ function UserPublication({
   publication: PubData;
 }) {
   const [media, setMedia] = useState(<></>);
+  const date = new Date(publication.date).toLocaleString("ru");
 
   useEffect(() => {
     async function mediaFunc() {
@@ -30,9 +31,7 @@ function UserPublication({
         <div className="flex flex-row ml-2 h-max items-center">
           <p className="text-2xl"> {userData.name}</p>
           <p className="ml-2 text-1xl"> @{userData.login}</p>
-          <time className="ml-2" dateTime="">
-            {new Date(publication.date).toLocaleString("ru")}
-          </time>
+          <time className="ml-2">{date}</time>
         </div>
         <p className="m-2">{publication.text}</p>
         <div
@@ -47,7 +46,7 @@ function UserPublication({
           </button>
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
             &#9993;
-          </button>   
+          </button>
         </div>
       </div>
     </div>
