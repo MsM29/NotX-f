@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 
 function SearchList({ searchData }: { searchData: UserData[] }) {
   const [subscriptions, setSubscriptions] = useState<string[]>([]);
-  console.log(searchData)
   useEffect(() => {
     async function fetchSubscriptions() {
       const subscribedLogins = await Promise.all(
@@ -38,7 +37,6 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
   }
 
   return searchData.map((element, index) => {
-    console.log(element)
     const isSubscribed = subscriptions.includes(element.login);
 
     return (

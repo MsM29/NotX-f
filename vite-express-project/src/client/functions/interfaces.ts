@@ -14,3 +14,12 @@ export interface MediaData {
   type: string;
   media_name: string;
 }
+
+export interface FeedData {
+  name: string;
+  login: string;
+  bio: string;
+  id_post: number;
+  date: string;
+  text: string;
+}

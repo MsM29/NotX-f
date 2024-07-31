@@ -7,7 +7,7 @@ import {
   checkSubscription,
 } from "../functions/api";
 import { PubData } from "../functions/interfaces";
-import Publication from "./Publication";
+import UserPublication from "./UserPublication";
 
 function User({ login }: { login: string }) {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
@@ -92,7 +92,7 @@ function User({ login }: { login: string }) {
       </div>
       <div id="myPageFeed" className="max-w-7xl">
         {publication.map((element: PubData) => (
-          <Publication
+          <UserPublication
             key={element.id_post}
             userData={userData}
             publication={element}

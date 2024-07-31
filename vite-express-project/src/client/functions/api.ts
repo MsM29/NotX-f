@@ -241,3 +241,8 @@ export async function getSubscribers() {
   const res = (await fetch(`/subscribers`)).json();
   return res;
 }
+
+export async function getFeed() {
+  const res = (await fetch(`/feed`)).json();
+  return res;
+}

@@ -9,6 +9,8 @@ import EditMyPage from "./EditMyPage";
 import User from "./User";
 import Subscriptions from "./Subscriptions";
 import Subscribers from "./Subscribers";
+import Feed from "./Feed";
+
 export const MyContext = createContext<UserData[]>([]);
 
 function App() {
@@ -40,6 +42,7 @@ function App() {
         <Route path="/user" element={<User login={user} />}></Route>
         <Route path="/subscriptions" element={<Subscriptions />}></Route>
         <Route path="/subscribers" element={<Subscribers />}></Route>
+        <Route path="/feed" element={<Feed />}></Route>
       </Routes>
     </MyContext.Provider>
   );

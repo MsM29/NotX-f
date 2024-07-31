@@ -16,7 +16,25 @@ function UserPublication({
     async function mediaFunc() {
       const data = JSON.stringify({ id_post: publication.id_post });
       const res = await getMedia(data);
-      setMedia(res);
+      if (res.length !== 0) {
+        if (res[0].format === "image")
+          setMedia(
+            <img
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${res[0].media_name}`}
+            ></img>,
+          );
+        else
+          setMedia(
+            <video
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${res[0].media_name}`}
+              controls
+              autoPlay
+              muted
+            ></video>,
+          );
+      }
     }
     mediaFunc();
   }, []);
