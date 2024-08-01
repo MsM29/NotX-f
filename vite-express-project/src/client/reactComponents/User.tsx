@@ -16,6 +16,7 @@ function User({ login }: { login: string }) {
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [privateStatus, setPrivateStatus] = useState<boolean>();
 
   async function subscribe(login: string) {
     const res = await postSubscribe(login);
@@ -36,6 +37,7 @@ function User({ login }: { login: string }) {
     async function user() {
       const res = await userPage(login);
       setUserData(res[0]);
+      setPrivateStatus(res[0].private);
     }
     async function pubFunc() {
       const res = await getUserPublication(login);
@@ -102,15 +104,21 @@ function User({ login }: { login: string }) {
           {userData.bio}
         </p>
       </div>
-      <div id="myPageFeed" className="max-w-7xl">
-        {publication.map((element: PubData) => (
-          <UserPublication
-            key={element.id_post}
-            publication={Object.assign({}, userData, element)}
-          />
-        ))}
-      </div>
-      <Pagination page={page} maxPage={maxPage} editPage={editPage} />
+      {(privateStatus && isSubscribe) || !privateStatus ? (
+        <>
+          <div id="myPageFeed" className="max-w-7xl">
+            {publication.map((element: PubData) => (
+              <UserPublication
+                key={element.id_post}
+                publication={Object.assign({}, userData, element)}
+              />
+            ))}
+          </div>
+          <Pagination page={page} maxPage={maxPage} editPage={editPage} />
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

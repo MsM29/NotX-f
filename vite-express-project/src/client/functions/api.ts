@@ -4,7 +4,6 @@ export async function getHome() {
   const res = await fetch("/home");
   if (res.status === 200) {
     const resServer = await res.json();
-    console.log(resServer);
     return resServer;
   } else {
     alert("Ошибка при выполнении запроса!");
@@ -135,13 +134,9 @@ export async function deleteP(id_post: number) {
 }
 
 export async function postEditProfile(
-  formData: {
-    name: string;
-    bio: string;
-  },
+  formData: UserData,
   photoProfile: File[],
   wallpaper: File[],
-  context: UserData[],
 ) {
   const data = JSON.stringify(formData);
   const res = await fetch("/editProfile", {
@@ -152,17 +147,17 @@ export async function postEditProfile(
     body: data,
   });
   if (res.status === 200) {
-    if (photoProfile.length !== 0) editPhotoProfile(photoProfile, context);
-    if (wallpaper.length !== 0) editWallpaperProfile(wallpaper, context);
+    if (photoProfile.length !== 0) editPhotoProfile(photoProfile, formData);
+    if (wallpaper.length !== 0) editWallpaperProfile(wallpaper, formData);
   } else alert("Ошибка публикации");
 }
 
 async function editPhotoProfile(
   photoProfile: File[],
-  context: { login: string }[],
+  context: { login: string },
 ) {
   try {
-    const filenameProfile = context[0].login + ".png";
+    const filenameProfile = context.login + ".png";
     const filedata = new FormData();
     filedata.append("filedata", new Blob(photoProfile), filenameProfile);
     const res = await fetch("/editPhotoProfile", {
@@ -181,10 +176,10 @@ async function editPhotoProfile(
 
 async function editWallpaperProfile(
   wallpaper: File[],
-  context: { login: string }[],
+  context: { login: string },
 ) {
   try {
-    const filenameProfile = context[0].login + ".png";
+    const filenameProfile = context.login + ".png";
     const filedata = new FormData();
     filedata.append("filedata", new Blob(wallpaper), filenameProfile);
     const res = await fetch("/editWallpaperProfile", {
@@ -267,4 +262,16 @@ export async function getMyData() {
   } else {
     alert("Ошибка при выполнении запроса!");
   }
+}
+
+export async function privacy(privacy: boolean) {
+  const data = JSON.stringify({privacy})
+  const res = await fetch(`/setPrivacy`, {
+    method: "POST",
+     headers: {
+      "Content-Type": "application/json",
+    },
+    body: data,
+  });
+  return res;
 }
