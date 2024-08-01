@@ -4,7 +4,10 @@ export async function getHome() {
   const res = await fetch("/home");
   if (res.status === 200) {
     const resServer = await res.json();
+    console.log(resServer);
     return resServer;
+  } else {
+    alert("Ошибка при выполнении запроса!");
   }
 }
 
@@ -35,7 +38,7 @@ export async function getPublication(page = 1) {
 export function postPublication(
   data: string,
   file: File[],
-  context: { login: string }[],
+  context: { login: string },
 ) {
   fetch("/makePublication", {
     method: "POST",
@@ -58,7 +61,7 @@ export function postPublication(
 
 function uploadMedia(
   file: File[],
-  context: { login: string }[],
+  context: { login: string },
   pubInsert: { insertId: string },
 ) {
   if (file[0]) {
@@ -68,7 +71,7 @@ function uploadMedia(
     const filename =
       file[0].type.split("/")[0] +
       "_" +
-      context[0].login +
+      context.login +
       "_" +
       pubInsert.insertId +
       "_" +
@@ -84,10 +87,9 @@ function uploadMedia(
       },
       body: filedata,
     }).then((res) => {
-      if (res.status === 200) alert("Опубликовано!");
-      else alert("Ошибка публикации");
+      if (res.status !== 200) alert("Ошибка публикации");
     });
-  } else alert("Опубликовано!");
+  }
 }
 
 export async function getMedia(data: string) {
@@ -209,8 +211,13 @@ export async function userPage(login: unknown) {
   }
 }
 
-export async function getUserPublication(login: string | null | undefined, page = 1) {
-  const res = await fetch(`/getUserPublication?login=${login}&page=${page - 1}`);
+export async function getUserPublication(
+  login: string | null | undefined,
+  page = 1,
+) {
+  const res = await fetch(
+    `/getUserPublication?login=${login}&page=${page - 1}`,
+  );
   if (res.status === 200) {
     const resServer = await res.json();
     return resServer;
@@ -234,30 +241,30 @@ export async function checkSubscription(login: string) {
   return res;
 }
 
-export async function getSubscriptions(page=1) {
-  const res = (await fetch(`/subscriptions?page=${page - 1}`));
-  if (res.status === 200) {
-    const data = await res.json();
-    return data;
-  }
-  return res;
+export async function getSubscriptions(page = 1) {
+  const res = await fetch(`/subscriptions?page=${page - 1}`);
+  const data = await res.json();
+  return data;
 }
 
-export async function getSubscribers(page=1) {
-  const res = (await fetch(`/subscribers?page=${page - 1}`))
-  if (res.status === 200) {
-    const data = await res.json();
-    return data;
-  }
-  return res;
+export async function getSubscribers(page = 1) {
+  const res = await fetch(`/subscribers?page=${page - 1}`);
+  const data = await res.json();
+  return data;
 }
-
 
 export async function getFeed(page = 1) {
   const res = await fetch(`/feed?page=${page - 1}`);
+  const pubData = await res.json();
+  return pubData;
+}
+
+export async function getMyData() {
+  const res = await fetch(`/getMyData`);
   if (res.status === 200) {
-    const pubData = await res.json();
-    return pubData;
+    const data = await res.json();
+    return data;
+  } else {
+    alert("Ошибка при выполнении запроса!");
   }
-  return res;
 }

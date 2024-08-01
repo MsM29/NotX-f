@@ -1,32 +1,39 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Publication from "./Publication";
-import { MyContext } from "./App";
-import { getPublication, postPublication } from "../functions/api";
+import { getPublication, postPublication, getHome } from "../functions/api";
 import { PubData } from "../functions/interfaces";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 
 function MyPage() {
-  const context = useContext(MyContext);
+  const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
   const [text, setText] = useState("");
   const [publication, setPublication] = useState<PubData[]>([]);
   const [file, setFile] = useState<File[]>([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
+    setUpdate(false);
+    async function home() {
+      const res = await getHome();
+      setUserData(res[0]);
+    }
     async function pubFunc() {
       const res = await getPublication();
       setPublication(res.rows);
       setMaxPage(res.maxPage);
     }
     pubFunc();
-  }, [text]);
+    home();
+  }, [update]);
 
-  function makePublication(event: React.FormEvent<HTMLFormElement>) {
+  async function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
-    postPublication(data, file, context);
+    postPublication(data, file, userData);
+    updatePage();
     setText("");
   }
 
@@ -35,6 +42,10 @@ function MyPage() {
     setPage(value);
     setPublication(res.rows);
     setMaxPage(res.maxPage);
+  }
+
+  function updatePage() {
+    setUpdate(true);
   }
 
   return (
@@ -47,14 +58,14 @@ function MyPage() {
           id="wallpaperProfile"
           className={`w-full object-cover mb-28 h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
           style={{
-            backgroundImage: `url("../../../mediaProfile/wallpaper/${context[0].login}.png")`,
+            backgroundImage: `url("../../../mediaProfile/wallpaper/${userData.login}.png")`,
           }}
         >
           <img
             id="photoProfile"
-            className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full"
+            className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
             src={
-              `../../../mediaProfile/profilePhoto/${context[0].login}` + ".png"
+              `../../../mediaProfile/profilePhoto/${userData.login}` + ".png"
             }
           ></img>
           <Link
@@ -66,16 +77,16 @@ function MyPage() {
           </Link>
         </div>
         <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
-          {context[0].name}
+          {userData.name}
         </h1>
         <h2 id="loginProfile" className="text-2xl pl-5 pr-5 mb-2">
-          @{context[0].login}
+          @{userData.login}
         </h2>
         <p
           id="bioProfile"
           className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
         >
-          {context[0].bio}
+          {userData.bio}
         </p>
       </div>
       <form
@@ -112,12 +123,13 @@ function MyPage() {
         {publication.map((element: PubData) => (
           <Publication
             key={element.id_post}
-            userData={context[0]}
+            userData={userData}
             publication={element}
+            updatePage={updatePage}
           />
         ))}
       </div>
-      <Pagination page={page} maxPage={maxPage} editPage={editPage}/>
+      <Pagination page={page} maxPage={maxPage} editPage={editPage} />
     </div>
   );
 }

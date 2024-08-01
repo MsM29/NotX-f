@@ -68,7 +68,7 @@ function User({ login }: { login: string }) {
         >
           <img
             id="photoProfile"
-            className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full"
+            className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
             src={
               `../../../mediaProfile/profilePhoto/${userData.login}` + ".png"
             }

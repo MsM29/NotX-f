@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMedia } from "../functions/api";
 import { FeedData } from "../functions/interfaces";
 
-function UserPublication({
-  publication
-}: {
-  publication: FeedData;
-}) {
+function UserPublication({ publication }: { publication: FeedData }) {
   const [media, setMedia] = useState(<></>);
   const date = new Date(publication.date).toLocaleString("ru");
   useEffect(() => {
@@ -39,7 +35,7 @@ function UserPublication({
   return (
     <div className="flex flex-row p-2">
       <img
-        className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd]"
+        className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd] bg-blue-50"
         src={`../../../mediaProfile/profilePhoto/${publication.login}.png`}
       ></img>
       <div className="w-full ml-2">

@@ -32,7 +32,7 @@ function Feed() {
           <UserPublication key={element.id_post} publication={element} />
         ))}
       </div>
-      <Pagination page={page} maxPage={maxPage} editPage={editPage}/>
+      <Pagination page={page} maxPage={maxPage} editPage={editPage} />
     </>
   );
 }

@@ -5,9 +5,11 @@ import { PubData, UserData } from "../functions/interfaces";
 function Publication({
   userData,
   publication,
+  updatePage,
 }: {
   userData: UserData;
   publication: PubData;
+  updatePage: () => void;
 }) {
   const [media, setMedia] = useState(<></>);
   const date = new Date(publication.date).toLocaleString("ru");
@@ -42,12 +44,13 @@ function Publication({
   async function deletePublication() {
     const res = await deleteP(publication.id_post);
     if (res.status !== 200) alert("Ошибка при удалении!");
+    else updatePage();
   }
 
   return (
     <div className="flex flex-row p-2">
       <img
-        className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd]"
+        className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd] bg-blue-50"
         src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
       ></img>
       <div className="w-full ml-2">
