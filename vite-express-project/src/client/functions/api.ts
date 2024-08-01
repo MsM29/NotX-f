@@ -265,13 +265,27 @@ export async function getMyData() {
 }
 
 export async function privacy(privacy: boolean) {
-  const data = JSON.stringify({privacy})
+  const data = JSON.stringify({ privacy });
   const res = await fetch(`/setPrivacy`, {
     method: "POST",
-     headers: {
+    headers: {
       "Content-Type": "application/json",
     },
     body: data,
   });
   return res;
+}
+
+export async function postEditPassword(data: string) {
+  const res = await fetch("/editPassword", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: data,
+  });
+  if (res.status !== 200) {
+    const commits = await res.json();
+    alert(commits.message);
+  } else alert("Пароль изменен!");
 }
