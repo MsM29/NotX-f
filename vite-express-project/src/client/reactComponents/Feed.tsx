@@ -12,8 +12,8 @@ function Feed() {
   useEffect(() => {
     async function feedFunc() {
       const res = await getFeed();
-      setFeed(res.rows);
-      setMaxPage(res.maxPage);
+      setFeed(res);
+      setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     feedFunc();
   }, []);
@@ -21,8 +21,8 @@ function Feed() {
   async function editPage(value: number) {
     const res = await getFeed(value);
     setPage(value);
-    setFeed(res.rows);
-    setMaxPage(res.maxPage);
+    setFeed(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   return (

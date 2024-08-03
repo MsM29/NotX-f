@@ -11,8 +11,8 @@ function Subscribers() {
   useEffect(() => {
     async function subscribers() {
       const res = await getSubscribers();
-      setSearchData(res.rows);
-      setMaxPage(res.maxPage);
+      setSearchData(res);
+      setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     subscribers();
   }, []);
@@ -20,8 +20,8 @@ function Subscribers() {
   async function editPage(value: number) {
     const res = await getSubscribers(value);
     setPage(value);
-    setSearchData(res.rows);
-    setMaxPage(res.maxPage);
+    setSearchData(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   return (

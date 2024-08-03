@@ -22,8 +22,8 @@ function MyPage() {
     }
     async function pubFunc() {
       const res = await getPublication();
-      setPublication(res.rows);
-      setMaxPage(res.maxPage);
+      setPublication(res);
+      setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     pubFunc();
     home();
@@ -33,6 +33,7 @@ function MyPage() {
     event.preventDefault();
     const data = JSON.stringify({ text });
     postPublication(data, file, userData);
+    console.log("aaaaa");
     updatePage();
     setText("");
   }
@@ -40,8 +41,8 @@ function MyPage() {
   async function editPage(value: number) {
     const res = await getPublication(value);
     setPage(value);
-    setPublication(res.rows);
-    setMaxPage(res.maxPage);
+    setPublication(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   function updatePage() {
