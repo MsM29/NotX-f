@@ -41,8 +41,8 @@ function User({ login }: { login: string }) {
     }
     async function pubFunc() {
       const res = await getUserPublication(login);
-      setPublication(res.rows);
-      setMaxPage(res.maxPage);
+      setPublication(res);
+      setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     user();
     pubFunc();
@@ -51,8 +51,8 @@ function User({ login }: { login: string }) {
   async function editPage(value: number) {
     const res = await getUserPublication(login, value);
     setPage(value);
-    setPublication(res.rows);
-    setMaxPage(res.maxPage);
+    setPublication(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMedia, deleteP } from "../functions/api";
+import { getMedia, deleteP, sendLike } from "../functions/api";
 import { FeedData } from "../functions/interfaces";
 import { useLocation } from "react-router-dom";
 
@@ -11,6 +11,7 @@ function UserPublication({
   updatePage: () => void;
 }) {
   const [media, setMedia] = useState(<></>);
+  const [likes, setLikes] = useState(publication.likes_count);
   const date = new Date(publication.date).toLocaleString("ru");
   const location = useLocation();
 
@@ -47,6 +48,15 @@ function UserPublication({
     else updatePage();
   }
 
+  async function like() {
+    const res = await sendLike(publication.id_post);
+    if (res.message === "put") {
+      setLikes(likes + 1);
+    } else if (res.message === "remove") {
+      setLikes(likes - 1);
+    }
+  }
+
   return (
     <div className="flex flex-row p-2">
       <img
@@ -67,8 +77,11 @@ function UserPublication({
           {media}
         </div>
         <div className="flex m-2">
-          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8  bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
-            &#10084;
+          <button
+            onClick={like}
+            className="max-w-max h-10 object-cover rounded-full mr-8 pl-1 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+          >
+            {likes}&#10084;
           </button>
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
             &#9993;

@@ -58,12 +58,6 @@ function Main() {
             <li className="m-4 list-none">
               <Link to="/feed">Лента</Link>
             </li>
-            <li className="m-4 list-none">
-              <Link to="/likes">Понравилось</Link>
-            </li>
-            <li className="m-4 list-none">
-              <Link to="/comments">Комментарии</Link>
-            </li>
           </ul>
         </nav>
       </header>

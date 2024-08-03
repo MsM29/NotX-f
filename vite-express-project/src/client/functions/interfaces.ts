@@ -8,6 +8,7 @@ export interface PubData {
   id_post: number;
   date: string;
   text: string;
+  likes_count: number;
 }
 
 export interface MediaData {
@@ -22,4 +23,5 @@ export interface FeedData {
   id_post: number;
   date: string;
   text: string;
+  likes_count: number;
 }

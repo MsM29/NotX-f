@@ -289,3 +289,9 @@ export async function postEditPassword(data: string) {
     alert(commits.message);
   } else alert("Пароль изменен!");
 }
+
+export async function sendLike(id_post: number) {
+  const res = await fetch(`like?post=${id_post}`);
+  const data = res.json();
+  return data;
+}
