@@ -7,7 +7,7 @@ import {
   checkSubscription,
 } from "../functions/api";
 import { PubData } from "../functions/interfaces";
-import UserPublication from "./UserPublication";
+import Publication from "./Publication";
 import Pagination from "./Pagination";
 
 function User({ login }: { login: string }) {
@@ -108,9 +108,10 @@ function User({ login }: { login: string }) {
         <>
           <div id="myPageFeed" className="max-w-7xl">
             {publication.map((element: PubData) => (
-              <UserPublication
+              <Publication
                 key={element.id_post}
                 publication={Object.assign({}, userData, element)}
+                updatePage={()=>{}}
               />
             ))}
           </div>

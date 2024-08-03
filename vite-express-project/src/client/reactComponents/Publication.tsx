@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { getMedia, deleteP } from "../functions/api";
-import { PubData, UserData } from "../functions/interfaces";
+import { FeedData } from "../functions/interfaces";
+import { useLocation } from "react-router-dom";
 
-function Publication({
-  userData,
+function UserPublication({
   publication,
   updatePage,
 }: {
-  userData: UserData;
-  publication: PubData;
+  publication: FeedData;
   updatePage: () => void;
 }) {
   const [media, setMedia] = useState(<></>);
   const date = new Date(publication.date).toLocaleString("ru");
+  const location = useLocation();
 
   useEffect(() => {
     async function mediaFunc() {
@@ -51,12 +51,12 @@ function Publication({
     <div className="flex flex-row p-2">
       <img
         className="w-24 h-24 object-cover rounded-full border-4 border-[#b6c5cd] bg-blue-50"
-        src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
+        src={`../../../mediaProfile/profilePhoto/${publication.login}.png`}
       ></img>
       <div className="w-full ml-2">
         <div className="flex flex-row ml-2 h-max items-center">
-          <p className="text-2xl"> {userData.name}</p>
-          <p className="ml-2 text-1xl"> @{userData.login}</p>
+          <p className="text-2xl"> {publication.name}</p>
+          <p className="ml-2 text-1xl"> @{publication.login}</p>
           <time className="ml-2">{date}</time>
         </div>
         <p className="m-2">{publication.text}</p>
@@ -73,16 +73,18 @@ function Publication({
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
             &#9993;
           </button>
-          <button
-            onClick={deletePublication}
-            className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
-          >
-            &#10006;
-          </button>
+          {location.pathname === "/mypage" && (
+            <button
+              onClick={deletePublication}
+              className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+            >
+              &#10006;
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default Publication;
+export default UserPublication;

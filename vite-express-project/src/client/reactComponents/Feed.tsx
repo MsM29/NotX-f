@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getFeed } from "../functions/api";
 import { FeedData } from "../functions/interfaces";
-import UserPublication from "./UserPublication";
+import Publication from "./Publication";
 import Pagination from "./Pagination";
 
 function Feed() {
@@ -29,7 +29,11 @@ function Feed() {
     <>
       <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
         {feed.map((element: FeedData) => (
-          <UserPublication key={element.id_post} publication={element} />
+          <Publication
+            key={element.id_post}
+            publication={element}
+            updatePage={() => {}}
+          />
         ))}
       </div>
       <Pagination page={page} maxPage={maxPage} editPage={editPage} />

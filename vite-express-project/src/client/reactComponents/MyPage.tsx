@@ -123,8 +123,7 @@ function MyPage() {
         {publication.map((element: PubData) => (
           <Publication
             key={element.id_post}
-            userData={userData}
-            publication={element}
+            publication={Object.assign({}, userData, element)}
             updatePage={updatePage}
           />
         ))}
