@@ -32,8 +32,7 @@ function MyPage() {
   async function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
-    postPublication(data, file, userData);
-    console.log("aaaaa");
+    postPublication(data, file, userData);;
     updatePage();
     setText("");
   }

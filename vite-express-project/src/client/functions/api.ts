@@ -91,18 +91,6 @@ function uploadMedia(
   }
 }
 
-export async function getMedia(data: string) {
-  const res = await fetch("/getMedia", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data,
-  });
-  const pubData = await res.json();
-  return pubData;
-}
-
 export async function postRegistration(data: string) {
   await fetch("/registration", {
     method: "POST",
@@ -298,6 +286,12 @@ export async function sendLike(id_post: number) {
 
 export async function getLikeUsers(post: number, page = 1) {
   const res = await fetch(`/likes?post=${post}&page=${page - 1}`);
+  const data = await res.json();
+  return data;
+}
+
+export async function getPost(post: number) {
+  const res = await fetch(`/post?post=${post}`);
   const data = await res.json();
   return data;
 }

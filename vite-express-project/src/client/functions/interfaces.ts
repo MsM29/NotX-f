@@ -9,6 +9,8 @@ export interface PubData {
   date: string;
   text: string;
   likes_count: number;
+  media: string;
+  mediaType: string;
 }
 
 export interface MediaData {
@@ -17,6 +19,8 @@ export interface MediaData {
 }
 
 export interface FeedData {
+  media: string;
+  mediaType: string;
   name: string;
   login: string;
   bio: string;

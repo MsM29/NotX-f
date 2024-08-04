@@ -1,49 +1,21 @@
-import React, { useEffect, useState, useRef } from "react";
-import { getMedia, deleteP, sendLike } from "../functions/api";
+import React, { useState, useRef } from "react";
+import { deleteP, sendLike } from "../functions/api";
 import { FeedData } from "../functions/interfaces";
 import { useLocation, Link } from "react-router-dom";
 
-function UserPublication({
+function Publication({
   publication,
   updatePage,
 }: {
   publication: FeedData;
   updatePage: () => void;
 }) {
-  const [media, setMedia] = useState(<></>);
   const [likes, setLikes] = useState(publication.likes_count);
   const date = new Date(publication.date).toLocaleString("ru");
   const location = useLocation();
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    async function mediaFunc() {
-      const data = JSON.stringify({ id_post: publication.id_post });
-      const res = await getMedia(data);
-      if (res.length !== 0) {
-        if (res[0].format === "image")
-          setMedia(
-            <img
-              className="w-full object-cover rounded-xl"
-              src={`../../../mediaPublication/${res[0].media_name}`}
-            ></img>,
-          );
-        else
-          setMedia(
-            <video
-              className="w-full object-cover rounded-xl"
-              src={`../../../mediaPublication/${res[0].media_name}`}
-              controls
-              autoPlay
-              muted
-            ></video>,
-          );
-      }
-    }
-    mediaFunc();
-  }, []);
 
   async function deletePublication() {
     const res = await deleteP(publication.id_post);
@@ -90,7 +62,21 @@ function UserPublication({
           className="flex flex-row p-1 m-2"
           id={`mediaPost${publication.id_post}`}
         >
-          {media}
+          {publication.mediaType === "image" && (
+            <img
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${publication.media}`}
+            ></img>
+          )}
+          {publication.mediaType === "video" && (
+            <video
+              className="w-full object-cover rounded-xl"
+              src={`../../../mediaPublication/${publication.media}`}
+              controls
+              autoPlay
+              muted
+            ></video>
+          )}
         </div>
         <div className="flex m-2">
           <button
@@ -103,7 +89,7 @@ function UserPublication({
             {likes}&#10084;
           </button>
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
-            &#9993;
+            <Link to={`/comments?post=${publication.id_post}`}>&#9993;</Link>
           </button>
           {location.pathname === "/mypage" && (
             <button
@@ -126,7 +112,10 @@ function UserPublication({
               onMouseLeave={handleMouseLeave}
               className="bg-gray-800 text-white text-sm rounded shadow-lg p-2"
             >
-              <Link to={`/likes?post=${publication.id_post}`} className="text-blue-400 underline">
+              <Link
+                to={`/likes?post=${publication.id_post}`}
+                className="text-blue-400 underline"
+              >
                 Список
               </Link>
             </div>
@@ -137,4 +126,4 @@ function UserPublication({
   );
 }
 
-export default UserPublication;
+export default Publication;
