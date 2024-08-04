@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getMedia, deleteP, sendLike } from "../functions/api";
 import { FeedData } from "../functions/interfaces";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function UserPublication({
   publication,
@@ -14,6 +14,9 @@ function UserPublication({
   const [likes, setLikes] = useState(publication.likes_count);
   const date = new Date(publication.date).toLocaleString("ru");
   const location = useLocation();
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     async function mediaFunc() {
@@ -57,6 +60,19 @@ function UserPublication({
     }
   }
 
+  const handleMouseEnter = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setTooltipVisible(true);
+      setTooltipPosition({
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX + rect.width / 2,
+      });
+    }
+  };
+
+  const handleMouseLeave = () => setTooltipVisible(false);
+
   return (
     <div className="flex flex-row p-2">
       <img
@@ -78,6 +94,9 @@ function UserPublication({
         </div>
         <div className="flex m-2">
           <button
+            ref={buttonRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             onClick={like}
             className="max-w-max h-10 object-cover rounded-full mr-8 pl-1 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
@@ -93,6 +112,24 @@ function UserPublication({
             >
               &#10006;
             </button>
+          )}
+
+          {isTooltipVisible && (
+            <div
+              style={{
+                position: "absolute",
+                top: tooltipPosition.top,
+                left: tooltipPosition.left,
+                transform: "translate(-50%, -100%)",
+              }}
+              onMouseEnter={() => setTooltipVisible(true)}
+              onMouseLeave={handleMouseLeave}
+              className="bg-gray-800 text-white text-sm rounded shadow-lg p-2"
+            >
+              <Link to={`/likes?post=${publication.id_post}`} className="text-blue-400 underline">
+                Список
+              </Link>
+            </div>
           )}
         </div>
       </div>

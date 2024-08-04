@@ -295,3 +295,9 @@ export async function sendLike(id_post: number) {
   const data = res.json();
   return data;
 }
+
+export async function getLikeUsers(post: number, page = 1) {
+  const res = await fetch(`/likes?post=${post}&page=${page - 1}`);
+  const data = await res.json();
+  return data;
+}
