@@ -26,39 +26,42 @@ export async function getLogout() {
   return res;
 }
 
-export async function getPublication(page = 1) {
-  const res = await fetch(`/getPublication?page=${page - 1}`);
+export async function getPublication(page: number) {
+  const res = await fetch(`/getPublication?page=${page}`);
   if (res.status === 200) {
     const pubData = await res.json();
     return pubData;
   }
 }
 
-export function postPublication(
+export async function postPublication(
   data: string,
   file: File[],
   context: { login: string },
 ) {
-  fetch("/makePublication", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data,
-  })
-    .then(async (res) => {
-      if (res.status === 200) {
-        const pubInsert = await res.json();
-        uploadMedia(file, context, pubInsert);
-      } else alert("Ошибка публикации");
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("Ошибка публикации");
+  try {
+    const res = await fetch("/makePublication", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
     });
+
+    if (res.status === 200) {
+      const pubInsert = await res.json();
+      await uploadMedia(file, context, pubInsert);
+      return res;
+    } else {
+      throw new Error("Ошибка публикации");
+    }
+  } catch (error) {
+    console.error("Ошибка при публикации:", error);
+    throw error;
+  }
 }
 
-function uploadMedia(
+async function uploadMedia(
   file: File[],
   context: { login: string },
   pubInsert: { insertId: string },
@@ -78,16 +81,23 @@ function uploadMedia(
       type;
     const filedata = new FormData();
     filedata.append("filedata", new Blob(file), filename);
-    fetch("/addMedia", {
-      method: "POST",
-      headers: {
-        name: filename,
-        pub_id: pubInsert.insertId,
-      },
-      body: filedata,
-    }).then((res) => {
-      if (res.status !== 200) alert("Ошибка публикации");
-    });
+    try {
+      const res = await fetch("/addMedia", {
+        method: "POST",
+        headers: {
+          name: filename,
+          pub_id: pubInsert.insertId,
+        },
+        body: filedata,
+      });
+
+      if (res.status !== 200) {
+        throw new Error("Ошибка публикации");
+      }
+    } catch (error) {
+      console.error("Ошибка при загрузке медиа:", error);
+      throw error;
+    }
   }
 }
 
@@ -106,8 +116,8 @@ export async function postRegistration(data: string) {
   });
 }
 
-export async function searchUser(searchText: string, page = 1) {
-  const res = await fetch(`/search?user=${searchText}&page=${page - 1}`);
+export async function searchUser(searchText: string, page: number) {
+  const res = await fetch(`/search?user=${searchText}&page=${page}`);
   if (res.status === 200) {
     const resServer = await res.json();
     return resServer;
@@ -121,11 +131,7 @@ export async function deleteP(id_post: number) {
   return res;
 }
 
-export async function postEditProfile(
-  formData: UserData,
-  photoProfile: File[],
-  wallpaper: File[],
-) {
+export async function postEditProfile(formData: UserData) {
   const data = JSON.stringify(formData);
   const res = await fetch("/editProfile", {
     method: "POST",
@@ -134,18 +140,12 @@ export async function postEditProfile(
     },
     body: data,
   });
-  if (res.status === 200) {
-    if (photoProfile.length !== 0) editPhotoProfile(photoProfile, formData);
-    if (wallpaper.length !== 0) editWallpaperProfile(wallpaper, formData);
-  } else alert("Ошибка публикации");
+  return res;
 }
 
-async function editPhotoProfile(
-  photoProfile: File[],
-  context: { login: string },
-) {
+export async function editPhotoProfile(photoProfile: File[], login: string) {
   try {
-    const filenameProfile = context.login + ".png";
+    const filenameProfile = login + ".png";
     const filedata = new FormData();
     filedata.append("filedata", new Blob(photoProfile), filenameProfile);
     const res = await fetch("/editPhotoProfile", {
@@ -162,12 +162,9 @@ async function editPhotoProfile(
   }
 }
 
-async function editWallpaperProfile(
-  wallpaper: File[],
-  context: { login: string },
-) {
+export async function editWallpaperProfile(wallpaper: File[], login: string) {
   try {
-    const filenameProfile = context.login + ".png";
+    const filenameProfile = login + ".png";
     const filedata = new FormData();
     filedata.append("filedata", new Blob(wallpaper), filenameProfile);
     const res = await fetch("/editWallpaperProfile", {
@@ -196,11 +193,9 @@ export async function userPage(login: unknown) {
 
 export async function getUserPublication(
   login: string | null | undefined,
-  page = 1,
+  page: number,
 ) {
-  const res = await fetch(
-    `/getUserPublication?login=${login}&page=${page - 1}`,
-  );
+  const res = await fetch(`/getUserPublication?login=${login}&page=${page}`);
   if (res.status === 200) {
     const resServer = await res.json();
     return resServer;
@@ -224,20 +219,20 @@ export async function checkSubscription(login: string) {
   return res;
 }
 
-export async function getSubscriptions(page = 1) {
-  const res = await fetch(`/subscriptions?page=${page - 1}`);
+export async function getSubscriptions(page: number) {
+  const res = await fetch(`/subscriptions?page=${page}`);
   const data = await res.json();
   return data;
 }
 
-export async function getSubscribers(page = 1) {
-  const res = await fetch(`/subscribers?page=${page - 1}`);
+export async function getSubscribers(page: number) {
+  const res = await fetch(`/subscribers?page=${page}`);
   const data = await res.json();
   return data;
 }
 
-export async function getFeed(page = 1) {
-  const res = await fetch(`/feed?page=${page - 1}`);
+export async function getFeed(page: number) {
+  const res = await fetch(`/feed?page=${page}`);
   const pubData = await res.json();
   return pubData;
 }
@@ -284,8 +279,8 @@ export async function sendLike(id_post: number) {
   return data;
 }
 
-export async function getLikeUsers(post: number, page = 1) {
-  const res = await fetch(`/likes?post=${post}&page=${page - 1}`);
+export async function getLikeUsers(post: number, page: number) {
+  const res = await fetch(`/likes?post=${post}&page=${page}`);
   const data = await res.json();
   return data;
 }

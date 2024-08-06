@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getSubscriptions } from "../functions/api";
-import SearchList from "./SearchList";
-import Pagination from "./Pagination";
+import { getSubscriptions } from "../../shared/api/api";
+import SearchList from "../../shared/components/SearchList";
+import Pagination from "../../shared/components/Pagination";
 
 function Subscriptions() {
   const [searchData, setSearchData] = useState([]);
@@ -9,16 +9,17 @@ function Subscriptions() {
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function subscriptions() {
-      const res = await getSubscriptions();
+    async function fetchSubscriptions() {
+      const res = await getSubscriptions(0);
       setSearchData(res);
       setMaxPage(Math.ceil(res[0].total_count / 10));
     }
-    subscriptions();
+    fetchSubscriptions();
   }, []);
 
   async function editPage(value: number) {
-    const res = await getSubscriptions(value);
+    const page = value - 1;
+    const res = await getSubscriptions(page);
     setPage(value);
     setSearchData(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));

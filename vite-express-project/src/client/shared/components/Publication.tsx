@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { deleteP, sendLike } from "../functions/api";
-import { FeedData } from "../functions/interfaces";
+import { deleteP, sendLike } from "../api/api";
+import { FeedData } from "../interface/interfaces";
 import { useLocation, Link } from "react-router-dom";
 
 function Publication({

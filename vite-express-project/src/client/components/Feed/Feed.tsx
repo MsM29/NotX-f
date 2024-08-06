@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getFeed } from "../functions/api";
-import { FeedData } from "../functions/interfaces";
-import Publication from "./Publication";
-import Pagination from "./Pagination";
+import { getFeed } from "../../shared/api/api";
+import { FeedData } from "../../shared/interface/interfaces";
+import Publication from "../../shared/components/Publication";
+import Pagination from "../../shared/components/Pagination";
 
 function Feed() {
   const [feed, setFeed] = useState<FeedData[]>([]);
@@ -10,16 +10,17 @@ function Feed() {
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function feedFunc() {
-      const res = await getFeed();
+    async function fetchFeed() {
+      const res = await getFeed(0);
       setFeed(res);
       setMaxPage(Math.ceil(res[0].total_count / 10));
     }
-    feedFunc();
+    fetchFeed();
   }, []);
 
   async function editPage(value: number) {
-    const res = await getFeed(value);
+    const page = value - 1;
+    const res = await getFeed(page);
     setPage(value);
     setFeed(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));
@@ -32,7 +33,9 @@ function Feed() {
           <Publication
             key={element.id_post}
             publication={element}
-            updatePage={() => {}}
+            updatePage={function (): void {
+              throw new Error("Function not implemented.");
+            }}
           />
         ))}
       </div>

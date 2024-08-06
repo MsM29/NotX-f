@@ -1,19 +1,43 @@
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { getLogout } from "../functions/api";
+import React, { useEffect, useState } from "react";
+import LogAndReg from "./LogAndReg/LogAndReg";
+import {
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
+import Search from "./Search/Search";
+import MyPage from "./MyPage/MyPage";
+import EditMyPage from "./EditMyPage/EditMyPage";
+import User from "./User/User";
+import Subscriptions from "./Subscriptions/Subscriptions";
+import Subscribers from "./Subscribers/Subscribers";
+import Feed from "./Feed/Feed";
+import Like from "./Likes/Like";
+import { getLogout } from "../shared/api/api";
 
-function Main() {
+function App() {
+  const navigator = useNavigate();
+  const location = useLocation();
+  const user = new URLSearchParams(location.search).get("user")!;
+  const post = parseInt(new URLSearchParams(location.search).get("post")!);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   function toggleSidebar() {
     setIsSidebarVisible(!isSidebarVisible);
   }
-  const navigator = useNavigate();
 
   async function logout() {
     const res = await getLogout();
     if (res.status === 200) navigator("/logandreg");
   }
+  useEffect(() => {
+    async function fetchData() {
+      navigator("/mypage");
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -61,8 +85,19 @@ function Main() {
           </ul>
         </nav>
       </header>
+      <Routes>
+        <Route path="/mypage" element={<MyPage />}></Route>
+        <Route path="/searching" element={<Search />}></Route>
+        <Route path="/logandreg" element={<LogAndReg />}></Route>
+        <Route path="/mypage/edit" element={<EditMyPage />}></Route>
+        <Route path="/user" element={<User login={user} />}></Route>
+        <Route path="/subscriptions" element={<Subscriptions />}></Route>
+        <Route path="/subscribers" element={<Subscribers />}></Route>
+        <Route path="/feed" element={<Feed />}></Route>
+        <Route path="/likes" element={<Like post={post} />}></Route>
+      </Routes>
     </>
   );
 }
 
-export default Main;
+export default App;

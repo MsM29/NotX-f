@@ -5,10 +5,10 @@ import {
   getUserPublication,
   postUnsubscribe,
   checkSubscription,
-} from "../functions/api";
-import { PubData } from "../functions/interfaces";
-import Publication from "./Publication";
-import Pagination from "./Pagination";
+} from "../../shared/api/api";
+import { PubData } from "../../shared/interface/interfaces";
+import Publication from "../../shared/components/Publication";
+import Pagination from "../../shared/components/Pagination";
 
 function User({ login }: { login: string }) {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
@@ -28,31 +28,43 @@ function User({ login }: { login: string }) {
     if (res.status === 200) setIsSubscribe(false);
   }
 
+  async function fetchSubscriptions() {
+    const res = await checkSubscription(login);
+    if (res.status === 200) setIsSubscribe(true);
+  }
+
+  async function fetchUser() {
+    const res = await userPage(login);
+    setUserData(res[0]);
+    setPrivateStatus(res[0].private);
+  }
+
+  async function fetchPublication() {
+    const res = await getUserPublication(login, 0);
+    setPublication(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
+  }
+
   useEffect(() => {
-    async function fetchSubscriptions() {
-      const res = await checkSubscription(login);
-      if (res.status === 200) setIsSubscribe(true);
-    }
-    fetchSubscriptions();
-    async function user() {
-      const res = await userPage(login);
-      setUserData(res[0]);
-      setPrivateStatus(res[0].private);
-    }
-    async function pubFunc() {
-      const res = await getUserPublication(login);
-      setPublication(res);
-      setMaxPage(Math.ceil(res[0].total_count / 10));
-    }
-    user();
-    pubFunc();
-  }, []);
+    const fetchData = async () => {
+      await fetchSubscriptions();
+      await fetchUser();
+      await fetchPublication();
+    };
+
+    fetchData();
+  }, [login]);
 
   async function editPage(value: number) {
-    const res = await getUserPublication(login, value);
+    const page = value - 1;
+    const res = await getUserPublication(login, page);
     setPage(value);
     setPublication(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));
+  }
+
+  function dataCollection(element: PubData) {
+    return Object.assign({}, userData, element);
   }
 
   return (
@@ -71,9 +83,8 @@ function User({ login }: { login: string }) {
           <img
             id="photoProfile"
             className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
-            src={
-              `../../../mediaProfile/profilePhoto/${userData.login}` + ".png"
-            }
+            src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
+            alt="Фото профиля"
           ></img>
           {isSubscribe ? (
             <button
@@ -110,8 +121,10 @@ function User({ login }: { login: string }) {
             {publication.map((element: PubData) => (
               <Publication
                 key={element.id_post}
-                publication={Object.assign({}, userData, element)}
-                updatePage={()=>{}}
+                publication={dataCollection(element)}
+                updatePage={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             ))}
           </div>

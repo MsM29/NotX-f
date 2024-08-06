@@ -4,8 +4,10 @@ import {
   getHome,
   privacy,
   postEditPassword,
-} from "../functions/api";
-import { UserData } from "../functions/interfaces";
+  editPhotoProfile,
+  editWallpaperProfile,
+} from "../../shared/api/api";
+import { UserData } from "../../shared/interface/interfaces";
 
 function EditMyPage() {
   const [formData, setFormData] = useState<UserData>({
@@ -35,14 +37,14 @@ function EditMyPage() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleChangePassword = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
-    setFormPassword({ ...formPassword, [name]: value });
+    setFormPassword((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleChangePhotoProfile = (
@@ -57,9 +59,15 @@ function EditMyPage() {
     setWallpaper(Array.from(event.target.files || []));
   };
 
-  const editProfile = (event: React.FormEvent<HTMLFormElement>) => {
+  const editProfile = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    postEditProfile(formData, photoProfile, wallpaper);
+    const res = await postEditProfile(formData);
+    if (res.status === 200) {
+      if (photoProfile.length !== 0)
+        editPhotoProfile(photoProfile, formData.login);
+      if (wallpaper.length !== 0)
+        editWallpaperProfile(wallpaper, formData.login);
+    } else alert("Ошибка публикации");
   };
 
   const editPassword = (event: React.FormEvent<HTMLFormElement>) => {

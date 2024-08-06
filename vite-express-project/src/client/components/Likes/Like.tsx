@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SearchList from "./SearchList";
-import Pagination from "./Pagination";
-import { getLikeUsers } from "../functions/api";
+import SearchList from "../../shared/components/SearchList";
+import Pagination from "../../shared/components/Pagination";
+import { getLikeUsers } from "../../shared/api/api";
 
 function Like({ post }: { post: number }) {
   const [searchData, setSearchData] = useState([]);
@@ -9,16 +9,17 @@ function Like({ post }: { post: number }) {
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function subscribers() {
-      const res = await getLikeUsers(post);
+    async function fetchLikes() {
+      const res = await getLikeUsers(post, 0);
       setSearchData(res);
       setMaxPage(Math.ceil(res[0].total_count / 10));
     }
-    subscribers();
+    fetchLikes();
   }, []);
 
   async function editPage(value: number) {
-    const res = await getLikeUsers(post, value);
+    const page = value - 1;
+    const res = await getLikeUsers(post, page);
     setPage(value);
     setSearchData(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));

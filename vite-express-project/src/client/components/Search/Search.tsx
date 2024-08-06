@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SearchList from "./SearchList";
-import { searchUser } from "../functions/api";
-import Pagination from "./Pagination";
+import SearchList from "../../shared/components/SearchList";
+import { searchUser } from "../../shared/api/api";
+import Pagination from "../../shared/components/Pagination";
 
 function Search() {
   const [searchText, setSearchText] = useState("");
@@ -11,13 +11,14 @@ function Search() {
 
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const res = await searchUser(searchText);
+    const res = await searchUser(searchText, 0);
     setSearchData(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   async function editPage(value: number) {
-    const res = await searchUser(searchText, value);
+    const page = value - 1;
+    const res = await searchUser(searchText, page);
     setPage(value);
     setSearchData(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));

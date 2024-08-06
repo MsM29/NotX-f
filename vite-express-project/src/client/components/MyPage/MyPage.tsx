@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Publication from "./Publication";
-import { getPublication, postPublication, getHome } from "../functions/api";
-import { PubData } from "../functions/interfaces";
+import Publication from "../../shared/components/Publication";
+import { getPublication, postPublication, getHome } from "../../shared/api/api";
+import { PubData } from "../../shared/interface/interfaces";
 import { Link } from "react-router-dom";
-import Pagination from "./Pagination";
+import Pagination from "../../shared/components/Pagination";
 
 function MyPage() {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
@@ -12,40 +12,36 @@ function MyPage() {
   const [file, setFile] = useState<File[]>([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    setUpdate(false);
-    async function home() {
+    async function fetchHome() {
       const res = await getHome();
       setUserData(res[0]);
     }
-    async function pubFunc() {
-      const res = await getPublication();
-      setPublication(res);
-      setMaxPage(Math.ceil(res[0].total_count / 10));
-    }
-    pubFunc();
-    home();
-  }, [update]);
+    fetchPublications();
+    fetchHome();
+  }, []);
 
-  async function makePublication(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = JSON.stringify({ text });
-    postPublication(data, file, userData);;
-    updatePage();
-    setText("");
-  }
-
-  async function editPage(value: number) {
-    const res = await getPublication(value);
-    setPage(value);
+  async function fetchPublications() {
+    const res = await getPublication(0);
     setPublication(res);
     setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
-  function updatePage() {
-    setUpdate(true);
+  async function makePublication(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = JSON.stringify({ text });
+    await postPublication(data, file, userData);
+    await fetchPublications();
+    setText("");
+  }
+
+  async function editPage(value: number) {
+    const page = value - 1;
+    const res = await getPublication(page);
+    setPage(value);
+    setPublication(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
   return (
@@ -64,9 +60,8 @@ function MyPage() {
           <img
             id="photoProfile"
             className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
-            src={
-              `../../../mediaProfile/profilePhoto/${userData.login}` + ".png"
-            }
+            src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
+            alt="Фото профиля"
           ></img>
           <Link
             to="/mypage/edit"
@@ -124,7 +119,7 @@ function MyPage() {
           <Publication
             key={element.id_post}
             publication={Object.assign({}, userData, element)}
-            updatePage={updatePage}
+            updatePage={fetchPublications}
           />
         ))}
       </div>

@@ -1,10 +1,6 @@
-import { UserData } from "../functions/interfaces";
+import { UserData } from "../interface/interfaces";
 import { Link } from "react-router-dom";
-import {
-  postSubscribe,
-  postUnsubscribe,
-  checkSubscription,
-} from "../functions/api";
+import { postSubscribe, postUnsubscribe, checkSubscription } from "../api/api";
 import React, { useEffect, useState } from "react";
 
 function SearchList({ searchData }: { searchData: UserData[] }) {
@@ -48,6 +44,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           id="photoProfile"
           className="w-64 h-64 object-cover border-4 border-[#b6c5cd] rounded-full bg-blue-50"
           src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
+          alt="Фото профиля"
         ></img>
         <div className="w-4/12 p-3">
           <Link to={`/user?user=${element.login}`}>
