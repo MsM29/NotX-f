@@ -1,4 +1,4 @@
-import { UserData } from "./interfaces";
+import { UserData } from "../interface/interfaces";
 
 export async function getHome() {
   const res = await fetch("/home");
@@ -37,7 +37,7 @@ export async function getPublication(page: number) {
 export async function postPublication(
   data: string,
   file: File[],
-  context: { login: string },
+  login: string,
 ) {
   try {
     const res = await fetch("/makePublication", {
@@ -50,7 +50,7 @@ export async function postPublication(
 
     if (res.status === 200) {
       const pubInsert = await res.json();
-      await uploadMedia(file, context, pubInsert);
+      await uploadMedia(file, login, pubInsert);
       return res;
     } else {
       throw new Error("Ошибка публикации");
@@ -63,7 +63,7 @@ export async function postPublication(
 
 async function uploadMedia(
   file: File[],
-  context: { login: string },
+  login: string,
   pubInsert: { insertId: string },
 ) {
   if (file[0]) {
@@ -73,7 +73,7 @@ async function uploadMedia(
     const filename =
       file[0].type.split("/")[0] +
       "_" +
-      context.login +
+      login +
       "_" +
       pubInsert.insertId +
       "_" +
@@ -289,4 +289,64 @@ export async function getPost(post: number) {
   const res = await fetch(`/post?post=${post}`);
   const data = await res.json();
   return data;
+}
+
+export async function postComment(data: string, file: File[]) {
+  try {
+    const res = await fetch("/makeComment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+
+    if (res.status === 200) {
+      const pubInsert = await res.json();
+      await uploadMediaComment(file, pubInsert.insertId);
+      return res;
+    } else {
+      throw new Error("Ошибка публикации");
+    }
+  } catch (error) {
+    console.error("Ошибка при публикации:", error);
+    throw error;
+  }
+}
+
+async function uploadMediaComment(file: File[], insertId: string) {
+  if (file[0]) {
+    let type;
+    if (file[0].type.split("/")[0] === "image") type = ".png";
+    else type = ".mp4";
+    const filename =
+      file[0].type.split("/")[0] + "_" + insertId + "_" + Date.now() + type;
+    const filedata = new FormData();
+    filedata.append("filedata", new Blob(file), filename);
+    try {
+      const res = await fetch("/addMediaComment", {
+        method: "POST",
+        headers: {
+          name: filename,
+          pub_id: insertId,
+        },
+        body: filedata,
+      });
+
+      if (res.status !== 200) {
+        throw new Error("Ошибка публикации");
+      }
+    } catch (error) {
+      console.error("Ошибка при загрузке медиа:", error);
+      throw error;
+    }
+  }
+}
+
+export async function getComments(post: number, page: number) {
+  const res = await fetch(`/getComments?post=${post}&page=${page}`);
+  if (res.status === 200) {
+    const pubData = await res.json();
+    return pubData;
+  }
 }

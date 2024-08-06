@@ -15,6 +15,7 @@ import Subscriptions from "./Subscriptions/Subscriptions";
 import Subscribers from "./Subscribers/Subscribers";
 import Feed from "./Feed/Feed";
 import Like from "./Likes/Like";
+import Comments from "./Discussion/Discussion";
 import { getLogout } from "../shared/api/api";
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
         <Route path="/subscribers" element={<Subscribers />}></Route>
         <Route path="/feed" element={<Feed />}></Route>
         <Route path="/likes" element={<Like post={post} />}></Route>
+        <Route path="/comments" element={<Comments post={post} />}></Route>
       </Routes>
     </>
   );

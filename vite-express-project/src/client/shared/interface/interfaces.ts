@@ -11,6 +11,7 @@ export interface PubData {
   likes_count: number;
   media: string;
   mediaType: string;
+  id_comment: number;
 }
 
 export interface MediaData {
@@ -28,4 +29,5 @@ export interface FeedData {
   date: string;
   text: string;
   likes_count: number;
+  id_comment: number;
 }

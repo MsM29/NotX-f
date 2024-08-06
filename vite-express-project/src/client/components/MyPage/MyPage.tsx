@@ -31,7 +31,7 @@ function MyPage() {
   async function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
-    await postPublication(data, file, userData);
+    await postPublication(data, file, userData.login);
     await fetchPublications();
     setText("");
   }
@@ -45,7 +45,7 @@ function MyPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
+    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl w-[900px]">
       <div
         id="profileInfo"
         className="flex flex-col w-full border-y-4 border-[#b6c5cd]"

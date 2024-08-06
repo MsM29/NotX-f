@@ -58,10 +58,7 @@ function Publication({
           <time className="ml-2">{date}</time>
         </div>
         <p className="m-2">{publication.text}</p>
-        <div
-          className="flex flex-row p-1 m-2"
-          id={`mediaPost${publication.id_post}`}
-        >
+        <div className="flex flex-row p-1 m-2">
           {publication.mediaType === "image" && (
             <img
               className="w-full object-cover rounded-xl"
@@ -84,7 +81,7 @@ function Publication({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={like}
-            className="max-w-max h-10 object-cover rounded-full mr-8 pl-1 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+            className="max-w-36 min-w-10 h-10 object-cover rounded-full mr-8 pl-1 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
             {likes}&#10084;
           </button>

@@ -26,7 +26,7 @@ function Search() {
 
   return (
     <>
-      <div className="w-[900px] h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="w-[900px] h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
         <form
           id="searchForm"
           className="mb-2 p-4 flex flex-col justify-between w-full items-center border-y-4 border-[#b6c5cd]"

@@ -28,7 +28,7 @@ function Feed() {
 
   return (
     <>
-      <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl w-[900px]">
         {feed.map((element: FeedData) => (
           <Publication
             key={element.id_post}
