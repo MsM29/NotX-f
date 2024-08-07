@@ -73,9 +73,10 @@ function Discussion({ post }: { post: number }) {
           <textarea
             id="inputPost"
             className="mt-2 h-24 w-11/12 p-1 mb-2 resize-none rounded-xl"
-            placeholder="Что нового?"
+            placeholder="Что думаете?"
             value={text}
             onChange={(event) => setText(event.target.value)}
+            maxLength={280}
           />
           <div
             id="listPostButtons"

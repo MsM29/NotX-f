@@ -27,7 +27,10 @@ function Subscribers() {
 
   return (
     <>
-      <div className="w-[900px] h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="w-[900px] min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+        <h1 className="text-4xl p-3 bg-[#b6c5cd] w-full text-center">
+          Подписчики
+        </h1>
         <div id="searchList" className="mt-2 w-full">
           <SearchList searchData={searchData} />
           <Pagination page={page} maxPage={maxPage} editPage={editPage} />

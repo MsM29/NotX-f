@@ -16,7 +16,7 @@ import Subscribers from "./Subscribers/Subscribers";
 import Feed from "./Feed/Feed";
 import Like from "./Likes/Like";
 import Comments from "./Discussion/Discussion";
-import { getLogout } from "../shared/api/api";
+import { getLogout, getHome } from "../shared/api/api";
 
 function App() {
   const navigator = useNavigate();
@@ -35,7 +35,12 @@ function App() {
   }
   useEffect(() => {
     async function fetchData() {
-      navigator("/mypage");
+      const res = await getHome();
+      if (res.status === 200) {
+        navigator("/mypage");
+      } else {
+        navigator("/logandreg");
+      }
     }
     fetchData();
   }, []);

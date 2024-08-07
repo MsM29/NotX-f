@@ -27,8 +27,9 @@ function EditMyPage() {
   useEffect(() => {
     async function home() {
       const res = await getHome();
-      setFormData(res[0]);
-      setPrivateStatus(res[0].private);
+      const data = await res.json();
+      setFormData(data[0]);
+      setPrivateStatus(data[0].private);
     }
     home();
   }, []);
@@ -132,6 +133,7 @@ function EditMyPage() {
             name="bio"
             onChange={handleChangeData}
             defaultValue={formData.bio}
+            maxLength={280}
           ></textarea>
         </p>
         <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">
@@ -159,6 +161,7 @@ function EditMyPage() {
         <p className="text-2xl mt-3">
           Введите старый пароль:
           <input
+            type="password"
             className="ml-3 h-12 w-[474px] rounded-md border border-gray-950 p-1"
             name="oldPassword"
             onChange={handleChangePassword}
@@ -168,6 +171,7 @@ function EditMyPage() {
         <p className="text-2xl mt-3">
           Введите новый пароль:
           <input
+            type="password"
             className="ml-3 h-12 w-[480px] rounded-md border border-gray-950 p-1"
             name="newPassword"
             onChange={handleChangePassword}
@@ -177,6 +181,7 @@ function EditMyPage() {
         <p className="text-2xl mt-3">
           Повторите новый пароль:
           <input
+            type="password"
             className="ml-3 h-12 w-[450px] rounded-md border border-gray-950 p-1"
             name="reNewPassword"
             onChange={handleChangePassword}

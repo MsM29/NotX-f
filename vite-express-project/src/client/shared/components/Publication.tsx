@@ -53,7 +53,9 @@ function Publication({
       ></img>
       <div className="w-full ml-2">
         <div className="flex flex-row ml-2 h-max items-center">
-          <p className="text-2xl"> {publication.name}</p>
+          <Link to={`/user?user=${publication.login}`}>
+            <p className="text-2xl"> {publication.name}</p>
+          </Link>
           <p className="ml-2 text-1xl"> @{publication.login}</p>
           <time className="ml-2">{date}</time>
         </div>

@@ -55,7 +55,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           <h2 id="loginProfile" className="text-2xl">
             @{element.login}
           </h2>
-          <p id="bioProfile" className="profileText">
+          <p id="bioProfile" className="max-w-full break-words">
             {element.bio}
           </p>
         </div>

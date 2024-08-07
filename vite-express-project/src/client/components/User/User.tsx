@@ -68,7 +68,7 @@ function User({ login }: { login: string }) {
   }
 
   return (
-    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl">
+    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl w-[900px]">
       <div
         id="profileInfo"
         className="flex flex-col w-full border-y-4 border-[#b6c5cd]"
@@ -89,14 +89,14 @@ function User({ login }: { login: string }) {
           {isSubscribe ? (
             <button
               onClick={() => unsubscribe(login)}
-              className="w-40 p-0 h-min ml-[400px] mt-[390px]  leading-10  rounded-md border text-center border-gray-950 bg-gray-400 text-white hover:bg-blue-200 hover:text-gray-950 flex justify-center"
+              className="w-40 p-0 h-min ml-[300px] mt-[390px]  leading-10  rounded-md border text-center border-gray-950 bg-gray-400 text-white hover:bg-blue-200 hover:text-gray-950 flex justify-center"
             >
               Отписаться
             </button>
           ) : (
             <button
               onClick={() => subscribe(login)}
-              className="w-40 p-0 h-min ml-[400px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+              className="w-40 p-0 h-min ml-[300px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
             >
               Подписаться
             </button>
@@ -131,7 +131,12 @@ function User({ login }: { login: string }) {
           <Pagination page={page} maxPage={maxPage} editPage={editPage} />
         </>
       ) : (
-        <></>
+        <div
+          className="h-[500px] w-full object-contain bg-no-repeat bg-center"
+          style={{
+            backgroundImage: `url("../../../../images/privateProfile.png")`,
+          }}
+        ></div>
       )}
     </div>
   );

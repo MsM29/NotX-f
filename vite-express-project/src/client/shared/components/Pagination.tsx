@@ -14,7 +14,7 @@ function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center text-lg">
       {page !== 1 && (
         <>
           <button className="mr-1" onClick={() => editPage(1)}>

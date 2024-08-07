@@ -16,7 +16,8 @@ function MyPage() {
   useEffect(() => {
     async function fetchHome() {
       const res = await getHome();
-      setUserData(res[0]);
+      const data = await res.json();
+      setUserData(data[0]);
     }
     fetchPublications();
     fetchHome();
@@ -66,7 +67,7 @@ function MyPage() {
           <Link
             to="/mypage/edit"
             id="editProfile"
-            className="w-40 p-0 h-min ml-[400px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
+            className="w-40 p-0 h-min ml-[300px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
           >
             Редактировать
           </Link>
@@ -86,7 +87,7 @@ function MyPage() {
       </div>
       <form
         id="creatingPost"
-        className="flex justify-center mt-3 items-center flex-col w-full pb-2 "
+        className="flex justify-center mt-3 items-center flex-col w-full pb-2"
         onSubmit={makePublication}
       >
         <textarea
@@ -95,6 +96,7 @@ function MyPage() {
           placeholder="Что нового?"
           value={text}
           onChange={(event) => setText(event.target.value)}
+          maxLength={280}
         />
         <div
           id="listPostButtons"

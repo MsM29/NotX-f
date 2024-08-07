@@ -2,12 +2,7 @@ import { UserData } from "../interface/interfaces";
 
 export async function getHome() {
   const res = await fetch("/home");
-  if (res.status === 200) {
-    const resServer = await res.json();
-    return resServer;
-  } else {
-    alert("Ошибка при выполнении запроса!");
-  }
+  return res;
 }
 
 export async function postLogin(data: string) {
