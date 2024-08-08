@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { deleteP, sendLike } from "../api/api";
+import { deleteP, deleteC, sendLike, sendLikeComment } from "../api/api";
 import { FeedData } from "../interface/interfaces";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Publication({
   publication,
@@ -15,19 +15,32 @@ function Publication({
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const location = useLocation();
+  const id =
+    publication.id_post && publication.id_comment
+      ? publication.id_comment
+      : publication.id_post;
 
   async function deletePublication() {
-    const res = await deleteP(publication.id_post);
+    const deletePub =
+      publication.id_post && publication.id_comment ? deleteC : deleteP;
+    const res = await deletePub(id);
     if (res.status !== 200) alert("Ошибка при удалении!");
     else updatePage();
   }
 
   async function like() {
-    const res = await sendLike(publication.id_post);
-    if (res.message === "put") {
-      setLikes(likes + 1);
-    } else if (res.message === "remove") {
-      setLikes(likes - 1);
+    const sendFunction =
+      publication.id_post && publication.id_comment
+        ? sendLikeComment
+        : sendLike;
+    if (id) {
+      const res = await sendFunction(id);
+      if (res.message === "put") {
+        setLikes(likes + 1);
+      } else if (res.message === "remove") {
+        setLikes(likes - 1);
+      }
     }
   }
 
@@ -86,10 +99,12 @@ function Publication({
           >
             {likes}&#10084;
           </button>
-          <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
-            <Link to={`/comments?post=${publication.id_post}`}>&#9993;</Link>
-          </button>
-          {publication.login===localStorage.getItem("login") && (
+          {location.pathname !== "/comments" && (
+            <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
+              <Link to={`/comments?post=${publication.id_post}`}>&#9993;</Link>
+            </button>
+          )}
+          {publication.login === localStorage.getItem("login") && (
             <button
               onClick={deletePublication}
               className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
@@ -97,7 +112,6 @@ function Publication({
               &#10006;
             </button>
           )}
-
           {isTooltipVisible && (
             <div
               style={{
@@ -110,12 +124,21 @@ function Publication({
               onMouseLeave={handleMouseLeave}
               className="bg-gray-800 text-white text-sm rounded shadow-lg p-2"
             >
-              <Link
-                to={`/likes?post=${publication.id_post}`}
-                className="text-blue-400 underline"
-              >
-                Список
-              </Link>
+              {publication.id_post && publication.id_comment ? (
+                <Link
+                  to={`/likes?comment=${publication.id_comment}`}
+                  className="text-blue-400 underline"
+                >
+                  Список
+                </Link>
+              ) : (
+                <Link
+                  to={`/likes?post=${publication.id_post}`}
+                  className="text-blue-400 underline"
+                >
+                  Список
+                </Link>
+              )}
             </div>
           )}
         </div>

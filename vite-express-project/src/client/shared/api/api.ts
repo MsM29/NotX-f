@@ -126,6 +126,11 @@ export async function deleteP(id_post: number) {
   return res;
 }
 
+export async function deleteC(id_post: number) {
+  const res = await fetch(`/deleteComment?id_post=${id_post}`);
+  return res;
+}
+
 export async function postEditProfile(formData: UserData) {
   const data = JSON.stringify(formData);
   const res = await fetch("/editProfile", {
@@ -276,8 +281,20 @@ export async function sendLike(id_post: number) {
   return data;
 }
 
+export async function sendLikeComment(id_post: number) {
+  const res = await fetch(`likeComment?post=${id_post}`);
+  const data = res.json();
+  return data;
+}
+
 export async function getLikeUsers(post: number, page: number) {
   const res = await fetch(`/likes?post=${post}&page=${page}`);
+  const data = await res.json();
+  return data;
+}
+
+export async function getLikeCommentUsers(post: number, page: number) {
+  const res = await fetch(`/likesComment?post=${post}&page=${page}`);
   const data = await res.json();
   return data;
 }

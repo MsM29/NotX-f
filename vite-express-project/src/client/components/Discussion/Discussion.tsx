@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getPost, postComment, getComments } from "../../shared/api/api";
 import Publication from "../../shared/components/Publication";
 import { FeedData } from "../../shared/interface/interfaces";
-import Comment from "./Comment";
+// import Comment from "./Comment";
 import Pagination from "../../shared/components/Pagination";
 
 function Discussion({ post }: { post: number }) {
@@ -47,7 +47,7 @@ function Discussion({ post }: { post: number }) {
 
   return (
     <>
-      <div className="w-[900px] h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="w-[900px] min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
         <div id="myPageFeed" className="max-w-7xl w-[900px]">
           {publication.map((element: FeedData) => (
             <Publication
@@ -61,7 +61,7 @@ function Discussion({ post }: { post: number }) {
         </div>
         <div id="myPageFeed" className="max-w-7xl w-[700px]">
           {comments.map((element: FeedData) => (
-            <Comment key={element.id_comment} publication={element} />
+            <Publication key={element.id_comment} publication={element} updatePage={fetchComments}/>
           ))}
         </div>
         <Pagination page={page} maxPage={maxPage} editPage={editPage} />

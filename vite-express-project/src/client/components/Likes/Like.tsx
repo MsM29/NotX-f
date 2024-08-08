@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import SearchList from "../../shared/components/SearchList";
 import Pagination from "../../shared/components/Pagination";
-import { getLikeUsers } from "../../shared/api/api";
+import { getLikeUsers, getLikeCommentUsers } from "../../shared/api/api";
 
-function Like({ post }: { post: number }) {
+function Like({ post, comment }: { post: number; comment: number }) {
   const [searchData, setSearchData] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function fetchLikes() {
-      const res = await getLikeUsers(post, 0);
-      setSearchData(res);
-      setMaxPage(Math.ceil(res[0].total_count / 10));
-    }
     fetchLikes();
   }, []);
+
+  async function fetchLikes() {
+    const getLikeFunction = post ? getLikeUsers : getLikeCommentUsers;
+    const id = post ? post : comment;
+    const res = await getLikeFunction(id, 0);
+    setSearchData(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
+  }
 
   async function editPage(value: number) {
     const page = value - 1;
