@@ -18,6 +18,7 @@ function MyPage() {
       const res = await getHome();
       const data = await res.json();
       setUserData(data[0]);
+      localStorage.setItem("login", data[0].login);
     }
     fetchPublications();
     fetchHome();

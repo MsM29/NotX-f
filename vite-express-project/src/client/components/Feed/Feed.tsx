@@ -10,11 +10,6 @@ function Feed() {
   const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
-    async function fetchFeed() {
-      const res = await getFeed(0);
-      setFeed(res);
-      setMaxPage(Math.ceil(res[0].total_count / 10));
-    }
     fetchFeed();
   }, []);
 
@@ -26,6 +21,11 @@ function Feed() {
     setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
+  async function fetchFeed() {
+    const res = await getFeed(0);
+    setFeed(res);
+    setMaxPage(Math.ceil(res[0].total_count / 10));
+  }
   return (
     <>
       <div className="max-w-5xl w-[900px] h-full flex flex-col  border-x-4 border-[#b6c5cd]">
@@ -33,9 +33,7 @@ function Feed() {
           <Publication
             key={element.id_post}
             publication={element}
-            updatePage={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            updatePage={fetchFeed}
           />
         ))}
       </div>

@@ -31,7 +31,10 @@ function App() {
 
   async function logout() {
     const res = await getLogout();
-    if (res.status === 200) navigator("/logandreg");
+    if (res.status === 200) {
+      localStorage.removeItem("login");
+      navigator("/logandreg");
+    }
   }
   useEffect(() => {
     async function fetchData() {

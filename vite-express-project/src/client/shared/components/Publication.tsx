@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { deleteP, sendLike } from "../api/api";
 import { FeedData } from "../interface/interfaces";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Publication({
   publication,
@@ -12,7 +12,6 @@ function Publication({
 }) {
   const [likes, setLikes] = useState(publication.likes_count);
   const date = new Date(publication.date).toLocaleString("ru");
-  const location = useLocation();
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -90,7 +89,7 @@ function Publication({
           <button className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950  border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center">
             <Link to={`/comments?post=${publication.id_post}`}>&#9993;</Link>
           </button>
-          {location.pathname === "/mypage" && (
+          {publication.login===localStorage.getItem("login") && (
             <button
               onClick={deletePublication}
               className="w-10 h-10 p-0 object-cover rounded-full mr-8 bg-blue-200 text-center leading-10 text-gray-950 border  border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"

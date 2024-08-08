@@ -127,9 +127,7 @@ function User({ login }: { login: string }) {
               <Publication
                 key={element.id_post}
                 publication={dataCollection(element)}
-                updatePage={function (): void {
-                  throw new Error("Function not implemented.");
-                }}
+                updatePage={fetchPublication}
               />
             ))}
           </div>
