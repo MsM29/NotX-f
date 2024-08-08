@@ -14,6 +14,7 @@ function EditMyPage() {
     name: "",
     login: "",
     bio: "",
+    application: false,
   });
   const [photoProfile, setPhotoProfile] = useState<File[]>([]);
   const [wallpaper, setWallpaper] = useState<File[]>([]);

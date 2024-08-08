@@ -12,6 +12,7 @@ function Subscriptions() {
     async function fetchSubscriptions() {
       const res = await getSubscriptions(0);
       setSearchData(res);
+      console.log(res);
       setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     fetchSubscriptions();
@@ -27,7 +28,7 @@ function Subscriptions() {
 
   return (
     <>
-      <div className="w-[900px] h-max min-h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="w-[900px] min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
         <h1 className="text-4xl p-3 bg-[#b6c5cd] w-full text-center">
           Подписки
         </h1>

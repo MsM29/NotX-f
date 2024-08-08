@@ -14,12 +14,13 @@ function User({ login }: { login: string }) {
   const [userData, setUserData] = useState({ name: "", login: "", bio: "" });
   const [publication, setPublication] = useState<PubData[]>([]);
   const [isSubscribe, setIsSubscribe] = useState(false);
+  const [application, setApplication] = useState(false);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [privateStatus, setPrivateStatus] = useState<boolean>();
+  const [privateStatus, setPrivateStatus] = useState<boolean>(true);
 
   async function subscribe(login: string) {
-    const res = await postSubscribe(login);
+    const res = await postSubscribe(login, privateStatus);
     if (res.status === 200) setIsSubscribe(true);
   }
 
@@ -30,7 +31,11 @@ function User({ login }: { login: string }) {
 
   async function fetchSubscriptions() {
     const res = await checkSubscription(login);
-    if (res.status === 200) setIsSubscribe(true);
+    if (res.status === 200) {
+      const data = await res.json();
+      setIsSubscribe(true);
+      setApplication(data[0].application);
+    }
   }
 
   async function fetchUser() {
@@ -115,7 +120,7 @@ function User({ login }: { login: string }) {
           {userData.bio}
         </p>
       </div>
-      {(privateStatus && isSubscribe) || !privateStatus ? (
+      {(privateStatus && application) || !privateStatus ? (
         <>
           <div id="myPageFeed" className="max-w-7xl">
             {publication.map((element: PubData) => (
@@ -136,6 +141,7 @@ function User({ login }: { login: string }) {
           style={{
             backgroundImage: `url("../../../../images/privateProfile.png")`,
           }}
+          onClick={() => console.log(privateStatus, application)}
         ></div>
       )}
     </div>

@@ -2,6 +2,7 @@ export interface UserData {
   name: string;
   login: string;
   bio: string;
+  application: boolean;
 }
 
 export interface PubData {

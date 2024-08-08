@@ -199,8 +199,10 @@ export async function getUserPublication(
   }
 }
 
-export async function postSubscribe(login: string) {
-  const res = await fetch(`/subscribe?login=${login}`);
+export async function postSubscribe(login: string, privateStatus: boolean) {
+  const res = await fetch(
+    `/subscribe?login=${login}&privateStatus=${privateStatus}`,
+  );
   return res;
 }
 
@@ -344,4 +346,14 @@ export async function getComments(post: number, page: number) {
     const pubData = await res.json();
     return pubData;
   }
+}
+
+export async function acceptApplication(login: string) {
+  const res = await fetch(`/acceptApplication?user=${login}`);
+  return res;
+}
+
+export async function rejectApplication(login: string) {
+  const res = await fetch(`/rejectApplication?user=${login}`);
+  return res;
 }
