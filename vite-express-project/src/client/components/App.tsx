@@ -29,7 +29,7 @@ function App() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   function toggleSidebar() {
-    setIsSidebarVisible((isSidebarVisible) => !isSidebarVisible);
+    setIsSidebarVisible((prev) => !prev);
   }
 
   async function logout() {
