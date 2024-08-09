@@ -1,4 +1,5 @@
 import { UserData } from "../interface/interfaces";
+import { createFiledata, createFiledataProfile } from "../utils/utils";
 
 export async function getHome() {
   const res = await fetch("/home");
@@ -29,11 +30,7 @@ export async function getPublication(page: number) {
   }
 }
 
-export async function postPublication(
-  data: string,
-  file: File[],
-  login: string,
-) {
+export async function postPublication(data: string, file: File[]) {
   try {
     const res = await fetch("/makePublication", {
       method: "POST",
@@ -45,7 +42,7 @@ export async function postPublication(
 
     if (res.status === 200) {
       const pubInsert = await res.json();
-      await uploadMedia(file, login, pubInsert);
+      await uploadMedia(file, pubInsert.insertId);
       return res;
     } else {
       throw new Error("Ошибка публикации");
@@ -56,34 +53,17 @@ export async function postPublication(
   }
 }
 
-async function uploadMedia(
-  file: File[],
-  login: string,
-  pubInsert: { insertId: string },
-) {
+async function uploadMedia(file: File[], insertId: string) {
   if (file[0]) {
-    let type;
-    if (file[0].type.split("/")[0] === "image") type = ".png";
-    else type = ".mp4";
-    const filename =
-      file[0].type.split("/")[0] +
-      "_" +
-      login +
-      "_" +
-      pubInsert.insertId +
-      "_" +
-      Date.now() +
-      type;
-    const filedata = new FormData();
-    filedata.append("filedata", new Blob(file), filename);
+    const filedata = createFiledata(file, insertId);
     try {
       const res = await fetch("/addMedia", {
         method: "POST",
         headers: {
-          name: filename,
-          pub_id: pubInsert.insertId,
+          name: filedata.filename,
+          pub_id: insertId,
         },
-        body: filedata,
+        body: filedata.filedata,
       });
 
       if (res.status !== 200) {
@@ -145,15 +125,13 @@ export async function postEditProfile(formData: UserData) {
 
 export async function editPhotoProfile(photoProfile: File[], login: string) {
   try {
-    const filenameProfile = login + ".png";
-    const filedata = new FormData();
-    filedata.append("filedata", new Blob(photoProfile), filenameProfile);
+    const filedata = createFiledataProfile(photoProfile, login);
     const res = await fetch("/editPhotoProfile", {
       method: "POST",
       headers: {
-        name: filenameProfile,
+        name: filedata.filename,
       },
-      body: filedata,
+      body: filedata.filedata,
     });
     if (res.status === 200) alert("Опубликовано!");
     else alert("Ошибка публикации");
@@ -164,15 +142,13 @@ export async function editPhotoProfile(photoProfile: File[], login: string) {
 
 export async function editWallpaperProfile(wallpaper: File[], login: string) {
   try {
-    const filenameProfile = login + ".png";
-    const filedata = new FormData();
-    filedata.append("filedata", new Blob(wallpaper), filenameProfile);
+    const filedata = createFiledataProfile(wallpaper, login);
     const res = await fetch("/editWallpaperProfile", {
       method: "POST",
       headers: {
-        name: filenameProfile,
+        name: filedata.filename,
       },
-      body: filedata,
+      body: filedata.filedata,
     });
     if (res.status === 200) alert("Опубликовано!");
     else alert("Ошибка публикации");
@@ -330,21 +306,15 @@ export async function postComment(data: string, file: File[]) {
 
 async function uploadMediaComment(file: File[], insertId: string) {
   if (file[0]) {
-    let type;
-    if (file[0].type.split("/")[0] === "image") type = ".png";
-    else type = ".mp4";
-    const filename =
-      file[0].type.split("/")[0] + "_" + insertId + "_" + Date.now() + type;
-    const filedata = new FormData();
-    filedata.append("filedata", new Blob(file), filename);
+    const filedata = createFiledata(file, insertId);
     try {
       const res = await fetch("/addMediaComment", {
         method: "POST",
         headers: {
-          name: filename,
+          name: filedata.filename,
           pub_id: insertId,
         },
-        body: filedata,
+        body: filedata.filedata,
       });
 
       if (res.status !== 200) {

@@ -12,7 +12,6 @@ function Subscriptions() {
     async function fetchSubscriptions() {
       const res = await getSubscriptions(0);
       setSearchData(res);
-      console.log(res);
       setMaxPage(Math.ceil(res[0].total_count / 10));
     }
     fetchSubscriptions();

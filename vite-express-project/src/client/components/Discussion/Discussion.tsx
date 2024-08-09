@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import Pagination from "./Pagination";
 import { getPost, postComment, getComments } from "../../shared/api/api";
 import Publication from "../../shared/components/Publication";
 import { FeedData } from "../../shared/interface/interfaces";
-// import Comment from "./Comment";
 import Pagination from "../../shared/components/Pagination";
 
 function Discussion({ post }: { post: number }) {
@@ -19,8 +17,7 @@ function Discussion({ post }: { post: number }) {
       const res = await getPost(post);
       setPublication(res);
     }
-    fetchPublication();
-    fetchComments();
+    Promise.all([fetchPublication(), fetchComments()]);
   }, []);
 
   async function editPage(value: number) {
@@ -45,6 +42,14 @@ function Discussion({ post }: { post: number }) {
     setMaxPage(Math.ceil(res[0].total_count / 10));
   }
 
+  function handleTextChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    setText(event.target.value);
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFile(Array.from(event.target.files || []));
+  }
+
   return (
     <>
       <div className="w-[900px] min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
@@ -61,7 +66,11 @@ function Discussion({ post }: { post: number }) {
         </div>
         <div id="myPageFeed" className="max-w-7xl w-[700px]">
           {comments.map((element: FeedData) => (
-            <Publication key={element.id_comment} publication={element} updatePage={fetchComments}/>
+            <Publication
+              key={element.id_comment}
+              publication={element}
+              updatePage={fetchComments}
+            />
           ))}
         </div>
         <Pagination page={page} maxPage={maxPage} editPage={editPage} />
@@ -75,7 +84,7 @@ function Discussion({ post }: { post: number }) {
             className="mt-2 h-24 w-11/12 p-1 mb-2 resize-none rounded-xl"
             placeholder="Что думаете?"
             value={text}
-            onChange={(event) => setText(event.target.value)}
+            onChange={handleTextChange}
             maxLength={280}
           />
           <div
@@ -86,9 +95,7 @@ function Discussion({ post }: { post: number }) {
               type="file"
               className=" w-6/12 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white"
               accept="video/*, image/*"
-              onChange={(event) =>
-                setFile(Array.from(event.target.files || []))
-              }
+              onChange={handleFileChange}
             />
             <button
               className="w-6/12 h-[62.5px] bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white"

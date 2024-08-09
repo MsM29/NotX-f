@@ -34,6 +34,8 @@ function Publication({
       publication.id_post && publication.id_comment
         ? sendLikeComment
         : sendLike;
+
+        console.log(publication)
     if (id) {
       const res = await sendFunction(id);
       if (res.message === "put") {
@@ -120,7 +122,7 @@ function Publication({
                 left: tooltipPosition.left,
                 transform: "translate(-50%, -100%)",
               }}
-              onMouseEnter={() => setTooltipVisible(true)}
+              onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className="bg-gray-800 text-white text-sm rounded shadow-lg p-2"
             >

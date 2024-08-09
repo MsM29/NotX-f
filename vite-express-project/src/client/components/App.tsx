@@ -23,11 +23,13 @@ function App() {
   const location = useLocation();
   const user = new URLSearchParams(location.search).get("user")!;
   const post = parseInt(new URLSearchParams(location.search).get("post")!);
-  const comment = parseInt(new URLSearchParams(location.search).get("comment")!);
+  const comment = parseInt(
+    new URLSearchParams(location.search).get("comment")!,
+  );
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-console.log(post,comment)
+
   function toggleSidebar() {
-    setIsSidebarVisible(!isSidebarVisible);
+    setIsSidebarVisible((isSidebarVisible) => !isSidebarVisible);
   }
 
   async function logout() {
@@ -37,6 +39,7 @@ console.log(post,comment)
       navigator("/logandreg");
     }
   }
+
   useEffect(() => {
     async function fetchData() {
       const res = await getHome();
@@ -104,7 +107,10 @@ console.log(post,comment)
         <Route path="/subscriptions" element={<Subscriptions />}></Route>
         <Route path="/subscribers" element={<Subscribers />}></Route>
         <Route path="/feed" element={<Feed />}></Route>
-        <Route path="/likes" element={<Like post={post} comment={comment} />}></Route>
+        <Route
+          path="/likes"
+          element={<Like post={post} comment={comment} />}
+        ></Route>
         <Route path="/comments" element={<Comments post={post} />}></Route>
       </Routes>
     </>

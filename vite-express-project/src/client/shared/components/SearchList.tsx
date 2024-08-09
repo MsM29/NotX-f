@@ -16,8 +16,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
   }>({});
 
   useEffect(() => {
-    fetchSubscriptions();
-    fetchApplications();
+    Promise.all([fetchSubscriptions(), fetchApplications()]);
   }, [searchData]);
 
   async function fetchSubscriptions() {
@@ -69,6 +68,23 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
   return searchData.map((element, index) => {
     const isSubscribed = subscriptions.includes(element.login);
     const application = applications[element.login] || false;
+
+    function acceptSub() {
+      accept(element.login);
+    }
+
+    function rejectSub() {
+      reject(element.login);
+    }
+
+    function unsub() {
+      unsubscribe(element.login);
+    }
+
+    function sub() {
+      subscribe(element.login, element.application);
+    }
+
     return (
       <div
         key={index}
@@ -97,13 +113,13 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           {!application && (
             <>
               <button
-                onClick={() => accept(element.login)}
+                onClick={acceptSub}
                 className="h-min bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
               >
                 Принять
               </button>
               <button
-                onClick={() => reject(element.login)}
+                onClick={rejectSub}
                 className="h-min leading-10 bg-red-500 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
               >
                 Отклонить
@@ -112,14 +128,14 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           )}
           {isSubscribed ? (
             <button
-              onClick={() => unsubscribe(element.login)}
+              onClick={unsub}
               className="h-min leading-10 bg-gray-400 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-blue-200 hover:text-gray-950 "
             >
               Отписаться
             </button>
           ) : (
             <button
-              onClick={() => subscribe(element.login, element.application)}
+              onClick={sub}
               className="h-min bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
             >
               Подписаться

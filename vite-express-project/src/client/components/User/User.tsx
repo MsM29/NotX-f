@@ -51,13 +51,7 @@ function User({ login }: { login: string }) {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchSubscriptions();
-      await fetchUser();
-      await fetchPublication();
-    };
-
-    fetchData();
+    Promise.all([fetchSubscriptions(), fetchUser(), fetchPublication()]);
   }, [login]);
 
   async function editPage(value: number) {
@@ -139,7 +133,6 @@ function User({ login }: { login: string }) {
           style={{
             backgroundImage: `url("../../../../images/privateProfile.png")`,
           }}
-          onClick={() => console.log(privateStatus, application)}
         ></div>
       )}
     </div>

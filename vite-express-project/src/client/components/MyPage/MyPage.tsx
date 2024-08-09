@@ -20,8 +20,7 @@ function MyPage() {
       setUserData(data[0]);
       localStorage.setItem("login", data[0].login);
     }
-    fetchPublications();
-    fetchHome();
+    Promise.all([fetchPublications(), fetchHome()]);
   }, []);
 
   async function fetchPublications() {
@@ -33,7 +32,7 @@ function MyPage() {
   async function makePublication(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = JSON.stringify({ text });
-    await postPublication(data, file, userData.login);
+    await postPublication(data, file);
     await fetchPublications();
     setText("");
   }
