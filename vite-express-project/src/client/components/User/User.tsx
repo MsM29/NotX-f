@@ -47,7 +47,9 @@ function User({ login }: { login: string }) {
   async function fetchPublication() {
     const res = await getUserPublication(login, 0);
     setPublication(res);
-    setMaxPage(Math.ceil(res[0].total_count / 10));
+    if (res.length !== 0) {
+      setMaxPage(Math.ceil(res[0].total_count / 10));
+    }
   }
 
   useEffect(() => {

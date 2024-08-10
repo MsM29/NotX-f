@@ -35,7 +35,6 @@ function Publication({
         ? sendLikeComment
         : sendLike;
 
-        console.log(publication)
     if (id) {
       const res = await sendFunction(id);
       if (res.message === "put") {
@@ -75,20 +74,42 @@ function Publication({
         </div>
         <p className="m-2">{publication.text}</p>
         <div className="flex flex-row p-1 m-2">
-          {publication.mediaType === "image" && (
-            <img
-              className="w-full object-cover rounded-xl"
-              src={`../../../mediaPublication/${publication.media}`}
-            ></img>
-          )}
-          {publication.mediaType === "video" && (
-            <video
-              className="w-full object-cover rounded-xl"
-              src={`../../../mediaPublication/${publication.media}`}
-              controls
-              autoPlay
-              muted
-            ></video>
+          {publication.id_post && publication.id_comment ? (
+            <>
+              {publication.mediaType === "image" && (
+                <img
+                  className="w-full object-cover rounded-xl"
+                  src={`../../../mediaComment/${publication.media}`}
+                />
+              )}
+              {publication.mediaType === "video" && (
+                <video
+                  className="w-full object-cover rounded-xl"
+                  src={`../../../mediaComment/${publication.media}`}
+                  controls
+                  autoPlay
+                  muted
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {publication.mediaType === "image" && (
+                <img
+                  className="w-full object-cover rounded-xl"
+                  src={`../../../mediaPublication/${publication.media}`}
+                />
+              )}
+              {publication.mediaType === "video" && (
+                <video
+                  className="w-full object-cover rounded-xl"
+                  src={`../../../mediaPublication/${publication.media}`}
+                  controls
+                  autoPlay
+                  muted
+                />
+              )}
+            </>
           )}
         </div>
         <div className="flex m-2">

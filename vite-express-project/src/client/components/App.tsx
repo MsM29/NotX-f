@@ -24,7 +24,7 @@ function App() {
   const user = new URLSearchParams(location.search).get("user")!;
   const post = parseInt(new URLSearchParams(location.search).get("post")!);
   const comment = parseInt(
-    new URLSearchParams(location.search).get("comment")!,
+    new URLSearchParams(location.search).get("comment")!
   );
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -35,6 +35,7 @@ function App() {
   async function logout() {
     const res = await getLogout();
     if (res.status === 200) {
+      setIsSidebarVisible(false)
       localStorage.removeItem("login");
       navigator("/logandreg");
     }
@@ -57,17 +58,21 @@ function App() {
       <header className="justify-between w-full flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
         <img
           id="sidebarButton"
-          className={`w-24 order-1 h-10 object-contain ${isSidebarVisible ? "rotate-90" : ""}`}
+          className={`w-24 order-1 h-10 object-contain ${
+            isSidebarVisible ? "rotate-90" : ""
+          }`}
           src="/images/icons8-боковое-меню-48.png"
           onClick={toggleSidebar}
           alt="Toggle Sidebar"
         />
-        <img
-          id="logo"
-          className="w-24 order-2"
-          src="/images/NotX_logo.png"
-          alt="Logo"
-        />
+        <Link to="/mypage" className="w-24 order-2">
+          <img
+            id="logo"
+            className="w-24"
+            src="/images/NotX_logo.png"
+            alt="Logo"
+          />
+        </Link>
         <button
           className="order-3 w-24 mr-2 bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
           onClick={logout}

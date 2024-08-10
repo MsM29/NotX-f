@@ -11,8 +11,11 @@ function Subscriptions() {
   useEffect(() => {
     async function fetchSubscriptions() {
       const res = await getSubscriptions(0);
-      setSearchData(res);
-      setMaxPage(Math.ceil(res[0].total_count / 10));
+      if (res.status === 200) {
+        const data = await res.json();
+        setSearchData(data);
+        setMaxPage(Math.ceil(data[0].total_count / 10));
+      }
     }
     fetchSubscriptions();
   }, []);
@@ -20,9 +23,12 @@ function Subscriptions() {
   async function editPage(value: number) {
     const page = value - 1;
     const res = await getSubscriptions(page);
-    setPage(value);
-    setSearchData(res);
-    setMaxPage(Math.ceil(res[0].total_count / 10));
+    if (res.status === 200) {
+      const data = await res.json();
+      setPage(value);
+      setSearchData(data);
+      setMaxPage(Math.ceil(data[0].total_count / 10));
+    }
   }
 
   return (

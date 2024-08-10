@@ -1,4 +1,3 @@
-import { UserData } from "../interface/interfaces";
 import { createFiledata, createFiledataProfile } from "../utils/utils";
 
 export async function getHome() {
@@ -111,30 +110,39 @@ export async function deleteC(id_post: number) {
   return res;
 }
 
-export async function postEditProfile(formData: UserData) {
-  const data = JSON.stringify(formData);
-  const res = await fetch("/editProfile", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data,
-  });
-  return res;
+export async function postEditProfile(formData: {
+  name: string;
+  login: string;
+  bio: string;
+}) {
+  try {
+    const data = JSON.stringify(formData);
+    const res = await fetch("/editProfile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+    if (res.status !== 200) alert("Ошибка! Фото профиля не было сохранено");
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export async function editPhotoProfile(photoProfile: File[], login: string) {
   try {
-    const filedata = createFiledataProfile(photoProfile, login);
-    const res = await fetch("/editPhotoProfile", {
-      method: "POST",
-      headers: {
-        name: filedata.filename,
-      },
-      body: filedata.filedata,
-    });
-    if (res.status === 200) alert("Опубликовано!");
-    else alert("Ошибка публикации");
+    if (photoProfile.length !== 0) {
+      const filedata = createFiledataProfile(photoProfile, login);
+      const res = await fetch("/editPhotoProfile", {
+        method: "POST",
+        headers: {
+          name: filedata.filename,
+        },
+        body: filedata.filedata,
+      });
+      if (res.status !== 200) alert("Ошибка! Фото профиля не было сохранено");
+    }
   } catch (e) {
     console.log(e);
   }
@@ -142,16 +150,17 @@ export async function editPhotoProfile(photoProfile: File[], login: string) {
 
 export async function editWallpaperProfile(wallpaper: File[], login: string) {
   try {
-    const filedata = createFiledataProfile(wallpaper, login);
-    const res = await fetch("/editWallpaperProfile", {
-      method: "POST",
-      headers: {
-        name: filedata.filename,
-      },
-      body: filedata.filedata,
-    });
-    if (res.status === 200) alert("Опубликовано!");
-    else alert("Ошибка публикации");
+    if (wallpaper.length !== 0) {
+      const filedata = createFiledataProfile(wallpaper, login);
+      const res = await fetch("/editWallpaperProfile", {
+        method: "POST",
+        headers: {
+          name: filedata.filename,
+        },
+        body: filedata.filedata,
+      });
+      if (res.status !== 200) alert("Ошибка! Обои не были сохранены");
+    }
   } catch (e) {
     console.log(e);
   }
@@ -169,7 +178,7 @@ export async function userPage(login: unknown) {
 
 export async function getUserPublication(
   login: string | null | undefined,
-  page: number,
+  page: number
 ) {
   const res = await fetch(`/getUserPublication?login=${login}&page=${page}`);
   if (res.status === 200) {
@@ -182,7 +191,7 @@ export async function getUserPublication(
 
 export async function postSubscribe(login: string, privateStatus: boolean) {
   const res = await fetch(
-    `/subscribe?login=${login}&privateStatus=${privateStatus}`,
+    `/subscribe?login=${login}&privateStatus=${privateStatus}`
   );
   return res;
 }
@@ -199,8 +208,7 @@ export async function checkSubscription(login: string) {
 
 export async function getSubscriptions(page: number) {
   const res = await fetch(`/subscriptions?page=${page}`);
-  const data = await res.json();
-  return data;
+  return res;
 }
 
 export async function getSubscribers(page: number) {
