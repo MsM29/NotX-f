@@ -26,7 +26,9 @@ function MyPage() {
   async function fetchPublications() {
     const res = await getPublication(0);
     setPublication(res);
-    setMaxPage(Math.ceil(res[0].total_count / 10));
+    if (res.length !== 0) {
+      setMaxPage(Math.ceil(res[0].total_count / 10));
+    }
   }
 
   async function makePublication(event: React.FormEvent<HTMLFormElement>) {
@@ -72,10 +74,16 @@ function MyPage() {
             Редактировать
           </Link>
         </div>
-        <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
+        <h1
+          id="nameProfile"
+          className="text-3xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+        >
           {userData.name}
         </h1>
-        <h2 id="loginProfile" className="text-2xl pl-5 pr-5 mb-2">
+        <h2
+          id="loginProfile"
+          className="text-2xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+        >
           @{userData.login}
         </h2>
         <p

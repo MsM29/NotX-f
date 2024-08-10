@@ -7,14 +7,12 @@ import {
   editPhotoProfile,
   editWallpaperProfile,
 } from "../../shared/api/api";
-import { UserData } from "../../shared/interface/interfaces";
 
 function EditMyPage() {
-  const [formData, setFormData] = useState<UserData>({
+  const [formData, setFormData] = useState({
     name: "",
     login: "",
     bio: "",
-    application: false,
   });
   const [photoProfile, setPhotoProfile] = useState<File[]>([]);
   const [wallpaper, setWallpaper] = useState<File[]>([]);
@@ -36,40 +34,44 @@ function EditMyPage() {
   }, []);
 
   const handleChangeData = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleChangePassword = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
     setFormPassword((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleChangePhotoProfile = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setPhotoProfile(Array.from(event.target.files || []));
   };
 
   const handleChangeWallpaper = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setWallpaper(Array.from(event.target.files || []));
   };
 
   const editProfile = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const res = await postEditProfile(formData);
-    if (res.status === 200) {
-      if (photoProfile.length !== 0)
-        editPhotoProfile(photoProfile, formData.login);
-      if (wallpaper.length !== 0)
-        editWallpaperProfile(wallpaper, formData.login);
-    } else alert("Ошибка публикации");
+    Promise.all([
+      postEditProfile(formData),
+      editPhotoProfile(photoProfile, formData.login),
+      editWallpaperProfile(wallpaper, formData.login),
+    ])
+      .then(() => {
+        alert("Изменения сохранены");
+      })
+      .catch((error) => {
+        console.error("Ошибка при обновлении профиля:", error);
+      });
   };
 
   const editPassword = (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,7 +85,7 @@ function EditMyPage() {
   };
 
   const privacySettings = async (
-    event: React.MouseEvent<HTMLInputElement, MouseEvent>,
+    event: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) => {
     const res = await privacy(event.currentTarget.checked);
     if (res.status === 200) {
@@ -144,7 +146,7 @@ function EditMyPage() {
       <h1 className="text-4xl mt-3">Настройки конфиденциальности</h1>
       <label className="inline-flex items-center cursor-pointer mt-3">
         <p className="text-2xl mt-3 flex justify-start">
-          Сделать профиль закрытым:
+          Закрытый профиль:
         </p>
         <input
           type="checkbox"
@@ -167,6 +169,7 @@ function EditMyPage() {
             name="oldPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.oldPassword}
+            autoComplete="on"
           ></input>
         </p>
         <p className="text-2xl mt-3">
@@ -177,6 +180,7 @@ function EditMyPage() {
             name="newPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.newPassword}
+            autoComplete="on"
           ></input>
         </p>
         <p className="text-2xl mt-3">
@@ -187,6 +191,7 @@ function EditMyPage() {
             name="reNewPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.reNewPassword}
+            autoComplete="on"
           ></input>
         </p>
         <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">

@@ -1,4 +1,5 @@
 export interface UserData {
+  private: boolean;
   name: string;
   login: string;
   bio: string;

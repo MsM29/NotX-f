@@ -37,8 +37,8 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
     setApplications(appData);
   }
 
-  async function subscribe(login: string, application: boolean) {
-    const res = await postSubscribe(login, application);
+  async function subscribe(login: string, privateStatus: boolean) {
+    const res = await postSubscribe(login, privateStatus);
     if (res.status === 200) {
       setSubscriptions([...subscriptions, login]);
     }
@@ -82,7 +82,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
     }
 
     function sub() {
-      subscribe(element.login, element.application);
+      subscribe(element.login, element.private);
     }
 
     return (
@@ -98,11 +98,11 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
         ></img>
         <div className="w-4/12 p-3">
           <Link to={`/user?user=${element.login}`}>
-            <h1 id="nameProfile" className="text-3xl">
+            <h1 id="nameProfile" className="text-3xl max-w-full break-words">
               {element.name}
             </h1>
           </Link>
-          <h2 id="loginProfile" className="text-2xl">
+          <h2 id="loginProfile" className="text-2xl max-w-full break-words">
             @{element.login}
           </h2>
           <p id="bioProfile" className="max-w-full break-words">

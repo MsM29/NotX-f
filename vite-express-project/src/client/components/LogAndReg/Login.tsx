@@ -15,6 +15,9 @@ function Login() {
     const res = await postLogin(data);
     if (res.status === 200) {
       navigate("/mypage");
+    } else {
+      const resData = await res.json();
+      alert(resData.message);
     }
   };
 
