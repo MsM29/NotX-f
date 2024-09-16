@@ -10,7 +10,6 @@ var vite_config_default = defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__vite_injected_original_dirname, "index.html"),
-        nested: resolve(__vite_injected_original_dirname, "page.html"),
       },
     },
   },
