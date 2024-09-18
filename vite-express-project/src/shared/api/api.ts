@@ -76,18 +76,17 @@ async function uploadMedia(file: File[], insertId: string) {
 }
 
 export async function postRegistration(data: string) {
-  await fetch("/registration", {
+  const res = await fetch("/registration", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: data,
-  }).then(async (res) => {
-    if (res.status !== 200) {
-      const commits = await res.json();
-      alert(commits.message);
-    } else alert("Регистрация прошла успешно!");
   });
+  if (res.status !== 200) {
+    const commits = await res.json();
+    return commits.message;
+  } else return "Регистрация прошла успешно!";
 }
 
 export async function searchUser(searchText: string, page: number) {
