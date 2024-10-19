@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { postRegistration } from "../../shared/api/api";
 import ErrorAlert from "../../shared/components/ErrorAlert";
+import SuccessAlert from "../../shared/components/SuccessAlert";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -9,16 +10,20 @@ function Registration() {
     name: "",
     repassword: "",
   });
-  const [dialogText, setDialogText] = useState("");
+  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogSuccessText, setDialogSuccessText] = useState("success");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formData.password === formData.repassword) {
       const data = JSON.stringify(formData);
-      const text= await postRegistration(data)
-      setDialogText(text);
+      const res = await postRegistration(data);
+      if (res.status !== 200) {
+        const commits = await res.json();
+        return setDialogErrorText(commits.message);
+      } else setDialogSuccessText("registrationAccess");
     } else {
-      setDialogText("Введенные пароли отличаются");
+      setDialogErrorText("differentPassword");
     }
   };
 
@@ -29,7 +34,8 @@ function Registration() {
 
   return (
     <>
-      <ErrorAlert dialogText={dialogText} />
+      <ErrorAlert dialogText={dialogErrorText} />
+      <SuccessAlert dialogText={dialogSuccessText} />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col justify-around h-full w-full items-center"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ErrorAlert from "../../shared/components/ErrorAlert";
+import SuccessAlert from "../../shared/components/SuccessAlert";
 
 import {
   postEditProfile,
@@ -24,7 +25,8 @@ function EditMyPage() {
     newPassword: "",
     reNewPassword: "",
   });
-  const [dialogText, setDialogText] = useState("");
+  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogSuccessText, setDialogSuccessText] = useState("success");
 
   useEffect(() => {
     async function home() {
@@ -70,20 +72,25 @@ function EditMyPage() {
       editWallpaperProfile(wallpaper, formData.login),
     ])
       .then(() => {
-        alert("Изменения сохранены");
+        setDialogSuccessText("changesSaved");
       })
       .catch((error) => {
-        setDialogText("Ошибка при обновлении профиля:" + error);
+        setDialogErrorText("changeError" + error);
       });
   };
 
-  const editPassword = (event: React.FormEvent<HTMLFormElement>) => {
+  const editPassword = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formPassword.newPassword === formPassword.reNewPassword) {
       const data = JSON.stringify(formPassword);
-      postEditPassword(data);
-    } else {
-      setDialogText("Введенные пароли отличаются");
+      const res = await postEditPassword(data);
+      if (res.status !== 200) {
+        const text = await res.json();
+        setDialogErrorText(text.message);
+      } else {
+        const text = await res.json();
+        setDialogSuccessText(text.message);
+      }
     }
   };
 
@@ -98,7 +105,8 @@ function EditMyPage() {
 
   return (
     <>
-      <ErrorAlert dialogText={dialogText} />
+      <ErrorAlert dialogText={dialogErrorText} />
+      <SuccessAlert dialogText={dialogSuccessText} />
       <div className="mt-3 w-[1000px] flex flex-col justify-center items-center">
         <form
           onSubmit={editProfile}
