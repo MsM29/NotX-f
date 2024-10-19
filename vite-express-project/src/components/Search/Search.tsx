@@ -9,7 +9,7 @@ function Search() {
   const [searchData, setSearchData] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogErrorText, setDialogErrorText] = useState("");
 
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

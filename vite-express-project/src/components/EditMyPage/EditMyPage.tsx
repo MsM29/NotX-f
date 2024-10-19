@@ -25,8 +25,8 @@ function EditMyPage() {
     newPassword: "",
     reNewPassword: "",
   });
-  const [dialogErrorText, setDialogErrorText] = useState("error");
-  const [dialogSuccessText, setDialogSuccessText] = useState("success");
+  const [dialogErrorText, setDialogErrorText] = useState("");
+  const [dialogSuccessText, setDialogSuccessText] = useState("");
 
   useEffect(() => {
     async function home() {

@@ -10,8 +10,8 @@ function Registration() {
     name: "",
     repassword: "",
   });
-  const [dialogErrorText, setDialogErrorText] = useState("error");
-  const [dialogSuccessText, setDialogSuccessText] = useState("success");
+  const [dialogErrorText, setDialogErrorText] = useState("");
+  const [dialogSuccessText, setDialogSuccessText] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,7 +20,10 @@ function Registration() {
       const res = await postRegistration(data);
       if (res.status !== 200) {
         const commits = await res.json();
-        return setDialogErrorText(commits.message);
+        setDialogErrorText(commits.message);
+        setTimeout(() => {
+          setDialogErrorText("");
+        }, 0);
       } else setDialogSuccessText("registrationAccess");
     } else {
       setDialogErrorText("differentPassword");

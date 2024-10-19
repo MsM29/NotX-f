@@ -19,7 +19,7 @@ function User({ login }: { login: string }) {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [privateStatus, setPrivateStatus] = useState<boolean>(true);
-  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogErrorText, setDialogErrorText] = useState("");
 
   async function subscribe(login: string) {
     const res = await postSubscribe(login, privateStatus);
