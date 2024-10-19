@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import ErrorAlert from "../../shared/components/ErrorAlert";
+import SuccessAlert from "../../shared/components/SuccessAlert";
+
 import {
   postEditProfile,
   getHome,
@@ -22,6 +25,8 @@ function EditMyPage() {
     newPassword: "",
     reNewPassword: "",
   });
+  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogSuccessText, setDialogSuccessText] = useState("success");
 
   useEffect(() => {
     async function home() {
@@ -67,20 +72,25 @@ function EditMyPage() {
       editWallpaperProfile(wallpaper, formData.login),
     ])
       .then(() => {
-        alert("Изменения сохранены");
+        setDialogSuccessText("changesSaved");
       })
       .catch((error) => {
-        console.error("Ошибка при обновлении профиля:", error);
+        setDialogErrorText("changeError" + error);
       });
   };
 
-  const editPassword = (event: React.FormEvent<HTMLFormElement>) => {
+  const editPassword = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formPassword.newPassword === formPassword.reNewPassword) {
       const data = JSON.stringify(formPassword);
-      postEditPassword(data);
-    } else {
-      alert("Введенные пароли отличаются");
+      const res = await postEditPassword(data);
+      if (res.status !== 200) {
+        const text = await res.json();
+        setDialogErrorText(text.message);
+      } else {
+        const text = await res.json();
+        setDialogSuccessText(text.message);
+      }
     }
   };
 
@@ -94,111 +104,113 @@ function EditMyPage() {
   };
 
   return (
-    <div className="mt-3 w-[1000px] flex flex-col justify-center items-center">
-      <form
-        onSubmit={editProfile}
-        className="mt-3 w-[1000px] flex flex-col justify-center items-center"
-      >
-        <h1 className="text-4xl ">Редактирование профиля</h1>
-        <p className="text-2xl mt-3 ">
-          Выберите обои профиля:
+    <>
+      <ErrorAlert dialogText={dialogErrorText} />
+      <SuccessAlert dialogText={dialogSuccessText} />
+      <div className="mt-3 w-[1000px] flex flex-col justify-center items-center">
+        <form
+          onSubmit={editProfile}
+          className="mt-3 w-[1000px] flex flex-col justify-center items-center"
+        >
+          <h1 className="text-4xl ">Редактирование профиля</h1>
+          <p className="text-2xl mt-3 ">
+            Выберите обои профиля:
+            <input
+              type="file"
+              name="wallpaper"
+              className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950  hover:bg-gray-400 hover:text-white"
+              accept="video/*, image/*"
+              onChange={handleChangeWallpaper}
+            />
+          </p>
+          <p className="text-2xl mt-3">
+            Выберите фото профиля:
+            <input
+              type="file"
+              name="photoProfile"
+              className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 hover:bg-gray-400 hover:text-white"
+              accept="video/*, image/*"
+              onChange={handleChangePhotoProfile}
+            />
+          </p>
+          <p className="text-2xl mt-3">
+            Введите имя профиля:
+            <input
+              className="ml-3 h-12 w-[474px] rounded-md border border-gray-950 p-1"
+              name="name"
+              onChange={handleChangeData}
+              defaultValue={formData.name}
+            ></input>
+          </p>
+          <p className="text-2xl mt-3 flex justify-start">
+            Введите описание профиля:
+            <textarea
+              className="ml-3 w-[412px] h-40 resize-none rounded-md border border-gray-950 p-1"
+              name="bio"
+              onChange={handleChangeData}
+              defaultValue={formData.bio}
+              maxLength={280}
+            ></textarea>
+          </p>
+          <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">
+            Сохранить
+          </button>
+        </form>
+        <h1 className="text-4xl mt-3">Настройки конфиденциальности</h1>
+        <label className="inline-flex items-center cursor-pointer mt-3">
+          <p className="text-2xl mt-3 flex justify-start">Закрытый профиль:</p>
           <input
-            type="file"
-            name="wallpaper"
-            className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950  hover:bg-gray-400 hover:text-white"
-            accept="video/*, image/*"
-            onChange={handleChangeWallpaper}
+            type="checkbox"
+            className="sr-only peer"
+            onClick={privacySettings}
+            defaultChecked={privateStatus}
           />
-        </p>
-        <p className="text-2xl mt-3">
-          Выберите фото профиля:
-          <input
-            type="file"
-            name="photoProfile"
-            className="ml-3 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 hover:bg-gray-400 hover:text-white"
-            accept="video/*, image/*"
-            onChange={handleChangePhotoProfile}
-          />
-        </p>
-        <p className="text-2xl mt-3">
-          Введите имя профиля:
-          <input
-            className="ml-3 h-12 w-[474px] rounded-md border border-gray-950 p-1"
-            name="name"
-            onChange={handleChangeData}
-            defaultValue={formData.name}
-          ></input>
-        </p>
-        <p className="text-2xl mt-3 flex justify-start">
-          Введите описание профиля:
-          <textarea
-            className="ml-3 w-[412px] h-40 resize-none rounded-md border border-gray-950 p-1"
-            name="bio"
-            onChange={handleChangeData}
-            defaultValue={formData.bio}
-            maxLength={280}
-          ></textarea>
-        </p>
-        <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">
-          Сохранить
-        </button>
-      </form>
-      <h1 className="text-4xl mt-3">Настройки конфиденциальности</h1>
-      <label className="inline-flex items-center cursor-pointer mt-3">
-        <p className="text-2xl mt-3 flex justify-start">
-          Закрытый профиль:
-        </p>
-        <input
-          type="checkbox"
-          className="sr-only peer"
-          onClick={privacySettings}
-          defaultChecked={privateStatus}
-        />
-        <div className="text-2xl mt-3 ml-3 relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-      </label>
-      <h1 className="text-4xl mt-3">Изменить пароль</h1>
-      <form
-        onSubmit={editPassword}
-        className="mt-3 w-[1000px] flex flex-col justify-center items-center"
-      >
-        <p className="text-2xl mt-3">
-          Введите старый пароль:
-          <input
-            type="password"
-            className="ml-3 h-12 w-[474px] rounded-md border border-gray-950 p-1"
-            name="oldPassword"
-            onChange={handleChangePassword}
-            defaultValue={formPassword.oldPassword}
-            autoComplete="on"
-          ></input>
-        </p>
-        <p className="text-2xl mt-3">
-          Введите новый пароль:
-          <input
-            type="password"
-            className="ml-3 h-12 w-[480px] rounded-md border border-gray-950 p-1"
-            name="newPassword"
-            onChange={handleChangePassword}
-            defaultValue={formPassword.newPassword}
-            autoComplete="on"
-          ></input>
-        </p>
-        <p className="text-2xl mt-3">
-          Повторите новый пароль:
-          <input
-            type="password"
-            className="ml-3 h-12 w-[450px] rounded-md border border-gray-950 p-1"
-            name="reNewPassword"
-            onChange={handleChangePassword}
-            defaultValue={formPassword.reNewPassword}
-            autoComplete="on"
-          ></input>
-        </p>
-        <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">
-          Сохранить
-        </button>
-      </form>
-    </div>
+          <div className="text-2xl mt-3 ml-3 relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        </label>
+        <h1 className="text-4xl mt-3">Изменить пароль</h1>
+        <form
+          onSubmit={editPassword}
+          className="mt-3 w-[1000px] flex flex-col justify-center items-center"
+        >
+          <p className="text-2xl mt-3">
+            Введите старый пароль:
+            <input
+              type="password"
+              className="ml-3 h-12 w-[474px] rounded-md border border-gray-950 p-1"
+              name="oldPassword"
+              onChange={handleChangePassword}
+              defaultValue={formPassword.oldPassword}
+              autoComplete="on"
+            ></input>
+          </p>
+          <p className="text-2xl mt-3">
+            Введите новый пароль:
+            <input
+              type="password"
+              className="ml-3 h-12 w-[480px] rounded-md border border-gray-950 p-1"
+              name="newPassword"
+              onChange={handleChangePassword}
+              defaultValue={formPassword.newPassword}
+              autoComplete="on"
+            ></input>
+          </p>
+          <p className="text-2xl mt-3">
+            Повторите новый пароль:
+            <input
+              type="password"
+              className="ml-3 h-12 w-[450px] rounded-md border border-gray-950 p-1"
+              name="reNewPassword"
+              onChange={handleChangePassword}
+              defaultValue={formPassword.reNewPassword}
+              autoComplete="on"
+            ></input>
+          </p>
+          <button className="mt-3 text-2xl w-max bg-blue-200 text-center text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 

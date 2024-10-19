@@ -76,28 +76,19 @@ async function uploadMedia(file: File[], insertId: string) {
 }
 
 export async function postRegistration(data: string) {
-  await fetch("/registration", {
+  const res = await fetch("/registration", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: data,
-  }).then(async (res) => {
-    if (res.status !== 200) {
-      const commits = await res.json();
-      alert(commits.message);
-    } else alert("Регистрация прошла успешно!");
   });
+  return res
 }
 
 export async function searchUser(searchText: string, page: number) {
   const res = await fetch(`/search?user=${searchText}&page=${page}`);
-  if (res.status === 200) {
-    const resServer = await res.json();
-    return resServer;
-  } else {
-    alert("Ошибка при выполнении запроса!");
-  }
+  return res
 }
 
 export async function deleteP(id_post: number) {
@@ -168,12 +159,7 @@ export async function editWallpaperProfile(wallpaper: File[], login: string) {
 
 export async function userPage(login: unknown) {
   const res = await fetch(`/users?user=${login}`);
-  if (res.status === 200) {
-    const resServer = await res.json();
-    return resServer;
-  } else {
-    alert("Ошибка при выполнении запроса!");
-  }
+  return res
 }
 
 export async function getUserPublication(
@@ -181,12 +167,7 @@ export async function getUserPublication(
   page: number
 ) {
   const res = await fetch(`/getUserPublication?login=${login}&page=${page}`);
-  if (res.status === 200) {
-    const resServer = await res.json();
-    return resServer;
-  } else {
-    alert("Ошибка при выполнении запроса!");
-  }
+  return res
 }
 
 export async function postSubscribe(login: string, privateStatus: boolean) {
@@ -223,16 +204,6 @@ export async function getFeed(page: number) {
   return pubData;
 }
 
-export async function getMyData() {
-  const res = await fetch(`/getMyData`);
-  if (res.status === 200) {
-    const data = await res.json();
-    return data;
-  } else {
-    alert("Ошибка при выполнении запроса!");
-  }
-}
-
 export async function privacy(privacy: boolean) {
   const data = JSON.stringify({ privacy });
   const res = await fetch(`/setPrivacy`, {
@@ -253,10 +224,7 @@ export async function postEditPassword(data: string) {
     },
     body: data,
   });
-  if (res.status !== 200) {
-    const commits = await res.json();
-    alert(commits.message);
-  } else alert("Пароль изменен!");
+  return res;
 }
 
 export async function sendLike(id_post: number) {

@@ -2,30 +2,41 @@ import React, { useState } from "react";
 import SearchList from "../../shared/components/SearchList";
 import { searchUser } from "../../shared/api/api";
 import Pagination from "../../shared/components/Pagination";
+import ErrorAlert from "../../shared/components/ErrorAlert";
 
 function Search() {
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [dialogErrorText, setDialogErrorText] = useState("error");
 
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const res = await searchUser(searchText, 0);
-    setSearchData(res);
-    setMaxPage(Math.ceil(res[0].total_count / 10));
+    if (res.status === 200) {
+      const resServer = await res.json();
+      setSearchData(resServer);
+      setMaxPage(Math.ceil(resServer[0].total_count / 10));
+    } else {
+      setDialogErrorText("unknown");
+    }
   }
 
   async function editPage(value: number) {
     const page = value - 1;
     const res = await searchUser(searchText, page);
     setPage(value);
-    setSearchData(res);
-    setMaxPage(Math.ceil(res[0].total_count / 10));
+    if (res.status === 200) {
+      const resServer = await res.json();
+      setSearchData(resServer);
+      setMaxPage(Math.ceil(resServer[0].total_count / 10));
+    }
   }
 
   return (
     <>
+      <ErrorAlert dialogText={dialogErrorText} />
       <div className="w-[900px] h-max min-h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
         <form
           id="searchForm"
