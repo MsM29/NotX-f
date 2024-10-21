@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { postRegistration } from "../../shared/api/api";
 import ErrorAlert from "../../shared/components/ErrorAlert";
 import SuccessAlert from "../../shared/components/SuccessAlert";
+import { showPassword, hidePassword } from "../../shared/utils/show-hide-password";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -61,26 +62,46 @@ function Registration() {
           required
           className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <input
-          type="password"
-          placeholder="Пароль"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          autoComplete="on"
-          required
-          className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          placeholder="Повторите пароль"
-          name="repassword"
-          value={formData.repassword}
-          onChange={handleChange}
-          autoComplete="on"
-          required
-          className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="w-full">
+          <input
+            type="password"
+            placeholder="Пароль"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            minLength={8}
+            pattern="^[a-zA-Z0-9]+$"
+            title="Пароль должен состоять из латинских символов и чисел"
+            autoComplete="on"
+            required
+            className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            className="absolute right-5 mt-[6px] w-7 h-7 bg-cover bg-no-repeat bg-[url('../images/open-eye.png')]"
+            onMouseOver={showPassword}
+            onMouseOut={hidePassword}
+          ></button>
+        </div>
+        <div className="w-full">
+          <input
+            type="password"
+            placeholder="Повторите пароль"
+            name="repassword"
+            value={formData.repassword}
+            onChange={handleChange}
+            minLength={8}
+            pattern="^[a-zA-Z0-9]+$"
+            title="Пароль должен состоять из латинских символов и чисел"
+            autoComplete="on"
+            required
+            className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            className="absolute right-5 mt-[6px] w-7 h-7 bg-cover bg-no-repeat bg-[url('../images/open-eye.png')]"
+            onMouseOver={showPassword}
+            onMouseOut={hidePassword}
+          ></button>
+        </div>
         <button
           type="submit"
           className="w-6/12 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center"
