@@ -55,7 +55,7 @@ function App() {
 
   return (
     <>
-      <header className="justify-between w-full flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
+      <header className="justify-between w-screen flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
         <img
           id="sidebarButton"
           className={`w-24 order-1 h-10 object-contain ${

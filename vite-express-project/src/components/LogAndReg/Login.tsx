@@ -37,7 +37,7 @@ function Login() {
       <ErrorAlert dialogText={dialogText} />
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-around h-full w-full items-center"
+        className="flex flex-col justify-around h-full w-full items-center gap-2"
       >
         <input
           placeholder="Логин или E-MAIL"
@@ -45,9 +45,9 @@ function Login() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 min-h-6 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <div className="w-full">
+        <div className="w-full h-1/4 relative">
           <input
             type="password"
             placeholder="Пароль"
@@ -56,17 +56,17 @@ function Login() {
             onChange={handleChange}
             autoComplete="on"
             required
-            className="mb-2 w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 box-border border border-gray-5e px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            className="absolute right-5 mt-[6px] w-7 h-7 bg-cover bg-no-repeat bg-[url('../images/open-eye.png')]"
+          <div
+            className="absolute right-3 top-[20%] w-7 h-7 bg-cover bg-no-repeat bg-[url('../images/open-eye.png')]"
             onMouseOver={showPassword}
             onMouseOut={hidePassword}
-          ></button>
+          ></div>
         </div>
         <button
           type="submit"
-          className="w-6/12 bg-blue-200 text-center leading-10 text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center"
+          className="w-6/12 bg-blue-200 h-1/4 text-center  text-gray-950 rounded-md border  border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white flex justify-center items-center"
         >
           ВОЙТИ
         </button>

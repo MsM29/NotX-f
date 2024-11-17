@@ -1,7 +1,7 @@
 export function showPassword(
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  event: React.MouseEvent<HTMLDivElement, MouseEvent>
 ) {
-  if (event.target instanceof HTMLButtonElement) {
+  if (event.target instanceof HTMLDivElement) {
     event.target.classList.add("bg-[url('../images/close-eye.png')]");
     event.target.classList.remove("bg-[url('../images/open-eye.png')]");
     if (event.target.previousSibling instanceof HTMLInputElement) {
@@ -11,9 +11,9 @@ export function showPassword(
 }
 
 export function hidePassword(
-  event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  event: React.MouseEvent<HTMLDivElement, MouseEvent>
 ) {
-  if (event.target instanceof HTMLButtonElement) {
+  if (event.target instanceof HTMLDivElement) {
     event.target.classList.add("bg-[url('../images/open-eye.png')]");
     event.target.classList.remove("bg-[url('../images/close-eye.png')]");
     if (event.target.previousSibling instanceof HTMLInputElement) {
