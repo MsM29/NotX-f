@@ -48,50 +48,51 @@ function MyPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl w-[900px]">
+    <div className="flex mt-14 flex-col justify-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
       <div
         id="profileInfo"
-        className="flex flex-col w-full border-y-4 border-[#b6c5cd]"
+        className="flex flex-col justify-between h-[520px] w-full border-y-4 border-[#b6c5cd]"
       >
         <div
           id="wallpaperProfile"
-          className={`w-full object-cover mb-28 h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
+          className={`w-full relative object-cover h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
           style={{
             backgroundImage: `url("../../../mediaProfile/wallpaper/${userData.login}.png")`,
           }}
         >
           <img
             id="photoProfile"
-            className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
+            className="absolute w-64 h-auto aspect-square left-8 object-cover top-32 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
             src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
             alt="Фото профиля"
           ></img>
-          <Link
-            to="/mypage/edit"
-            id="editProfile"
-            className="w-40 p-0 h-min ml-[300px] mt-[390px] bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950  hover:bg-gray-400 hover:text-white flex justify-center"
-          >
-            Редактировать
+          <Link to="/mypage/edit" id="editProfile">
+            <img
+              src="../images/edit_button.png"
+              className="w-9 p-0 absolute mt-[420px] right-8 bg-blue-200 rounded-md border text-center border-gray-950  hover:bg-gray-400 "
+            ></img>
           </Link>
         </div>
-        <h1
-          id="nameProfile"
-          className="text-3xl pl-5 pr-5 mb-2 max-w-6xl break-words"
-        >
-          {userData.name}
-        </h1>
-        <h2
-          id="loginProfile"
-          className="text-2xl pl-5 pr-5 mb-2 max-w-6xl break-words"
-        >
-          @{userData.login}
-        </h2>
-        <p
-          id="bioProfile"
-          className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
-        >
-          {userData.bio}
-        </p>
+        <div className="h-32">
+          <h1
+            id="nameProfile"
+            className="text-3xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+          >
+            {userData.name}
+          </h1>
+          <h2
+            id="loginProfile"
+            className="text-2xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+          >
+            @{userData.login}
+          </h2>
+          <p
+            id="bioProfile"
+            className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
+          >
+            {userData.bio}
+          </p>
+        </div>
       </div>
       <form
         id="creatingPost"

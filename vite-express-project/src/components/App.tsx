@@ -55,7 +55,7 @@ function App() {
 
   return (
     <>
-      <header className="justify-between w-screen flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
+      <header className="z-20 justify-between w-full flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center">
         <img
           id="sidebarButton"
           className={`w-24 order-1 h-10 object-contain ${
@@ -81,7 +81,7 @@ function App() {
         </button>
         <nav
           id="sidebar"
-          className=" hidden fixed bg-[#b6c5cd] left-0 w-80 top-14"
+          className=" hidden fixed bg-[#b6c5cd] left-0 w-80 top-[61px]"
           style={{ display: isSidebarVisible ? "block" : "none" }}
         >
           <ul>
