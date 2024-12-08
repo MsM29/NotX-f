@@ -7,7 +7,7 @@ function LogAndReg() {
 
   return (
     <div className="mt-14 w-screen h-full grid place-items-center">
-      <header className="w-screen flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center justify-center">
+      <header className="w-screen z-30  flex fixed top-0 left-0 bg-[#b6c5cd] opacity-100 items-center justify-center">
         <img
           id="logo"
           src="/images/NotX_logo.png"

@@ -24,7 +24,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
       searchData.map(async (element) => {
         const res = await checkSubscription(element.login);
         return res.status === 200 ? element.login : null;
-      }),
+      })
     ).then((results) => results.filter((login) => login !== null));
     setSubscriptions(subscribedLogins);
   }
@@ -88,15 +88,15 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
     return (
       <div
         key={index}
-        className="flex flex-row mb-2 p-3 justify-around items-center w-full"
+        className="justify-around items-center max-w-[900px] w-screen flex flex-row flex-wrap gap-3 border-dashed border-b-2 border-[#b6c5cd] pb-2 pt-2"
       >
         <img
           id="photoProfile"
-          className="w-64 h-64 object-cover border-4 border-[#b6c5cd] rounded-full bg-blue-50"
+          className="w-64 aspect-square object-cover border-4 border-[#b6c5cd] rounded-full bg-blue-50"
           src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
           alt="Фото профиля"
         ></img>
-        <div className="w-4/12 p-3">
+        <div className="w-72 items-center flex flex-col">
           <Link to={`/user?user=${element.login}`}>
             <h1 id="nameProfile" className="text-3xl max-w-full break-words">
               {element.name}
@@ -109,18 +109,18 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
             {element.bio}
           </p>
         </div>
-        <div className="flex flex-col w-4/12">
+        <div className="w-72 flex flex-row flex-wrap">
           {!application && (
             <>
               <button
                 onClick={acceptSub}
-                className="h-min bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
+                className="w-full h-min bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
               >
                 Принять
               </button>
               <button
                 onClick={rejectSub}
-                className="h-min leading-10 bg-red-500 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
+                className="w-full  h-min leading-10 bg-red-500 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
               >
                 Отклонить
               </button>
@@ -129,14 +129,14 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
           {isSubscribed ? (
             <button
               onClick={unsub}
-              className="h-min leading-10 bg-gray-400 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-blue-200 hover:text-gray-950 "
+              className="w-full  h-min leading-10 bg-gray-400 text-white  rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-blue-200 hover:text-gray-950 "
             >
               Отписаться
             </button>
           ) : (
             <button
               onClick={sub}
-              className="h-min bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
+              className="w-full bg-blue-200 leading-10 text-gray-950 rounded-md border text-center border-gray-950 px-4 py-2 hover:bg-gray-400 hover:text-white "
             >
               Подписаться
             </button>

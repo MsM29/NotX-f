@@ -185,7 +185,7 @@ function EditMyPage() {
           </p>
           <input
             type="password"
-            className="ml-3 max-w-[850px] w-[calc(100%-10px)] h-12 rounded-md border border-gray-950 p-1"
+            className="max-w-[850px] w-[calc(100%-10px)] h-12 rounded-md border border-gray-950 p-1"
             name="oldPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.oldPassword}
@@ -196,7 +196,7 @@ function EditMyPage() {
           </p>
           <input
             type="password"
-            className="ml-3 h-12 max-w-[850px] w-[calc(100%-10px)] rounded-md border border-gray-950 p-1"
+            className="h-12 max-w-[850px] w-[calc(100%-10px)] rounded-md border border-gray-950 p-1"
             name="newPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.newPassword}
@@ -207,7 +207,7 @@ function EditMyPage() {
           </p>
           <input
             type="password"
-            className="ml-3 h-12 max-w-[850px] w-[calc(100%-10px)] rounded-md border border-gray-950 p-1"
+            className="h-12 max-w-[850px] w-[calc(100%-10px)] rounded-md border border-gray-950 p-1"
             name="reNewPassword"
             onChange={handleChangePassword}
             defaultValue={formPassword.reNewPassword}

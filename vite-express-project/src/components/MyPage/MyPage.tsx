@@ -48,7 +48,7 @@ function MyPage() {
   }
 
   return (
-    <div className="flex mt-14 flex-col justify-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
+    <div className="flex mt-[61px] flex-col justify-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
       <div
         id="profileInfo"
         className="flex flex-col justify-between h-[520px] w-full border-y-4 border-[#b6c5cd]"
