@@ -51,7 +51,7 @@ function MyPage() {
     <div className="flex mt-[61px] flex-col justify-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
       <div
         id="profileInfo"
-        className="flex flex-col justify-between h-[520px] w-full border-y-4 border-[#b6c5cd]"
+        className="flex flex-col justify-between h-max w-full border-y-4 border-[#b6c5cd]"
       >
         <div
           id="wallpaperProfile"
@@ -73,7 +73,7 @@ function MyPage() {
             ></img>
           </Link>
         </div>
-        <div className="h-32">
+        <div className="h-max w-3/4 mt-16">
           <h1
             id="nameProfile"
             className="text-3xl pl-5 pr-5 mb-2 max-w-6xl break-words"

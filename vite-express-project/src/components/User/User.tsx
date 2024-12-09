@@ -84,21 +84,21 @@ function User({ login }: { login: string }) {
   return (
     <>
       <ErrorAlert dialogText={dialogErrorText} />
-      <div className="flex flex-col justify-center border-x-4 border-[#b6c5cd] max-w-5xl w-[900px]">
+      <div className="flex mt-[61px] flex-col justify-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
         <div
           id="profileInfo"
-          className="flex flex-col w-full border-y-4 border-[#b6c5cd]"
+          className="flex flex-col justify-between h-max w-full border-y-4 border-[#b6c5cd]"
         >
           <div
             id="wallpaperProfile"
-            className={`w-full object-cover mb-28 h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
+            className={`w-full relative object-cover h-80 flex flex-row bg-cover bg-no-repeat bg-center`}
             style={{
               backgroundImage: `url("../../../mediaProfile/wallpaper/${userData.login}.png")`,
             }}
           >
             <img
               id="photoProfile"
-              className="w-64 h-64 object-cover mt-44 ml-24 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
+              className="absolute w-64 h-auto aspect-square left-8 object-cover top-32 border-4 border-[#b6c5cd] rounded-full bg-blue-50"
               src={`../../../mediaProfile/profilePhoto/${userData.login}.png`}
               alt="Фото профиля"
             ></img>
@@ -118,18 +118,26 @@ function User({ login }: { login: string }) {
               </button>
             )}
           </div>
-          <h1 id="nameProfile" className="text-3xl pl-5 pr-5 mb-2">
-            {userData.name}
-          </h1>
-          <h2 id="loginProfile" className="text-2xl pl-5 pr-5 mb-2">
-            @{userData.login}
-          </h2>
-          <p
-            id="bioProfile"
-            className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
-          >
-            {userData.bio}
-          </p>
+          <div className="h-max w-3/4 mt-16">
+            <h1
+              id="nameProfile"
+              className="text-3xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+            >
+              {userData.name}
+            </h1>
+            <h2
+              id="loginProfile"
+              className="text-2xl pl-5 pr-5 mb-2 max-w-6xl break-words"
+            >
+              @{userData.login}
+            </h2>
+            <p
+              id="bioProfile"
+              className="text-1xl pl-5 pr-5 mb-2 break-words max-w-6xl"
+            >
+              {userData.bio}
+            </p>
+          </div>
         </div>
         {(privateStatus && application) || !privateStatus ? (
           <>
@@ -145,12 +153,12 @@ function User({ login }: { login: string }) {
             <Pagination page={page} maxPage={maxPage} editPage={editPage} />
           </>
         ) : (
-          <div
-            className="h-[500px] w-full object-contain bg-no-repeat bg-center"
-            style={{
-              backgroundImage: `url("../../../../images/privateProfile.png")`,
-            }}
-          ></div>
+          <div className="w-full max-w-[900px] h-max object-cover  bg-no-repeat bg-center">
+            <img
+              src="../../../../images/privateProfile.png"
+              alt="Закрытый профиль"
+            />
+          </div>
         )}
       </div>
     </>

@@ -92,7 +92,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
       >
         <img
           id="photoProfile"
-          className="w-64 aspect-square object-cover border-4 border-[#b6c5cd] rounded-full bg-blue-50"
+          className="w-64 items-center aspect-square object-cover border-4 border-[#b6c5cd] rounded-full bg-blue-50"
           src={`../../../mediaProfile/profilePhoto/${element.login}.png`}
           alt="Фото профиля"
         ></img>
@@ -109,7 +109,7 @@ function SearchList({ searchData }: { searchData: UserData[] }) {
             {element.bio}
           </p>
         </div>
-        <div className="w-72 flex flex-row flex-wrap">
+        <div className="w-72 items-center flex flex-row flex-wrap">
           {!application && (
             <>
               <button
