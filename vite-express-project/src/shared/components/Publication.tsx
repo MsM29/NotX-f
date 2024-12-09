@@ -70,12 +70,14 @@ function Publication({
           src={`../../../mediaProfile/profilePhoto/${publication.login}.png`}
         ></img>
         <div className="w-full ml-2">
-          <div className="flex flex-row ml-2 h-max items-center">
+          <div className="flex flex-col ml-2 h-max">
             <Link to={`/user?user=${publication.login}`}>
               <p className="text-2xl"> {publication.name}</p>
             </Link>
-            <p className="ml-2 text-1xl"> @{publication.login}</p>
-            <time className="ml-2">{date}</time>
+            <div>
+              <span className="text-1xl"> @{publication.login}</span>
+              <time className="ml-2">{date}</time>
+            </div>
           </div>
           <p className="m-2">{publication.text}</p>
           <div className="flex flex-row p-1 m-2">

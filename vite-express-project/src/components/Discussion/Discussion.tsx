@@ -52,8 +52,8 @@ function Discussion({ post }: { post: number }) {
 
   return (
     <>
-      <div className="w-[900px] min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
-        <div id="myPageFeed" className="max-w-7xl w-[900px]">
+      <div className="flex mt-[61px] flex-col justify-center items-center border-x-4 border-[#b6c5cd] max-w-[900px] w-screen">
+        <div id="myPageFeed" className=" max-w-[900px] w-screen">
           {publication.map((element: FeedData) => (
             <Publication
               key={element.id_post}
@@ -64,7 +64,10 @@ function Discussion({ post }: { post: number }) {
             />
           ))}
         </div>
-        <div id="myPageFeed" className="max-w-7xl w-[700px]">
+        <div
+          id="myPageFeed"
+          className="w-[calc(100%-50px)] max-w-[700px]"
+        >
           {comments.map((element: FeedData) => (
             <Publication
               key={element.id_comment}

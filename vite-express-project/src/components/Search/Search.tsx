@@ -9,7 +9,7 @@ function Search() {
   const [searchData, setSearchData] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [dialogErrorText, setDialogErrorText] = useState("error");
+  const [dialogErrorText, setDialogErrorText] = useState("");
 
   async function search(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -37,7 +37,7 @@ function Search() {
   return (
     <>
       <ErrorAlert dialogText={dialogErrorText} />
-      <div className="w-[900px] h-max min-h-screen flex flex-col items-center border-x-4 border-[#b6c5cd] max-w-5xl">
+      <div className="max-w-[900px] w-screen min-h-screen h-max flex flex-col items-center border-x-4 border-[#b6c5cd] mt-[61px]">
         <form
           id="searchForm"
           className="mb-2 p-4 flex flex-col justify-between w-full items-center border-y-4 border-[#b6c5cd]"
@@ -57,7 +57,7 @@ function Search() {
             Поиск
           </button>
         </form>
-        <div id="searchList" className="mt-2 w-full">
+        <div id="searchList" className="mt-2 max-w-[900px] w-screen">
           <SearchList searchData={searchData} />
         </div>
         <Pagination page={page} maxPage={maxPage} editPage={editPage} />
