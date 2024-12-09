@@ -18,14 +18,14 @@ function SuccessAlert({ dialogText }: { dialogText: string }) {
   return (
     <dialog
       ref={dialogRef}
-      className="w-1/2 h-3/4 bg-contain bg-no-repeat bg-center bg-transparent absolute top-1/4 m-0"
+      className="w-screen max-w-96 h-auto bg-contain bg-no-repeat bg-center bg-transparent absolute top-1/2 m-0"
       style={{
         backgroundImage: `url("../../../successImages/${successImage}.png")`,
       }}
     >
       <button
         onClick={closeDialog}
-        className="text-[3.5vh] h-[8vh] w-[8vh] ml-[90%] bg-green-600 text-center text-gray-950 rounded-md hover:bg-gray-400 hover:text-white"
+        className="text-[3.5vh] h-[8vh] w-[8vh] ml-[80%] bg-green-600 text-center text-gray-950 rounded-md hover:bg-gray-400 hover:text-white"
       >
         X
       </button>
